@@ -1,1 +1,11 @@
-export const a = 1;
+const initialState = {
+  userName: ''
+}
+
+const reducer = (state = initialState, action: any) => {
+  switch (action.type) {
+    default: return state;
+  }
+}
+
+export default reducer;
