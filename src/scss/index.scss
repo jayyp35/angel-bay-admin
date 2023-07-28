@@ -53,28 +53,28 @@ body {
   font-weight: 800;
 }
 
-input[type='text'],
-input[type='email'] {
-  font-family: 'Gilroy-Medium';
-  /* border: 0.5px solid #ebebeb; */
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  /* color: #878787; */
-  font-weight: 300;
-  font-size: 12px;
-  letter-spacing: 0;
-  line-height: 10px;
-  padding: 10px;
-  width: 100%;
-  max-width: 100%;
-  outline: none;
+// input[type='text'],
+// input[type='email'] {
+//   font-family: 'Gilroy-Medium';
+//   /* border: 0.5px solid #ebebeb; */
+//   border: 1px solid #ced4da;
+//   border-radius: 4px;
+//   /* color: #878787; */
+//   font-weight: 300;
+//   font-size: 12px;
+//   letter-spacing: 0;
+//   line-height: 10px;
+//   padding: 10px;
+//   width: 100%;
+//   max-width: 100%;
+//   outline: none;
 
-  &:focus {
-    color: #000000;
-    border: 1px solid #424242;
-    outline: none;
-  }
-}
+//   &:focus {
+//     color: #000000;
+//     border: 1px solid #424242;
+//     outline: none;
+//   }
+// }
 
 a {
   text-decoration: none;

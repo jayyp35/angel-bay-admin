@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import Login from '../modules/Login/Login';
 
 /**
  * @Description
@@ -13,7 +14,7 @@ function RootRoutes() {
     <Suspense fallback={<></>}>
       <Routes>
         <Route path="*" element={<div>404 Page not found</div>} />
-        <Route path={'/'} element={<>HIHIHI</>} />
+        <Route path={'/'} element={<Login />} />
       </Routes>
     </Suspense>
   );

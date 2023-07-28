@@ -11,6 +11,7 @@ interface InputProps {
   style?: React.CSSProperties;
   onChange: Function;
   onEnter?: Function;
+  autoComplete?: boolean
 }
 function Input({
   type = 'text',
@@ -22,6 +23,7 @@ function Input({
   onChange,
   onEnter,
   style,
+  autoComplete = false
 }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (pattern && !e.target.validity.valid) return;
@@ -44,6 +46,7 @@ function Input({
         onKeyUp={(e) => {
           if (onEnter && e.key === 'Enter') onEnter();
         }}
+        autoComplete={autoComplete ? '' : 'off'}
       />
       <label className={styles.FormLabel}>{placeholder}</label>
       {!!(!isValid && errorMessage) && <div className={styles.Error}>{errorMessage}</div>}
