@@ -1,1 +1,3 @@
-export const a = 1;
+export const CONSTANTS = {
+  SET_USER_DATA: `SET_USER_DATA`
+}

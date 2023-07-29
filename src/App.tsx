@@ -1,15 +1,20 @@
 import './scss/app.scss';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { getDocs, collection } from 'firebase/firestore'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RootRoutes from './routes/RootRoutes';
 import { useEffect } from 'react';
-import { db } from './utils/firebase/firebase';
+import { auth, db } from './utils/firebase/firebase';
 import { collectionsRef, usersRef } from './utils/firebase/_refs';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useAppDispatch } from './utils/hooks';
+import { setUserData } from './store/user/action';
 
 
 function App() {
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     getData();
