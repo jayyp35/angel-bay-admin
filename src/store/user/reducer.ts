@@ -1,6 +1,26 @@
 import { CONSTANTS } from "./constants";
 
-const initialState = {
+interface UserState {
+  userData: UserData
+}
+
+interface UserData {
+  displayName: string,
+  email: string,
+  metadata: UserMetadata,
+  phoneNumber: string,
+  photoURL: string,
+  uid: string
+}
+
+interface UserMetadata {
+  createdAt: string,
+  creationTime: string,
+  lastLoginAt: string,
+  LastSignInTime: string
+}
+
+const initialState: UserState = {
   userData: {
     displayName: '',
     email: '',
@@ -25,7 +45,7 @@ const setUserData = (state, action) => {
   }
 }
 
-const reducer = (state = initialState, action: any) => {
+const reducer = (state = initialState, action: any): UserState => {
   switch (action.type) {
     case CONSTANTS.SET_USER_DATA: return setUserData(state, action);
     default: return state;
