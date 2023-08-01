@@ -18,7 +18,7 @@ function Login() {
     [PASSWORD]: ''
   })
 
-  const changeFormData = (key, value: string) => {
+  const changeFormData = (key: string, value: string) => {
     setFormData((formData) => ({
       ...formData,
       [key]: value

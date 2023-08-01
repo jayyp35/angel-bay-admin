@@ -1,0 +1,21 @@
+.AddStyles {}
+
+.DoubleRow {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+}
+
+.Card {
+  border: 1px solid #e5e5e5;
+  padding: 16px;
+  height: 300px;
+}
+
+.Images {
+  // margin-top: 40px;
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}

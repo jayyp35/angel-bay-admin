@@ -6,6 +6,7 @@ import { useAppDispatch } from '../utils/hooks';
 import { setUserData } from '../store/user/action';
 import { onAuthStateChanged } from 'firebase/auth';
 import Home from '../modules/Home/Home';
+import AddStyles from '../modules/Home/components/AddStyles/AddStyles';
 
 /**
  * @Description
@@ -20,7 +21,7 @@ function RootRoutes() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/home')
+        // navigate('/home')
         dispatch(setUserData({
           displayName: user.displayName,
           email: user.email,
@@ -41,7 +42,9 @@ function RootRoutes() {
       <Routes>
         <Route path="*" element={<div>404 Page not found</div>} />
         <Route path={'/'} element={<Login />} />
-        <Route path={'/home'} element={<Home />} />
+        <Route path={'/home'} element={<Home />}>
+          <Route path={'/home/add'} element={<AddStyles />} />
+        </Route>
       </Routes>
     </Suspense>
   );

@@ -1,0 +1,80 @@
+.InputContainer {
+  position: relative;
+  margin-top: 40px;
+}
+
+.ContainerWithErrorMsg {
+  margin-top: 35px;
+}
+
+.FormInput {
+  padding: 12px;
+  width: 100%;
+  height: 100px;
+  box-sizing: border-box;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  color: #000000;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  border: 1px solid #d0d0d0;
+
+  &:-webkit-autofill+label {
+    top: -15px;
+    left: 0;
+    font-size: 10px;
+    color: #828282;
+    font-weight: 300;
+  }
+
+  &:focus {
+    border: 1px solid black;
+  }
+
+  // &:focus~label {
+  //   top: -15px;
+  //   left: 0;
+  //   font-size: 10px;
+  //   color: #484848;
+  //   font-weight: 300;
+  // }
+
+  // &:invalid~label {
+  //   top: -15px;
+  //   left: 0;
+  //   font-size: 10px;
+  //   font-weight: 300;
+  // }
+
+  &:disabled {
+    background-color: #f8fff8;
+  }
+}
+
+.Invalid {
+  border: 1px solid #ce121d;
+}
+
+.FormLabel {
+  position: absolute;
+  pointer-events: none;
+  left: 0px;
+  transition: 0.5s;
+  top: -25px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4f4f4f;
+  transition: 0.5s;
+  margin-bottom: 0px;
+}
+
+.Error {
+  position: absolute;
+  left: 0;
+  color: #ce121d;
+  top: calc(100% + 2px);
+  font-size: 10px;
+}
