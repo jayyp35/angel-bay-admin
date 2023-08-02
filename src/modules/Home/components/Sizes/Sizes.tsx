@@ -1,8 +1,19 @@
-import React from 'react'
+import styles from './Sizes.module.scss';
+import { SIZES } from '../AddStyles/AddStyles'
+import Input from '../../../../common/_custom/Input2/Input';
 
-function Sizes() {
+function Sizes({ formData, changeSizesData }) {
+  const sizes = formData[SIZES] || [];
   return (
-    <div>Sizes</div>
+    <div className={styles.Sizes}>
+      {Object.keys(sizes).map((size) => (
+        <div key={size} className={styles.SingleSize}>
+
+          <div>{size}</div>
+          <Input value={sizes[size]} onChange={(val) => { changeSizesData(size, val) }} style={{ marginTop: '0' }} pattern='[0-9]*' />
+        </div>
+      ))}
+    </div>
   )
 }
 

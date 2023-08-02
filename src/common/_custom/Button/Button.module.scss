@@ -15,6 +15,10 @@
   align-items: center;
   justify-content: center;
 
+  &:hover {
+    opacity: 0.85;
+  }
+
   &:active {
     transform: translateY(2px);
   }

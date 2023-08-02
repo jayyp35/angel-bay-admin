@@ -57,6 +57,10 @@
   border: 1px solid #ce121d;
 }
 
+.PrefillInput {
+  padding-left: 60px;
+}
+
 .FormLabel {
   position: absolute;
   pointer-events: none;
@@ -68,6 +72,21 @@
   color: #4f4f4f;
   transition: 0.5s;
   margin-bottom: 0px;
+}
+
+.Prefill {
+  position: absolute;
+  left: -1.5px;
+  top: 0;
+  height: 100%;
+  width: 50px;
+  background-color: #e5e5e5;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px 0 0 6px;
+  border-right: 1px solid #cbcbcb;
 }
 
 .Error {

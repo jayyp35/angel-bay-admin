@@ -1,16 +1,41 @@
-.AddStyles {}
+// .AddStyles {
+// }
 
 .DoubleRow {
-  margin-top: 40px;
+  margin-top: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 40px;
 }
 
+.DoubleRow3To1 {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  align-items: flex-start;
+  column-gap: 40px;
+}
+
 .Card {
+  border-radius: 8px;
+  background-color: #f7f7f7;
   border: 1px solid #e5e5e5;
   padding: 16px;
   height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.InactiveCard {
+  background-color: #e5e5e5;
+
+  cursor: pointer;
+
+  &>div:hover {
+    transition: all 100ms ease-in-out;
+    transform: scale(1.05);
+  }
 }
 
 .Images {

@@ -13,6 +13,7 @@ interface InputProps {
   onChange: Function;
   onEnter?: Function;
   autoComplete?: boolean
+  prefill?: string;
 }
 function Input({
   type = 'text',
@@ -25,7 +26,8 @@ function Input({
   onChange,
   onEnter,
   style,
-  autoComplete = false
+  autoComplete = false,
+  prefill = ''
 }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (pattern && !e.target.validity.valid) return;
@@ -39,8 +41,14 @@ function Input({
       })}
       style={style}
     >
+      {!!prefill && (
+        <div className={styles.Prefill}>{prefill}</div>
+      )}
       <input
-        className={clsx(styles.FormInput, { [styles.Invalid]: !isValid })}
+        className={clsx(styles.FormInput, {
+          [styles.Invalid]: !isValid,
+          [styles.PrefillInput]: !!prefill
+        })}
         type={type}
         pattern={pattern}
         value={value}
