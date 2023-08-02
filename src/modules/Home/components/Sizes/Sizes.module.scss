@@ -1,8 +1,13 @@
-// .Sizes {}
+.Sizes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 20px;
+  column-gap: 20px;
+}
 
 .SingleSize {
-  margin-bottom: 10px;
   display: grid;
   grid-template-columns: 1fr 2fr;
   align-items: center;
+  text-align: center;
 }

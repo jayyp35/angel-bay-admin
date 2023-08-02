@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import Input from '../../../../common/_custom/Input2/Input';
 import Text from '../../../../common/_custom/Text/Text';
 import styles from './AddStyles.module.scss';
@@ -6,26 +7,31 @@ import ImgCard from '../../../../common/_custom/ImgCard/ImgCard';
 import clsx from 'clsx';
 import Button from '../../../../common/_custom/Button/Button';
 import Sizes from '../Sizes/Sizes';
+import { db } from '../../../../utils/firebase/firebase';
+import { toast } from 'react-toastify';
 
-export const STYLE_CODE = 'STYLE_CODE';
-export const NAME = 'NAME';
-export const DESCRIPTION = 'DESCRIPTION';
-export const MATERIAL = 'MATERIAL';
-export const PRICE = 'PRICE';
-export const SIZES = 'SIZES';
-export const S = 'S';
-export const M = 'M';
-export const L = 'L';
-export const XL = 'XL';
-export const XXL = 'XXL';
+export const STYLE_CODE = 'styleCode';
+export const NAME = 'name';
+export const DESCRIPTION = 'description';
+export const MATERIAL = 'material';
+export const PRICE = 'price';
+export const SIZES = 'sizes';
+export const IMAGES = 'images';
+export const S = 's';
+export const M = 'm';
+export const L = 'l';
+export const XL = 'xl';
+export const XXL = 'xxl';
 
 function AddStyles() {
 
-  const [formData, setFormData] = useState({
+  const [adding, setAdding] = useState(false);
+  const [formData, setFormData] = useState<any>({
     [STYLE_CODE]: '',
     [NAME]: '',
     [DESCRIPTION]: '',
-    [PRICE]: ''
+    [PRICE]: '',
+    [IMAGES]: []
   });
 
   const changeFormData = (key: string, value: string) => {
@@ -45,6 +51,17 @@ function AddStyles() {
     }))
   }
 
+  const onImagesUploadSuccess = (files = []) => {
+    let imgUrls: any = [];
+    files.forEach((file: any) => {
+      imgUrls.push(file.imageUrl);
+    })
+    setFormData((formData) => ({
+      ...formData,
+      [IMAGES]: [...formData[IMAGES], ...imgUrls]
+    }))
+  }
+
   const onReadyStocksAvailableClick = () => {
     setFormData((formData) => ({
       ...formData,
@@ -58,44 +75,78 @@ function AddStyles() {
     }))
   }
 
-  const a = [1, 2, 4, 5]
+  const addData = async () => {
+    setAdding(true);
+    let errorMsg = validateStyleData();
+    if (errorMsg) {
+      setAdding(false);
+      return toast.error(errorMsg);
+    }
+
+    const docRef = doc(db, "styles", formData[STYLE_CODE]);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setAdding(false);
+      return toast.error('This style code already exists')
+    }
+    try {
+      await setDoc(doc(db, "styles", formData[STYLE_CODE]), formData);
+    } catch (err) {
+      console.log('err')
+    }
+    setAdding(false);
+  }
+
+  const validateStyleData = () => {
+    if (!formData[DESCRIPTION]) return 'Please Enter Valid Description'
+    if (!formData[MATERIAL]) return 'Please Enter Valid Material'
+    if (!formData[NAME]) return 'Please Enter Valid Name'
+    if (!formData[PRICE]) return 'Please Enter Valid Price'
+    if (!formData[STYLE_CODE]) return 'Please Enter Valid Style Code'
+
+    return '';
+  }
+
+  useEffect(() => {
+    console.log('formdata is', formData)
+  }, [formData])
 
   return (
     <div className={styles.AddStyles}>
-      <div className={styles.DoubleRow3To1}>
-        <div className={styles.Images}>
-          {a.map((item) => (
-            <ImgCard key={item} imgUrl='' />
-          ))}
-        </div>
-        <Input label='Price' value={formData[PRICE]} onChange={(val) => changeFormData(PRICE, val)} prefill='₹' pattern='[0-9]*' />
-      </div>
 
-      <div className={styles.DoubleRow}>
+      <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
         <Input label='Name' value={formData[NAME]} onChange={(val) => changeFormData(NAME, val)} />
         <Input label='Style Code' value={formData[STYLE_CODE]} onChange={(val) => changeFormData(STYLE_CODE, val)} />
+        <Input label='Price' value={formData[PRICE]} onChange={(val) => changeFormData(PRICE, val)} prefill='₹' pattern='[0-9]*' />
+
       </div>
 
       <Text label='Description' value={formData[DESCRIPTION]} onChange={(val) => changeFormData(DESCRIPTION, val)} />
 
       <div className={styles.DoubleRow}>
-        <div className={clsx(styles.Card, { [styles.InactiveCard]: false })}>
+        <div >
           <div style={{ width: '100%', alignSelf: 'flex-start' }}>
             <Text label='Material' value={formData[MATERIAL]} onChange={(val) => changeFormData(MATERIAL, val)} />
-            <Button text='Add Property' onClick={() => { }} style={{ marginTop: '10px' }} fit disabled />
+            {/* <Button text='Add Property' onClick={() => { }} style={{ marginTop: '10px' }} fit disabled /> */}
           </div>
 
         </div>
 
         <div
           className={clsx(styles.Card, { [styles.InactiveCard]: !formData[SIZES] })}
-          style={{ width: 'fit-content', padding: '16px 40px' }}
         >
           {formData[SIZES] ? <Sizes formData={formData} changeSizesData={changeSizesData} /> : (
             <div onClick={onReadyStocksAvailableClick}>Click to Add Ready Stocks</div>
           )}
         </div>
+
       </div>
+      <div className={styles.Images}>
+        {/* {formData[IMAGES].map((item) => ( */}
+        <ImgCard path={formData[STYLE_CODE]} onUploadSuccess={onImagesUploadSuccess} />
+        {/* ))} */}
+      </div>
+      <Button text='Add Style' onClick={addData} loading={adding} disabled={adding} />
 
     </div>
   )
