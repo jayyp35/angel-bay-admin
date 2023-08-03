@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import RightSection from './RightSection/RightSection';
 import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { modifyStyleFormData } from '../../../../utils/add-styles';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 
 function EditStyles({ styleToEdit }) {
@@ -29,9 +30,29 @@ function EditStyles({ styleToEdit }) {
     [CONSTANTS.CATEGORIES]: []
   });
 
+  const navigate = useNavigate();
+  const params = useParams();
+
   useEffect(() => {
     if (styleToEdit) setFormData(JSON.parse(JSON.stringify(styleToEdit)));
   }, [styleToEdit])
+
+  useEffect(() => {
+    if (params?.styleId) verifyStyleExists(params?.styleId);
+    else {
+      toast.error('Invalid Style Code! Redirecting');
+      navigate('/home/add')
+    }
+  }, [])
+
+  const verifyStyleExists = async (styleId) => {
+    const docRef = doc(db, "styles", styleId);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      toast.error('Invalid Style Code! Redirecting');
+      navigate('/home/add')
+    }
+  }
 
   const changeFormData = (key: string, value: string) => {
     setFormData((formData) => ({
@@ -99,14 +120,9 @@ function EditStyles({ styleToEdit }) {
     }
     const docId = formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL];
     const data = modifyStyleFormData(formData);
-    const docRef = doc(db, "styles", docId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setAdding(false);
-      return toast.error('This style code already exists')
-    }
+
     try {
-      await setDoc(doc(db, "styles", docId), formData);
+      await setDoc(doc(db, "styles", docId), data);
       setAddSuccess(true);
       setAdding(false)
 
@@ -123,7 +139,7 @@ function EditStyles({ styleToEdit }) {
   }
 
   const onEdit = () => {
-    // setStyleToEdit(formData)
+    setAddSuccess(false);
   }
 
   return (

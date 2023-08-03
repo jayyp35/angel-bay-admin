@@ -46,8 +46,8 @@ function RootRoutes() {
         <Route path="*" element={<div>404 Page not found</div>} />
         <Route path={'/'} element={<Login />} />
         <Route path={'/home'} element={<Home />}>
-          <Route path={'/home/add'} element={<AddStyles setStyleToEdit={setStyleToEdit} />} />
-          <Route path={'/home/edit/:styleId'} element={<EditStyles styleToEdit={styleToEdit} />} />
+          <Route path={'/home/add-styles'} element={<AddStyles setStyleToEdit={setStyleToEdit} />} />
+          <Route path={'/home/edit-styles/:styleId'} element={<EditStyles styleToEdit={styleToEdit} />} />
           <Route path={'/home/view-styles'} element={<ViewStyles setStyleToEdit={setStyleToEdit} />} />
         </Route>
       </Routes>

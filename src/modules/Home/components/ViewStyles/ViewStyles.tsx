@@ -30,7 +30,7 @@ function ViewStyles({ setStyleToEdit }) {
 
   const handleEdit = (styleData) => {
     setStyleToEdit(styleData);
-    navigate(`/home/edit/${styleData?.serialNumber || styleData?.styleCode}}`)
+    navigate(`/home/edit-styles/${styleData?.serialNumber || styleData?.styleCode}}`)
   }
 
   return (

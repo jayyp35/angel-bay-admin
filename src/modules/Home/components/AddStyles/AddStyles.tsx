@@ -12,10 +12,12 @@ import { toast } from 'react-toastify';
 import RightSection from './RightSection/RightSection';
 import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { modifyStyleFormData } from '../../../../utils/add-styles';
+import { useNavigate } from 'react-router-dom';
 
 
 function AddStyles({ setStyleToEdit }) {
 
+  const navigate = useNavigate();
   const [adding, setAdding] = useState(false);
   const [addSuccess, setAddSuccess] = useState(false);
   const [formData, setFormData] = useState<any>({
@@ -95,8 +97,6 @@ function AddStyles({ setStyleToEdit }) {
     }
     const docId = formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL];
     const data = modifyStyleFormData(formData);
-    console.log('data is', data)
-    return;
     const docRef = doc(db, "styles", docId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -104,7 +104,7 @@ function AddStyles({ setStyleToEdit }) {
       return toast.error('This style code already exists')
     }
     try {
-      await setDoc(doc(db, "styles", docId), formData);
+      await setDoc(doc(db, "styles", docId), data);
       setAddSuccess(true);
       setAdding(false)
 
@@ -121,7 +121,8 @@ function AddStyles({ setStyleToEdit }) {
   }
 
   const onEdit = () => {
-    setStyleToEdit(formData)
+    setStyleToEdit(formData);
+    navigate(`/home/edit-styles/${formData[CONSTANTS.SERIAL] || formData[CONSTANTS.STYLE_CODE]}`)
   }
 
   return (

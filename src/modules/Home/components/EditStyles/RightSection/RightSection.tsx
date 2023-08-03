@@ -43,16 +43,16 @@ function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMat
         <div>
           <div className={styles.SuccessMsg}>
             <img src={done} alt='' height={'100%'} />
-            Style Added Successfully
+            Style Saved
           </div>
           <div style={{ marginTop: '50px' }}>
             Is there something wrong with the data entered?
-            <Button text='Edit' onClick={onEdit} disabled={adding} style={{ marginTop: '10px' }} />
+            <Button text='Edit Again' onClick={onEdit} disabled={adding} style={{ marginTop: '10px' }} />
           </div>
 
         </div>
       ) : (
-        <Button text='Add Style' onClick={onAddClick} loading={adding} disabled={adding} />
+        <Button text='Save' onClick={onAddClick} loading={adding} disabled={adding} />
       )}
 
     </div>
