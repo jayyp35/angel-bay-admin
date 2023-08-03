@@ -153,7 +153,7 @@ function AddStyles() {
 
         {/* </div> */}
         <div className={styles.Images}>
-          <ImgCard path={formData[STYLE_CODE]} onUploadSuccess={onImagesUploadSuccess} />
+          <ImgCard images={formData[IMAGES]} path={formData[STYLE_CODE]} onUploadSuccess={onImagesUploadSuccess} />
         </div>
 
         <Button text='Add Style' onClick={addData} loading={adding} disabled={adding} />

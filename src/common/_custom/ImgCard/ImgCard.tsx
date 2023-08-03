@@ -6,11 +6,11 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { toast } from 'react-toastify';
 
 function ImgCard({
-  // images,
+  images,
   path,
   onUploadSuccess
 }: {
-  // images: string[];
+  images: string[];
   path: string;
   onUploadSuccess: Function;
 }) {
@@ -63,6 +63,7 @@ function ImgCard({
     }
     if (allDone) {
       // setAllDone(true);
+      setFilesToShow([]);
       onUploadSuccess(filesToShow);
       setFiles([]);
     }
@@ -122,6 +123,14 @@ function ImgCard({
   return (
     <div className={styles.Images}>
 
+      {!!images?.length && images?.map((file, i) => (
+        <div key={`${file}-${i}`}>
+          <div className={styles.ImgCard}>
+            <img src={file || ''} alt="" width='100%' />
+          </div>
+          {getProgress(null)}
+        </div>
+      ))}
 
       {!!filesToShow?.length && filesToShow?.map((file, i) => (
         <div key={`${file.name}-${i}`}>
