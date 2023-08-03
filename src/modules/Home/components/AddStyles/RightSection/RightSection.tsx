@@ -3,14 +3,20 @@ import { categories } from '../../../../../store/constants/style-constants';
 import styles from './RightSection.module.scss';
 import Select from 'react-select';
 import done from '../../../../../assets/done-animated.gif';
+import { useNavigate } from 'react-router-dom';
 
 const materials = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
+  { value: 'cotton', label: 'Cotton' },
+  { value: 'viscose', label: 'Viscose' },
+  { value: 'jute', label: 'Jute' }
 ]
 
-function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMaterial }) {
+function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMaterial, styleId }) {
+  const navigate = useNavigate();
+
+  const onEdit = () => {
+    navigate(`/home/edit/${styleId}`)
+  }
   return (
     <div className={styles.RightSection}>
       <div className={styles.Section}>
@@ -22,6 +28,7 @@ function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMat
           placeholder='Select Material'
           className={styles.Select}
           isDisabled={addSuccess}
+          onChange={onAddMaterial}
         />
       </div>
 
@@ -46,7 +53,7 @@ function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMat
           </div>
           <div style={{ marginTop: '50px' }}>
             Is there something wrong with the data entered?
-            <Button text='Edit' onClick={onAddClick} loading={adding} disabled={adding} style={{ marginTop: '10px' }} />
+            <Button text='Edit' onClick={onEdit} disabled={adding} style={{ marginTop: '10px' }} />
           </div>
 
         </div>

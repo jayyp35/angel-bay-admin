@@ -106,21 +106,21 @@ function AddStyles() {
       setAdding(false);
       return toast.error(errorMsg);
     }
-
-    const docRef = doc(db, "styles", formData[STYLE_CODE]);
+    const docId = formData[STYLE_CODE] || formData[SERIAL];
+    const docRef = doc(db, "styles", docId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setAdding(false);
       return toast.error('This style code already exists')
     }
     try {
-      await setDoc(doc(db, "styles", formData[STYLE_CODE]), formData);
+      await setDoc(doc(db, "styles", docId), formData);
       setAddSuccess(true);
       setAdding(false)
 
     } catch (err) {
       setAdding(false)
-      console.log('err');
+      console.log('err', err);
     }
   }
 
@@ -164,14 +164,19 @@ function AddStyles() {
             onUploadSuccess={onImagesUploadSuccess}
             errorMessage={validateStyleData()}
             disabled={addSuccess}
-
           />
         </div>
 
       </div>
 
       <div className={styles.Right}>
-        <RightSection addSuccess={addSuccess} onAddClick={addData} adding={adding} onAddCatergory={onAddCatergory} onAddMaterial={onAddMaterial} />
+        <RightSection
+          addSuccess={addSuccess}
+          onAddClick={addData}
+          adding={adding}
+          onAddCatergory={onAddCatergory}
+          onAddMaterial={onAddMaterial}
+          styleId={formData[SERIAL] || formData[STYLE_CODE]} />
       </div>
 
     </div>
