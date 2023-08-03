@@ -16,3 +16,28 @@ export const categories = [
   { value: 'skirt', label: 'Skirt' },
   // { categoryId: 'tunic', label: 'Tunic' },
 ]
+
+export const materials = [
+  { value: 'cotton', label: 'Cotton' },
+  { value: 'viscose', label: 'Viscose' },
+  { value: 'jute', label: 'Jute' }
+]
+
+export const CONSTANTS = {
+  STYLE_CODE: 'styleCode',
+  NAME: 'name',
+  SERIAL: 'serialNumber',
+  DESCRIPTION: 'description',
+  MATERIALS: 'materials',
+  PRICE: 'price',
+  SIZES: 'sizes',
+  IMAGES: 'images',
+  CATEGORIES: 'categories'
+}
+export const SIZE = {
+  S: 's',
+  M: 'm',
+  L: 'l',
+  XL: 'xl',
+  XXL: 'xxl'
+}

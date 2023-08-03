@@ -4,9 +4,11 @@ import styles from './ViewStyles.module.scss';
 import { db } from '../../../../utils/firebase/firebase';
 import clsx from 'clsx';
 import Button from '../../../../common/_custom/Button/Button';
+import { useNavigate } from 'react-router-dom';
 
-function ViewStyles() {
+function ViewStyles({ setStyleToEdit }) {
 
+  const navigate = useNavigate();
   const [stylesData, setStylesData] = useState<any>([]);
   useEffect(() => {
     getData();
@@ -24,6 +26,11 @@ function ViewStyles() {
       data.push(doc.data())
     })
     setStylesData(data);
+  }
+
+  const handleEdit = (styleData) => {
+    setStyleToEdit(styleData);
+    navigate(`/home/edit/${styleData?.serialNumber || styleData?.styleCode}}`)
   }
 
   return (
@@ -63,7 +70,7 @@ function ViewStyles() {
               ))}
             </div>
             <div>
-              <Button text='Edit' variant='black' onClick={() => { }} fit />
+              <Button text='Edit' variant='black' onClick={() => handleEdit(style)} fit />
             </div>
 
           </div>

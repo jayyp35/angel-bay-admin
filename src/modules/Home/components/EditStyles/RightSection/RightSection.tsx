@@ -5,6 +5,7 @@ import Select from 'react-select';
 import done from '../../../../../assets/done-animated.gif';
 import { useNavigate } from 'react-router-dom';
 
+
 function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMaterial, formData, onEdit }) {
   const navigate = useNavigate();
 

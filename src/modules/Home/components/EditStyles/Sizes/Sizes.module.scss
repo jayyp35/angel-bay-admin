@@ -1,0 +1,16 @@
+.Sizes {
+  display: flex;
+  align-items: center;
+  // grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+.SingleSize {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+}

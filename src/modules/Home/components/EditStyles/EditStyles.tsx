@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import Input from '../../../../common/_custom/Input2/Input';
 import Text from '../../../../common/_custom/Text/Text';
-import styles from './AddStyles.module.scss';
+import styles from './EditStyles.module.scss';
 import ImgCard from '../../../../common/_custom/ImgCard/ImgCard';
 import clsx from 'clsx';
 import Button from '../../../../common/_custom/Button/Button';
@@ -14,7 +14,7 @@ import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { modifyStyleFormData } from '../../../../utils/add-styles';
 
 
-function AddStyles({ setStyleToEdit }) {
+function EditStyles({ styleToEdit }) {
 
   const [adding, setAdding] = useState(false);
   const [addSuccess, setAddSuccess] = useState(false);
@@ -28,6 +28,10 @@ function AddStyles({ setStyleToEdit }) {
     [CONSTANTS.MATERIALS]: [],
     [CONSTANTS.CATEGORIES]: []
   });
+
+  useEffect(() => {
+    if (styleToEdit) setFormData(JSON.parse(JSON.stringify(styleToEdit)));
+  }, [styleToEdit])
 
   const changeFormData = (key: string, value: string) => {
     setFormData((formData) => ({
@@ -95,8 +99,6 @@ function AddStyles({ setStyleToEdit }) {
     }
     const docId = formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL];
     const data = modifyStyleFormData(formData);
-    console.log('data is', data)
-    return;
     const docRef = doc(db, "styles", docId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -121,11 +123,11 @@ function AddStyles({ setStyleToEdit }) {
   }
 
   const onEdit = () => {
-    setStyleToEdit(formData)
+    // setStyleToEdit(formData)
   }
 
   return (
-    <div className={styles.AddStyles}>
+    <div className={styles.EditStyles}>
 
       <div className={styles.MainSection}>
         <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
@@ -171,6 +173,7 @@ function AddStyles({ setStyleToEdit }) {
           onAddCatergory={onAddCatergory}
           onAddMaterial={onAddMaterial}
           formData={formData}
+          // styleId={formData[CONSTANTS.SERIAL] || formData[CONSTANTS.STYLE_CODE]}
           onEdit={onEdit} />
       </div>
 
@@ -178,4 +181,4 @@ function AddStyles({ setStyleToEdit }) {
   )
 }
 
-export default AddStyles
+export default EditStyles
