@@ -16,7 +16,7 @@ function Home() {
       <div className={styles.MainApp}>
         <Sidebar />
         <div className={styles.Body}><Outlet /></div>
-        <div className={styles.RightPanel}>yo</div>
+        {/* <div className={styles.RightPanel}>yo</div> */}
       </div>
     </div>
   )

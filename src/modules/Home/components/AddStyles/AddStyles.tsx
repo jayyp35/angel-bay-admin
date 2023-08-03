@@ -6,17 +6,21 @@ import styles from './AddStyles.module.scss';
 import ImgCard from '../../../../common/_custom/ImgCard/ImgCard';
 import clsx from 'clsx';
 import Button from '../../../../common/_custom/Button/Button';
-import Sizes from '../Sizes/Sizes';
+import Sizes from './Sizes/Sizes';
 import { db } from '../../../../utils/firebase/firebase';
 import { toast } from 'react-toastify';
+import RightSection from './RightSection/RightSection';
 
 export const STYLE_CODE = 'styleCode';
 export const NAME = 'name';
+export const SERIAL = 'serialNumber';
 export const DESCRIPTION = 'description';
-export const MATERIAL = 'material';
+export const MATERIALS = 'materials';
 export const PRICE = 'price';
 export const SIZES = 'sizes';
 export const IMAGES = 'images';
+export const CATEGORIES = 'categories';
+
 export const S = 's';
 export const M = 'm';
 export const L = 'l';
@@ -30,9 +34,12 @@ function AddStyles() {
   const [formData, setFormData] = useState<any>({
     [STYLE_CODE]: '',
     [NAME]: '',
+    [SERIAL]: '',
     [DESCRIPTION]: '',
     [PRICE]: '',
-    [IMAGES]: []
+    [IMAGES]: [],
+    [MATERIALS]: [],
+    [CATEGORIES]: []
   });
 
   const changeFormData = (key: string, value: string) => {
@@ -102,7 +109,7 @@ function AddStyles() {
 
   const validateStyleData = () => {
     if (!formData[DESCRIPTION]) return 'Please Enter Valid Description'
-    if (!formData[MATERIAL]) return 'Please Enter Valid Material'
+    // if (!formData[MATERIAL]) return 'Please Enter Valid Material'
     if (!formData[NAME]) return 'Please Enter Valid Name'
     if (!formData[PRICE]) return 'Please Enter Valid Price'
     if (!formData[STYLE_CODE]) return 'Please Enter Valid Style Code'
@@ -117,23 +124,24 @@ function AddStyles() {
   return (
     <div className={styles.AddStyles}>
 
-      <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
-        <Input label='Name' value={formData[NAME]} onChange={(val) => changeFormData(NAME, val)} disabled={addSuccess} />
-        <Input label='Style Code' value={formData[STYLE_CODE]} onChange={(val) => changeFormData(STYLE_CODE, val)} disabled={addSuccess} />
-        <Input label='Price' value={formData[PRICE]} onChange={(val) => changeFormData(PRICE, val)} prefill='₹' pattern='[0-9]*' disabled={addSuccess} />
-
-      </div>
-
-      <Text label='Description' value={formData[DESCRIPTION]} onChange={(val) => changeFormData(DESCRIPTION, val)} />
-
-      <div className={styles.DoubleRow}>
-        <div >
-          <div style={{ width: '100%', alignSelf: 'flex-start' }}>
-            <Text label='Material' value={formData[MATERIAL]} onChange={(val) => changeFormData(MATERIAL, val)} />
-            {/* <Button text='Add Property' onClick={() => { }} style={{ marginTop: '10px' }} fit disabled /> */}
-          </div>
+      <div className={styles.MainSection}>
+        <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
+          <Input label='Serial Number' value={formData[SERIAL]} onChange={(val) => changeFormData(SERIAL, val)} disabled={addSuccess} />
+          <Input label='Style Code' value={formData[STYLE_CODE]} onChange={(val) => changeFormData(STYLE_CODE, val)} disabled={addSuccess} />
+          <Input label='Price' value={formData[PRICE]} onChange={(val) => changeFormData(PRICE, val)} prefill='₹' pattern='[0-9]*' disabled={addSuccess} />
 
         </div>
+
+        <Text label='Description' value={formData[DESCRIPTION]} onChange={(val) => changeFormData(DESCRIPTION, val)} />
+
+        {/* <div className={styles.DoubleRow}> */}
+        {/* <div >
+            <div style={{ width: '100%', alignSelf: 'flex-start' }}>
+              <Text label='Material' value={formData[MATERIAL]} onChange={(val) => changeFormData(MATERIAL, val)} />
+              <Button text='Add Property' onClick={() => { }} style={{ marginTop: '10px' }} fit disabled />
+            </div>
+
+          </div> */}
 
         <div
           className={clsx(styles.Card, { [styles.InactiveCard]: !formData[SIZES] })}
@@ -143,12 +151,16 @@ function AddStyles() {
           )}
         </div>
 
-      </div>
-      <div className={styles.Images}>
-        <ImgCard path={formData[STYLE_CODE]} onUploadSuccess={onImagesUploadSuccess} />
-      </div>
+        {/* </div> */}
+        <div className={styles.Images}>
+          <ImgCard path={formData[STYLE_CODE]} onUploadSuccess={onImagesUploadSuccess} />
+        </div>
 
-      <Button text='Add Style' onClick={addData} loading={adding} disabled={adding} />
+        <Button text='Add Style' onClick={addData} loading={adding} disabled={adding} />
+      </div>
+      <div className={styles.Right}>
+        <RightSection />
+      </div>
 
     </div>
   )
