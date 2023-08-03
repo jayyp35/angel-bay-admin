@@ -83,6 +83,22 @@ function AddStyles() {
     }))
   }
 
+  const onAddCatergory = (options) => {
+    const categories = options?.map((option) => option?.value) || [];
+    setFormData((formData) => ({
+      ...formData,
+      [CATEGORIES]: categories
+    }))
+  }
+
+  const onAddMaterial = (options) => {
+    const categories = options?.map((option) => option?.value) || [];
+    setFormData((formData) => ({
+      ...formData,
+      [MATERIALS]: categories
+    }))
+  }
+
   const addData = async () => {
     setAdding(true);
     let errorMsg = validateStyleData();
@@ -108,9 +124,6 @@ function AddStyles() {
     }
   }
 
-  useEffect(() => {
-    console.log('adds', addSuccess)
-  }, [addSuccess])
   const validateStyleData = () => {
     if (!(formData[STYLE_CODE] || formData[SERIAL])) return 'Please enter valid Style Code OR Serial'
     if (!formData[PRICE]) return 'Please enter a valid Price'
@@ -138,7 +151,9 @@ function AddStyles() {
           }}
         >
           {formData[SIZES] ? <Sizes formData={formData} changeSizesData={changeSizesData} /> : (
-            <div onClick={onReadyStocksAvailableClick}>Click to Add Ready Stocks</div>
+            <div onClick={onReadyStocksAvailableClick}>
+              {addSuccess ? 'No Ready Stocks Added' : 'Click to Add Ready Stocks'}
+            </div>
           )}
         </div>
 
@@ -153,11 +168,10 @@ function AddStyles() {
           />
         </div>
 
-        <Button text='Add Style' onClick={addData} loading={adding} disabled={adding} />
       </div>
 
       <div className={styles.Right}>
-        <RightSection addSuccess={addSuccess} />
+        <RightSection addSuccess={addSuccess} onAddClick={addData} adding={adding} onAddCatergory={onAddCatergory} onAddMaterial={onAddMaterial} />
       </div>
 
     </div>
