@@ -8,17 +8,21 @@ import { toast } from 'react-toastify';
 function ImgCard({
   images,
   path,
-  onUploadSuccess
+  onUploadSuccess,
+  errorMessage,
+  disabled = false
 }: {
   images: string[];
   path: string;
   onUploadSuccess: Function;
+  errorMessage: string;
+  disabled?: boolean;
 }) {
   const [files, setFiles] = useState<File[]>([]);
   const [filesToShow, setFilesToShow] = useState<any>([]);
-  // const [allDone, setAllDone] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const showNotice = !!(filesToShow?.length && images?.length)
   function handleChange(event) {
     const files = Array.from(event.target.files).map((file: any) => ({
       name: file.name,
@@ -82,7 +86,8 @@ function ImgCard({
   }, [filesToShow]);
 
   const onImgCardClick = () => {
-    if (!path) return toast.error('Please enter the style code first');
+    if (errorMessage) return toast.error(errorMessage);
+    if (!path) return toast.error('Upload Path Error');
     inputRef.current?.click?.()
   }
 
@@ -141,14 +146,14 @@ function ImgCard({
         </div>
       ))}
 
-      <div>
+      {!disabled && <div>
         <div className={styles.ImgCard} onClick={onImgCardClick}>
           <img src={plusIcon} alt='plus' height='15px' />
           <input className={styles.FileInput} type='file' ref={inputRef} onChange={handleChange} accept='/image/*' multiple />
         </div>
         {getProgress(null)}
-      </div>
-      {/* {allDone && 'Done'} */}
+      </div>}
+      {showNotice && <div className={styles.Notice}>Please enter Serial Number/Style Code and Price before uploading any images.</div>}
     </div>
   )
 }

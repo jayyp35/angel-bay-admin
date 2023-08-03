@@ -8,7 +8,7 @@ const materials = [
   { value: 'vanilla', label: 'Vanilla' }
 ]
 
-function RightSection() {
+function RightSection({ addSuccess }) {
   return (
     <div className={styles.RightSection}>
       <div className={styles.Section}>
@@ -19,6 +19,7 @@ function RightSection() {
           name='Material'
           placeholder='Select Material'
           className={styles.Select}
+          isDisabled={addSuccess}
         // styles={}
         />
       </div>
@@ -31,6 +32,7 @@ function RightSection() {
           name='Categories'
           placeholder='Categories'
           className={styles.Select}
+          isDisabled={addSuccess}
         // styles={}
         />
       </div>

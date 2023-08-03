@@ -11,7 +11,8 @@ interface TextProps {
   style?: React.CSSProperties;
   onChange: Function;
   onEnter?: Function;
-  autoComplete?: boolean
+  autoComplete?: boolean;
+  disabled?: boolean;
 }
 function Text({
   placeholder = '',
@@ -22,7 +23,8 @@ function Text({
   onChange,
   onEnter,
   style,
-  autoComplete = false
+  autoComplete = false,
+  disabled = false,
 }: TextProps) {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     // if (pattern && !e.target.validity.valid) return;
@@ -47,6 +49,7 @@ function Text({
         }}
         autoComplete={autoComplete ? '' : 'off'}
         placeholder={placeholder}
+        disabled={disabled}
       />
       <label className={styles.FormLabel}>{label}</label>
       {!!(!isValid && errorMessage) && <div className={styles.Error}>{errorMessage}</div>}

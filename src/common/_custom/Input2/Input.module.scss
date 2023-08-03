@@ -21,6 +21,7 @@
   background-color: #f9f9f9;
   border: 1px solid #d0d0d0;
 
+
   &:-webkit-autofill+label {
     top: -15px;
     left: 0;
@@ -33,23 +34,9 @@
     border: 1px solid black;
   }
 
-  // &:focus~label {
-  //   top: -15px;
-  //   left: 0;
-  //   font-size: 10px;
-  //   color: #484848;
-  //   font-weight: 300;
-  // }
-
-  // &:invalid~label {
-  //   top: -15px;
-  //   left: 0;
-  //   font-size: 10px;
-  //   font-weight: 300;
-  // }
-
   &:disabled {
-    background-color: #f8fff8;
+    background-color: #e0e0e0;
+    cursor: not-allowed;
   }
 }
 

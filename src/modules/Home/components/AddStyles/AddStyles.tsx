@@ -98,28 +98,24 @@ function AddStyles() {
       return toast.error('This style code already exists')
     }
     try {
-      const resp = await setDoc(doc(db, "styles", formData[STYLE_CODE]), formData);
-      console.log('response', resp)
-      // setAddSuccess(true)
+      await setDoc(doc(db, "styles", formData[STYLE_CODE]), formData);
+      setAddSuccess(true);
+      setAdding(false)
+
     } catch (err) {
-      console.log('err')
+      setAdding(false)
+      console.log('err');
     }
-    setAdding(false);
-  }
-
-  const validateStyleData = () => {
-    if (!formData[DESCRIPTION]) return 'Please Enter Valid Description'
-    // if (!formData[MATERIAL]) return 'Please Enter Valid Material'
-    if (!formData[NAME]) return 'Please Enter Valid Name'
-    if (!formData[PRICE]) return 'Please Enter Valid Price'
-    if (!formData[STYLE_CODE]) return 'Please Enter Valid Style Code'
-
-    return '';
   }
 
   useEffect(() => {
-    console.log('formdata is', formData)
-  }, [formData])
+    console.log('adds', addSuccess)
+  }, [addSuccess])
+  const validateStyleData = () => {
+    if (!(formData[STYLE_CODE] || formData[SERIAL])) return 'Please enter valid Style Code OR Serial'
+    if (!formData[PRICE]) return 'Please enter a valid Price'
+    return '';
+  }
 
   return (
     <div className={styles.AddStyles}>
@@ -132,34 +128,36 @@ function AddStyles() {
 
         </div>
 
-        <Text label='Description' value={formData[DESCRIPTION]} onChange={(val) => changeFormData(DESCRIPTION, val)} />
-
-        {/* <div className={styles.DoubleRow}> */}
-        {/* <div >
-            <div style={{ width: '100%', alignSelf: 'flex-start' }}>
-              <Text label='Material' value={formData[MATERIAL]} onChange={(val) => changeFormData(MATERIAL, val)} />
-              <Button text='Add Property' onClick={() => { }} style={{ marginTop: '10px' }} fit disabled />
-            </div>
-
-          </div> */}
+        <Text label='Description' value={formData[DESCRIPTION]} onChange={(val) => changeFormData(DESCRIPTION, val)} disabled={addSuccess} />
 
         <div
           className={clsx(styles.Card, { [styles.InactiveCard]: !formData[SIZES] })}
+          style={{
+            cursor: addSuccess ? 'not-allowed' : '',
+            pointerEvents: addSuccess ? 'none' : 'all'
+          }}
         >
           {formData[SIZES] ? <Sizes formData={formData} changeSizesData={changeSizesData} /> : (
             <div onClick={onReadyStocksAvailableClick}>Click to Add Ready Stocks</div>
           )}
         </div>
 
-        {/* </div> */}
         <div className={styles.Images}>
-          <ImgCard images={formData[IMAGES]} path={formData[STYLE_CODE]} onUploadSuccess={onImagesUploadSuccess} />
+          <ImgCard
+            images={formData[IMAGES]}
+            path={formData[STYLE_CODE] || formData[SERIAL]}
+            onUploadSuccess={onImagesUploadSuccess}
+            errorMessage={validateStyleData()}
+            disabled={addSuccess}
+
+          />
         </div>
 
         <Button text='Add Style' onClick={addData} loading={adding} disabled={adding} />
       </div>
+
       <div className={styles.Right}>
-        <RightSection />
+        <RightSection addSuccess={addSuccess} />
       </div>
 
     </div>
