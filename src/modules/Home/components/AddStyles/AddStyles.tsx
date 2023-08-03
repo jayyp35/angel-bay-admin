@@ -26,6 +26,7 @@ export const XXL = 'xxl';
 function AddStyles() {
 
   const [adding, setAdding] = useState(false);
+  const [addSuccess, setAddSuccess] = useState(false);
   const [formData, setFormData] = useState<any>({
     [STYLE_CODE]: '',
     [NAME]: '',
@@ -90,7 +91,9 @@ function AddStyles() {
       return toast.error('This style code already exists')
     }
     try {
-      await setDoc(doc(db, "styles", formData[STYLE_CODE]), formData);
+      const resp = await setDoc(doc(db, "styles", formData[STYLE_CODE]), formData);
+      console.log('response', resp)
+      // setAddSuccess(true)
     } catch (err) {
       console.log('err')
     }
@@ -115,9 +118,9 @@ function AddStyles() {
     <div className={styles.AddStyles}>
 
       <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
-        <Input label='Name' value={formData[NAME]} onChange={(val) => changeFormData(NAME, val)} />
-        <Input label='Style Code' value={formData[STYLE_CODE]} onChange={(val) => changeFormData(STYLE_CODE, val)} />
-        <Input label='Price' value={formData[PRICE]} onChange={(val) => changeFormData(PRICE, val)} prefill='₹' pattern='[0-9]*' />
+        <Input label='Name' value={formData[NAME]} onChange={(val) => changeFormData(NAME, val)} disabled={addSuccess} />
+        <Input label='Style Code' value={formData[STYLE_CODE]} onChange={(val) => changeFormData(STYLE_CODE, val)} disabled={addSuccess} />
+        <Input label='Price' value={formData[PRICE]} onChange={(val) => changeFormData(PRICE, val)} prefill='₹' pattern='[0-9]*' disabled={addSuccess} />
 
       </div>
 
@@ -142,10 +145,9 @@ function AddStyles() {
 
       </div>
       <div className={styles.Images}>
-        {/* {formData[IMAGES].map((item) => ( */}
         <ImgCard path={formData[STYLE_CODE]} onUploadSuccess={onImagesUploadSuccess} />
-        {/* ))} */}
       </div>
+
       <Button text='Add Style' onClick={addData} loading={adding} disabled={adding} />
 
     </div>

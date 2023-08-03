@@ -4,9 +4,9 @@ import styles from './Sidebar.module.scss';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 const pages = [
-  { id: 'addstyles', name: 'Add Styles', link: '/home/addstyles' },
+  { id: 'addstyles', name: 'Add Styles', link: '/home/add' },
   { id: 'addcollection', name: 'Add Collection', link: '/home/addcollection' },
-  { id: 'viewstyles', name: 'View Styles', link: '/home/viewstyles' },
+  { id: 'viewstyles', name: 'View Styles', link: '/home/view-styles' },
 ]
 
 function Sidebar() {
@@ -23,7 +23,7 @@ function Sidebar() {
           key={item.id}
           onClick={() => {
             setSelectedOption(item.id)
-            // navigate(item.link)
+            navigate(item.link)
           }}
         >
           {item.name}

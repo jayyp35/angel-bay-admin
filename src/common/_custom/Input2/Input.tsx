@@ -14,6 +14,7 @@ interface InputProps {
   onEnter?: Function;
   autoComplete?: boolean
   prefill?: string;
+  disabled?: boolean;
 }
 function Input({
   type = 'text',
@@ -27,7 +28,8 @@ function Input({
   onEnter,
   style,
   autoComplete = false,
-  prefill = ''
+  prefill = '',
+  disabled = false
 }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (pattern && !e.target.validity.valid) return;
@@ -45,6 +47,7 @@ function Input({
         <div className={styles.Prefill}>{prefill}</div>
       )}
       <input
+        disabled={disabled}
         className={clsx(styles.FormInput, {
           [styles.Invalid]: !isValid,
           [styles.PrefillInput]: !!prefill

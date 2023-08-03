@@ -7,6 +7,7 @@ import { setUserData } from '../store/user/action';
 import { onAuthStateChanged } from 'firebase/auth';
 import Home from '../modules/Home/Home';
 import AddStyles from '../modules/Home/components/AddStyles/AddStyles';
+import ViewStyles from '../modules/Home/components/ViewStyles/ViewStyles';
 
 /**
  * @Description
@@ -44,6 +45,7 @@ function RootRoutes() {
         <Route path={'/'} element={<Login />} />
         <Route path={'/home'} element={<Home />}>
           <Route path={'/home/add'} element={<AddStyles />} />
+          <Route path={'/home/view-styles'} element={<ViewStyles />} />
         </Route>
       </Routes>
     </Suspense>
