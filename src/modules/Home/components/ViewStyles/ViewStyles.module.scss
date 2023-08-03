@@ -19,7 +19,11 @@
   font-size: 12px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr;
+
+  &>div {
+    margin: 0 5px;
+  }
 }
 
 .Header {

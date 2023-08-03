@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './ViewStyles.module.scss';
 import { db } from '../../../../utils/firebase/firebase';
 import clsx from 'clsx';
+import Button from '../../../../common/_custom/Button/Button';
 
 function ViewStyles() {
 
@@ -35,6 +36,7 @@ function ViewStyles() {
           <div>Name</div>
           <div>Materials</div>
           <div>Categories</div>
+          <div>Actions</div>
         </div>
         {stylesData.map((style: any, i) => (
           <div key={style.serialNumber || style.styleCode} className={styles.SingleStyle}>
@@ -60,7 +62,9 @@ function ViewStyles() {
                 <div className={styles.Badge} key={category}>{category}</div>
               ))}
             </div>
-
+            <div>
+              <Button text='Edit' variant='black' onClick={() => { }} fit />
+            </div>
 
           </div>
         ))}
