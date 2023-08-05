@@ -14,7 +14,6 @@ export const categories = [
   { value: 'tunic', label: 'Tunic' },
   { value: 'pant-trouser', label: 'Pant/Trouser' },
   { value: 'skirt', label: 'Skirt' },
-  // { categoryId: 'tunic', label: 'Tunic' },
 ]
 
 export const materials = [
@@ -40,4 +39,28 @@ export const SIZE = {
   L: 'l',
   XL: 'xl',
   XXL: 'xxl'
+}
+
+export const categoriesMap = {
+  'short-dress': 'Short Dress',
+  'long-dress': 'Long Dress',
+  'co-ord-set': 'Co-ord Set',
+  '2-pc-set': '2Pc Set',
+  '3-pc-set': '3Pc Set',
+  'coats': 'Coats',
+  'jackets': 'Jackets',
+  'bottoms': 'Bottoms',
+  'crop-tops': 'Crop Tops',
+  'inners': 'Inners',
+  'tops': 'Tops',
+  'shirts': 'Shirts',
+  'tunic': 'Tunic',
+  'pant-trouser': 'Pant/Trouser',
+  'skirt': 'Skirt',
+}
+
+export const materialsMap = {
+  'cotton': 'Cotton',
+  'viscose': 'Viscose',
+  'jute': 'Jute'
 }

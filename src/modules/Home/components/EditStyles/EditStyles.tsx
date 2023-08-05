@@ -11,7 +11,7 @@ import { db } from '../../../../utils/firebase/firebase';
 import { toast } from 'react-toastify';
 import RightSection from './RightSection/RightSection';
 import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
-import { modifyStyleFormData } from '../../../../utils/add-styles';
+import { getStyleFormData, modifyStyleFormData } from '../../../../utils/add-styles';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 
@@ -34,14 +34,14 @@ function EditStyles({ styleToEdit }) {
   const params = useParams();
 
   useEffect(() => {
-    if (styleToEdit) setFormData(JSON.parse(JSON.stringify(styleToEdit)));
+    if (styleToEdit) setFormData(getStyleFormData(styleToEdit));
   }, [styleToEdit])
 
   useEffect(() => {
     if (params?.styleId) verifyStyleExists(params?.styleId);
     else {
-      toast.error('Invalid Style Code! Redirecting');
-      navigate('/home/add')
+      toast.error('Invalid Style Code!');
+      // navigate('/home/add')
     }
   }, [])
 
@@ -49,8 +49,8 @@ function EditStyles({ styleToEdit }) {
     const docRef = doc(db, "styles", styleId);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) {
-      toast.error('Invalid Style Code! Redirecting');
-      navigate('/home/add')
+      toast.error('Invalid Style Code!');
+      // navigate('/home/add')
     }
   }
 

@@ -30,7 +30,7 @@ function ViewStyles({ setStyleToEdit }) {
 
   const handleEdit = (styleData) => {
     setStyleToEdit(styleData);
-    navigate(`/home/edit-styles/${styleData?.serialNumber || styleData?.styleCode}}`)
+    navigate(`/home/edit-styles/${styleData?.serialNumber || styleData?.styleCode}`)
   }
 
   return (
@@ -57,7 +57,7 @@ function ViewStyles({ setStyleToEdit }) {
               {style.serialNumber || style.styleCode}
             </div>
             <div>
-              {style?.name}
+              {style?.name || "-"}
             </div>
             <div className={styles.Badges}>
               {style?.materials?.map((material) => (
