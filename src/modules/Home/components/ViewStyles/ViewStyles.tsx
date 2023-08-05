@@ -1,4 +1,4 @@
-import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import styles from './ViewStyles.module.scss';
 import { db } from '../../../../utils/firebase/firebase';
@@ -8,19 +8,22 @@ import { useNavigate } from 'react-router-dom';
 import Search from '../../../../common/_custom/Search/Search';
 import { categoriesMap, materialsMap } from '../../../../store/constants/style-constants';
 import StylesTable from './StylesTable/StylesTable';
+import { useDebounce } from '../../../../utils/hooks';
 
 function ViewStyles({ setStyleToEdit }) {
 
   const navigate = useNavigate();
   const [stylesData, setStylesData] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  useEffect(() => {
-    getData();
-  }, [])
+  const debouncedSearchTerm = useDebounce(searchTerm, 1500);
 
   useEffect(() => {
-    console.log('styles are', stylesData)
-  }, [stylesData])
+    getData();
+  }, []);
+
+  useEffect(() => {
+    console.log('debounce! Term is:', debouncedSearchTerm)
+  }, [debouncedSearchTerm])
 
   const getData = async () => {
     const q = query(collection(db, "styles"), orderBy("name"), limit(10));
@@ -31,6 +34,10 @@ function ViewStyles({ setStyleToEdit }) {
     })
     setStylesData(data);
   }
+
+  // const search = async () => {
+  //   const q = query(collection(db, "styles"),where())
+  // }
 
   const handleEdit = (styleData) => {
     setStyleToEdit(styleData);

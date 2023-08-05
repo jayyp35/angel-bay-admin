@@ -19,7 +19,7 @@ function StylesTable({ stylesData, handleEdit }) {
 
           <div>
             {style?.images?.map(imageUrl => (
-              <img src={imageUrl} alt='img' height='50px' style={{ marginRight: '10px' }} />
+              <img key={imageUrl} src={imageUrl} alt='img' height='50px' style={{ marginRight: '10px' }} />
             ))}
           </div>
           <div>
