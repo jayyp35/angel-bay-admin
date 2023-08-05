@@ -130,8 +130,8 @@ function AddStyles({ setStyleToEdit }) {
 
       <div className={styles.MainSection}>
         <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
-          <Input label='Serial Number' value={formData[CONSTANTS.SERIAL]} onChange={(val) => changeFormData(CONSTANTS.SERIAL, val)} disabled={addSuccess} />
-          <Input label='Style Code' value={formData[CONSTANTS.STYLE_CODE]} onChange={(val) => changeFormData(CONSTANTS.STYLE_CODE, val)} disabled={addSuccess} />
+          <Input label='Serial Number' value={formData[CONSTANTS.SERIAL]} onChange={(val) => changeFormData(CONSTANTS.SERIAL, val)} disabled={addSuccess} maxLength={10} />
+          <Input label='Style Code' value={formData[CONSTANTS.STYLE_CODE]} onChange={(val) => changeFormData(CONSTANTS.STYLE_CODE, val)} disabled={addSuccess} maxLength={10} />
           <Input label='Price' value={formData[CONSTANTS.PRICE]} onChange={(val) => changeFormData(CONSTANTS.PRICE, val)} prefill='₹' pattern='[0-9]*' disabled={addSuccess} />
 
         </div>

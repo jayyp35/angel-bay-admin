@@ -1,10 +1,15 @@
 import { CONSTANTS, categoriesMap, materialsMap } from "../store/constants/style-constants"
+import { getAllSubstrings } from "./utils";
 
 export const modifyStyleFormData = (formData) => {
+  let styleCodeSearches = getAllSubstrings(formData[CONSTANTS.STYLE_CODE]);
+  let styleNumberSearches = getAllSubstrings(formData[CONSTANTS.SERIAL]);;
+
   return {
     ...formData,
     [CONSTANTS.MATERIALS]: formData[CONSTANTS.MATERIALS].map((material) => material.value),
-    [CONSTANTS.CATEGORIES]: formData[CONSTANTS.CATEGORIES].map((category) => category.value)
+    [CONSTANTS.CATEGORIES]: formData[CONSTANTS.CATEGORIES].map((category) => category.value),
+    searchTerms: [...styleNumberSearches, ...styleCodeSearches]
   }
 }
 

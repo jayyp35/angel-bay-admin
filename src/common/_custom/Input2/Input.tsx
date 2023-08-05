@@ -15,6 +15,7 @@ interface InputProps {
   autoComplete?: boolean
   prefill?: string;
   disabled?: boolean;
+  maxLength?: number;
 }
 function Input({
   type = 'text',
@@ -29,7 +30,8 @@ function Input({
   style,
   autoComplete = false,
   prefill = '',
-  disabled = false
+  disabled = false,
+  maxLength,
 }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (pattern && !e.target.validity.valid) return;
@@ -61,6 +63,7 @@ function Input({
         }}
         autoComplete={autoComplete ? '' : 'off'}
         placeholder={placeholder}
+        maxLength={maxLength}
       />
       <label className={styles.FormLabel}>{label}</label>
       {!!(!isValid && errorMessage) && <div className={styles.Error}>{errorMessage}</div>}
