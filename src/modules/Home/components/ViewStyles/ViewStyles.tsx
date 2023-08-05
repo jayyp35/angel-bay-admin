@@ -18,15 +18,15 @@ function ViewStyles({ setStyleToEdit }) {
   const debouncedSearchTerm = useDebounce(searchTerm, 1500);
 
   useEffect(() => {
-    getData();
+    // getData();
   }, []);
 
   useEffect(() => {
-    console.log('debounce! Term is:', debouncedSearchTerm)
+    search(debouncedSearchTerm);
   }, [debouncedSearchTerm])
 
   const getData = async () => {
-    const q = query(collection(db, "styles"), orderBy("name"), limit(10));
+    const q = query(collection(db, "styles"), orderBy("name"), limit(50));
     const querySnapshot = await getDocs(q);
     let data: any = [];
     querySnapshot.forEach((doc) => {
@@ -35,9 +35,17 @@ function ViewStyles({ setStyleToEdit }) {
     setStylesData(data);
   }
 
-  // const search = async () => {
-  //   const q = query(collection(db, "styles"),where())
-  // }
+  const search = async (searchTerm) => {
+    let data: any = [];
+    const searchQuery = query(collection(db, "styles"), where('searchTerms', 'array-contains', searchTerm), limit(50));
+    const allQuery = query(collection(db, "styles"), orderBy("name"), limit(50));
+    let selectedQuery = searchTerm ? searchQuery : allQuery;
+    const querySnapshot = await getDocs(selectedQuery);
+    querySnapshot.forEach((doc) => {
+      data.push(doc.data())
+    });
+    setStylesData(data);
+  }
 
   const handleEdit = (styleData) => {
     setStyleToEdit(styleData);
