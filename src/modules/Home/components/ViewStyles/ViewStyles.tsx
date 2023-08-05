@@ -6,6 +6,8 @@ import clsx from 'clsx';
 import Button from '../../../../common/_custom/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import Search from '../../../../common/_custom/Search/Search';
+import { categoriesMap, materialsMap } from '../../../../store/constants/style-constants';
+import StylesTable from './StylesTable/StylesTable';
 
 function ViewStyles({ setStyleToEdit }) {
 
@@ -41,46 +43,7 @@ function ViewStyles({ setStyleToEdit }) {
         <Search value={searchTerm} onChange={(val) => setSearchTerm(val)} style={{ marginTop: 0 }} placeholder='Search by Style Serial / Code / Name' />
         <div></div>
       </div>
-      <div className={styles.Table}>
-        <div className={clsx(styles.SingleStyle, styles.Header)}>
-          <div>Images</div>
-          <div>Style Code/Number</div>
-          <div>Name</div>
-          <div>Materials</div>
-          <div>Categories</div>
-          <div>Actions</div>
-        </div>
-        {stylesData.map((style: any, i) => (
-          <div key={style.serialNumber || style.styleCode} className={styles.SingleStyle}>
-
-            <div>
-              {style?.images?.map(imageUrl => (
-                <img src={imageUrl} alt='img' height='50px' style={{ marginRight: '10px' }} />
-              ))}
-            </div>
-            <div>
-              {style.serialNumber || style.styleCode}
-            </div>
-            <div>
-              {style?.name || "-"}
-            </div>
-            <div className={styles.Badges}>
-              {style?.materials?.map((material) => (
-                <div className={styles.Badge} key={material}>{material}</div>
-              ))}
-            </div>
-            <div className={styles.Badges}>
-              {style?.categories?.map((category) => (
-                <div className={styles.Badge} key={category}>{category}</div>
-              ))}
-            </div>
-            <div>
-              <Button text='Edit' variant='black' onClick={() => handleEdit(style)} fit />
-            </div>
-
-          </div>
-        ))}
-      </div>
+      <StylesTable stylesData={stylesData} handleEdit={handleEdit} />
 
     </div>
   )
