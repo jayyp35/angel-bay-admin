@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { storage } from '../../../utils/firebase/firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { toast } from 'react-toastify';
+import ImageViewer from 'react-simple-image-viewer';
 
 function ImgCard({
   images,
@@ -20,6 +21,8 @@ function ImgCard({
 }) {
   const [files, setFiles] = useState<File[]>([]);
   const [filesToShow, setFilesToShow] = useState<any>([]);
+  const [allUploaded, setAllUploaded] = useState(true);
+  const [showImagesPreview, setShowImagesPreview] = useState<boolean | number>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const showNotice = !!(filesToShow?.length && images?.length)
@@ -31,6 +34,7 @@ function ImgCard({
       uploadPercent: 0,
       imageUrl: ''
     }));
+    setAllUploaded(false);
     setFiles(event.target.files);
     setFilesToShow(files);
   }
@@ -67,6 +71,7 @@ function ImgCard({
     }
     if (allDone) {
       // setAllDone(true);
+      setAllUploaded(true);
       setFilesToShow([]);
       onUploadSuccess(filesToShow);
       setFiles([]);
@@ -129,7 +134,11 @@ function ImgCard({
     <div className={styles.Images}>
 
       {!!images?.length && images?.map((file, i) => (
-        <div key={`${file}-${i}`}>
+        <div key={`${file}-${i}`} onClick={() => {
+          if (allUploaded)
+            setShowImagesPreview(i)
+        }}
+        >
           <div className={styles.ImgCard}>
             <img src={file || ''} alt="" width='100%' />
           </div>
@@ -153,7 +162,17 @@ function ImgCard({
         </div>
         {getProgress(null)}
       </div>}
-      {showNotice && <div className={styles.Notice}>Please enter Serial Number/Style Code and Price before uploading any images.</div>}
+      {/* {showNotice && <div className={styles.Notice}>Please enter Serial Number/Style Code and Price before uploading any images.</div>} */}
+
+      {!!(showImagesPreview !== false) && (
+        <ImageViewer
+          src={images}
+          currentIndex={parseInt(`${showImagesPreview}`) || 0}
+          disableScroll={true}
+          closeOnClickOutside={true}
+          onClose={() => setShowImagesPreview(false)}
+        />
+      )}
     </div>
   )
 }

@@ -9,11 +9,13 @@ import Search from '../../../../common/_custom/Search/Search';
 import { categoriesMap, materialsMap } from '../../../../store/constants/style-constants';
 import StylesTable from './StylesTable/StylesTable';
 import { useDebounce } from '../../../../utils/hooks';
+import ImageViewer from 'react-simple-image-viewer';
 
 function ViewStyles({ setStyleToEdit }) {
 
   const navigate = useNavigate();
   const [stylesData, setStylesData] = useState<any>([]);
+  const [imgsToPreview, setImgsToPreview] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 1500);
 
@@ -58,7 +60,16 @@ function ViewStyles({ setStyleToEdit }) {
         <Search value={searchTerm} onChange={(val) => setSearchTerm(val)} style={{ marginTop: 0 }} placeholder='Search by Style Serial / Code / Name' />
         <div></div>
       </div>
-      <StylesTable stylesData={stylesData} handleEdit={handleEdit} />
+      <StylesTable stylesData={stylesData} handleEdit={handleEdit} setImgsToPreview={setImgsToPreview} />
+      {!!imgsToPreview?.length && (
+        <ImageViewer
+          src={imgsToPreview}
+          // currentIndex={ currentImage }
+          disableScroll={true}
+          closeOnClickOutside={true}
+          onClose={() => setImgsToPreview([])}
+        />
+      )}
 
     </div>
   )
