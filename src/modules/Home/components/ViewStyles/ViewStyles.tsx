@@ -8,16 +8,17 @@ import { useNavigate } from 'react-router-dom';
 import Search from '../../../../common/_custom/Search/Search';
 import { categoriesMap, materialsMap } from '../../../../store/constants/style-constants';
 import StylesTable from './StylesTable/StylesTable';
-import { useDebounce } from '../../../../utils/hooks';
+import { useAppDispatch, useAppSelector, useDebounce } from '../../../../utils/hooks';
 import ImageViewer from 'react-simple-image-viewer';
+import { setSearchTerm, setStyleData } from '../../../../store/viewStyles/actions';
 
 function ViewStyles({ setStyleToEdit }) {
 
   const navigate = useNavigate();
-  const [stylesData, setStylesData] = useState<any>([]);
+  const dispatch = useAppDispatch();
+  const viewStylesData = useAppSelector((state) => state.viewStyles);
   const [imgsToPreview, setImgsToPreview] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 1500);
+  const debouncedSearchTerm = useDebounce(viewStylesData.searchTerm, 1500);
 
   useEffect(() => {
     // getData();
@@ -27,6 +28,10 @@ function ViewStyles({ setStyleToEdit }) {
     search(debouncedSearchTerm);
   }, [debouncedSearchTerm])
 
+  const changeSearchTerm = (value) => {
+    dispatch(setSearchTerm(value));
+  }
+
   const getData = async () => {
     const q = query(collection(db, "styles"), orderBy("name"), limit(50));
     const querySnapshot = await getDocs(q);
@@ -34,7 +39,7 @@ function ViewStyles({ setStyleToEdit }) {
     querySnapshot.forEach((doc) => {
       data.push(doc.data())
     })
-    setStylesData(data);
+    // setStylesData(data);
   }
 
   const search = async (searchTerm) => {
@@ -46,7 +51,8 @@ function ViewStyles({ setStyleToEdit }) {
     querySnapshot.forEach((doc) => {
       data.push(doc.data())
     });
-    setStylesData(data);
+    dispatch(setStyleData(data));
+    // setStylesData(data);
   }
 
   const handleEdit = (styleData) => {
@@ -57,10 +63,10 @@ function ViewStyles({ setStyleToEdit }) {
   return (
     <div className={styles.ViewStyles}>
       <div className={styles.Filters}>
-        <Search value={searchTerm} onChange={(val) => setSearchTerm(val)} style={{ marginTop: 0 }} placeholder='Search by Style Serial / Code / Name' />
+        <Search value={viewStylesData.searchTerm} onChange={(val) => changeSearchTerm(val)} style={{ marginTop: 0 }} placeholder='Search by Style Serial / Code / Name' />
         <div></div>
       </div>
-      <StylesTable stylesData={stylesData} handleEdit={handleEdit} setImgsToPreview={setImgsToPreview} />
+      <StylesTable stylesData={viewStylesData.stylesData} handleEdit={handleEdit} setImgsToPreview={setImgsToPreview} />
       {!!imgsToPreview?.length && (
         <ImageViewer
           src={imgsToPreview}
