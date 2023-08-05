@@ -3,6 +3,9 @@
 
   .Filters {
     font-size: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
   }
 
   .Table {

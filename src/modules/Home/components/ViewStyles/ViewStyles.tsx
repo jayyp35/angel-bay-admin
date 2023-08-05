@@ -5,11 +5,13 @@ import { db } from '../../../../utils/firebase/firebase';
 import clsx from 'clsx';
 import Button from '../../../../common/_custom/Button/Button';
 import { useNavigate } from 'react-router-dom';
+import Search from '../../../../common/_custom/Search/Search';
 
 function ViewStyles({ setStyleToEdit }) {
 
   const navigate = useNavigate();
   const [stylesData, setStylesData] = useState<any>([]);
+  const [searchTerm, setSearchTerm] = useState('');
   useEffect(() => {
     getData();
   }, [])
@@ -35,7 +37,10 @@ function ViewStyles({ setStyleToEdit }) {
 
   return (
     <div className={styles.ViewStyles}>
-      <div className={styles.Filters}>Search</div>
+      <div className={styles.Filters}>
+        <Search value={searchTerm} onChange={(val) => setSearchTerm(val)} style={{ marginTop: 0 }} placeholder='Search by Style Serial / Code / Name' />
+        <div></div>
+      </div>
       <div className={styles.Table}>
         <div className={clsx(styles.SingleStyle, styles.Header)}>
           <div>Images</div>
