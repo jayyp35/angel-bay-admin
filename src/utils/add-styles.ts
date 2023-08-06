@@ -9,7 +9,7 @@ export const modifyStyleFormData = (formData) => {
     ...formData,
     [CONSTANTS.MATERIALS]: formData[CONSTANTS.MATERIALS].map((material) => material.value),
     [CONSTANTS.CATEGORIES]: formData[CONSTANTS.CATEGORIES].map((category) => category.value),
-    searchTerms: [...styleNumberSearches, ...styleCodeSearches]
+    z_searchTerms: [...styleNumberSearches, ...styleCodeSearches]
   }
 }
 

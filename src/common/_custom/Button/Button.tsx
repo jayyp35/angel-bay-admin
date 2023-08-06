@@ -13,6 +13,7 @@ interface ButtonProps {
     loadingText?: string;
     buttonRef?: any;
     fit?: boolean;
+    rounded?: boolean;
 }
 function Button({
     text = 'Button',
@@ -24,6 +25,7 @@ function Button({
     loadingText = '',
     buttonRef,
     fit = false,
+    rounded = false,
 }: ButtonProps) {
     return (
         <div
@@ -33,7 +35,8 @@ function Button({
                 [styles.BlueInverted]: variant === 'blueinverted',
                 [styles.Disabled]: disabled,
                 [styles.ClickDisabled]: loading,
-                [styles.Fit]: fit
+                [styles.Fit]: fit,
+                [styles.Rounded]: rounded
             })}
             onClick={onClick}
             style={style}

@@ -5,14 +5,14 @@ import Text from '../../../../common/_custom/Text/Text';
 import styles from './EditStyles.module.scss';
 import ImgCard from '../../../../common/_custom/ImgCard/ImgCard';
 import clsx from 'clsx';
-import Button from '../../../../common/_custom/Button/Button';
 import Sizes from './Sizes/Sizes';
 import { db } from '../../../../utils/firebase/firebase';
 import { toast } from 'react-toastify';
 import RightSection from './RightSection/RightSection';
 import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { getStyleFormData, modifyStyleFormData } from '../../../../utils/add-styles';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import backicon from '../../../../assets/chevron-back.svg';
 
 
 function EditStyles({ styleToEdit }) {
@@ -146,6 +146,10 @@ function EditStyles({ styleToEdit }) {
     <div className={styles.EditStyles}>
 
       <div className={styles.MainSection}>
+        <div className={styles.Back} onClick={() => navigate(-1)}>
+          <img src={backicon} alt='back' height={'20px'} />
+          Back
+        </div>
         <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
           <Input label='Serial Number' value={formData[CONSTANTS.SERIAL]} onChange={(val) => changeFormData(CONSTANTS.SERIAL, val)} disabled={addSuccess} />
           <Input label='Style Code' value={formData[CONSTANTS.STYLE_CODE]} onChange={(val) => changeFormData(CONSTANTS.STYLE_CODE, val)} disabled={addSuccess} />
@@ -157,13 +161,14 @@ function EditStyles({ styleToEdit }) {
 
         <div
           className={clsx(styles.Card, { [styles.InactiveCard]: !formData[CONSTANTS.SIZES] })}
+          onClick={onReadyStocksAvailableClick}
           style={{
             cursor: addSuccess ? 'not-allowed' : '',
             pointerEvents: addSuccess ? 'none' : 'all'
           }}
         >
           {formData[CONSTANTS.SIZES] ? <Sizes formData={formData} changeSizesData={changeSizesData} /> : (
-            <div onClick={onReadyStocksAvailableClick}>
+            <div>
               {addSuccess ? 'No Ready Stocks Added' : 'Click to Add Ready Stocks'}
             </div>
           )}

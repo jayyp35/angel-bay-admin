@@ -39,7 +39,7 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
             ))}
           </div>
           <div>
-            <Button text='Edit' variant='black' onClick={() => handleEdit(style)} fit />
+            <Button text='Edit' variant='black' onClick={() => handleEdit(style)} fit style={{ marginTop: '0' }} rounded />
           </div>
 
         </div>

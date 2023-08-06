@@ -144,9 +144,10 @@ function AddStyles({ setStyleToEdit }) {
             cursor: addSuccess ? 'not-allowed' : '',
             pointerEvents: addSuccess ? 'none' : 'all'
           }}
+          onClick={onReadyStocksAvailableClick}
         >
           {formData[CONSTANTS.SIZES] ? <Sizes formData={formData} changeSizesData={changeSizesData} /> : (
-            <div onClick={onReadyStocksAvailableClick}>
+            <div >
               {addSuccess ? 'No Ready Stocks Added' : 'Click to Add Ready Stocks'}
             </div>
           )}
