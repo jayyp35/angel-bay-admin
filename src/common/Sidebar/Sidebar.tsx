@@ -18,7 +18,7 @@ function Sidebar() {
       if (window.location.pathname.includes(pages[i].id)) {
         setSelectedOption(pages[i].id)
         break;
-      }
+      } else if (i === pages?.length - 1) setSelectedOption('')
     }
   }, [])
 
