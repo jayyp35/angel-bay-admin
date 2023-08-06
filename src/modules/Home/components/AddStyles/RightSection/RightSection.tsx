@@ -16,7 +16,7 @@ function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMat
           options={materials}
           isMulti
           name='Material'
-          placeholder='Select Material'
+          placeholder='Materials'
           className={styles.Select}
           isDisabled={addSuccess}
           onChange={onAddMaterial}
@@ -48,7 +48,9 @@ function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMat
             Is there something wrong with the data entered?
             <Button text='Edit' onClick={onEdit} disabled={adding} style={{ marginTop: '10px' }} />
           </div>
-
+          <div style={{ marginTop: '30px' }}>
+            <Button text='Add Another Style' onClick={() => window.location.reload()} disabled={adding} style={{ marginTop: '10px' }} />
+          </div>
         </div>
       ) : (
         <Button text='Add Style' onClick={onAddClick} loading={adding} disabled={adding} />
