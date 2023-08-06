@@ -19,6 +19,7 @@ function AddStyles({ setStyleToEdit }) {
 
   const navigate = useNavigate();
   const [adding, setAdding] = useState(false);
+  const [imagesUploading, setImagesUploading] = useState(false);
   const [addSuccess, setAddSuccess] = useState(false);
   const [formData, setFormData] = useState<any>({
     [CONSTANTS.STYLE_CODE]: '',
@@ -30,6 +31,22 @@ function AddStyles({ setStyleToEdit }) {
     [CONSTANTS.MATERIALS]: [],
     [CONSTANTS.CATEGORIES]: []
   });
+
+  const resetAllData = () => {
+    setAdding(false)
+    setImagesUploading(false)
+    setAddSuccess(false)
+    setFormData({
+      [CONSTANTS.STYLE_CODE]: '',
+      [CONSTANTS.NAME]: '',
+      [CONSTANTS.SERIAL]: '',
+      [CONSTANTS.DESCRIPTION]: '',
+      [CONSTANTS.PRICE]: '',
+      [CONSTANTS.IMAGES]: [],
+      [CONSTANTS.MATERIALS]: [],
+      [CONSTANTS.CATEGORIES]: []
+    })
+  }
 
   const changeFormData = (key: string, value: string) => {
     setFormData((formData) => ({
@@ -56,7 +73,8 @@ function AddStyles({ setStyleToEdit }) {
     setFormData((formData) => ({
       ...formData,
       [CONSTANTS.IMAGES]: [...formData[CONSTANTS.IMAGES], ...imgUrls]
-    }))
+    }));
+    setImagesUploading(false);
   }
 
   const onReadyStocksAvailableClick = () => {
@@ -160,6 +178,7 @@ function AddStyles({ setStyleToEdit }) {
             onUploadSuccess={onImagesUploadSuccess}
             errorMessage={validateStyleData()}
             disabled={addSuccess}
+            onUploadStart={() => setImagesUploading(true)}
           />
         </div>
 
@@ -169,11 +188,13 @@ function AddStyles({ setStyleToEdit }) {
         <RightSection
           addSuccess={addSuccess}
           onAddClick={addData}
-          adding={adding}
+          adding={adding || imagesUploading}
           onAddCatergory={onAddCatergory}
           onAddMaterial={onAddMaterial}
           formData={formData}
-          onEdit={onEdit} />
+          onEdit={onEdit}
+          resetAllData={resetAllData}
+        />
       </div>
 
     </div>

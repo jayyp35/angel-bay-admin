@@ -5,7 +5,7 @@ import Select from 'react-select';
 import done from '../../../../../assets/done-animated.gif';
 import { useNavigate } from 'react-router-dom';
 
-function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMaterial, formData, onEdit }) {
+function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMaterial, formData, onEdit, resetAllData }) {
   const navigate = useNavigate();
 
   return (
@@ -51,7 +51,7 @@ function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMat
             <Button text='Edit' onClick={onEdit} disabled={adding} style={{ marginTop: '10px' }} />
           </div>
           <div style={{ marginTop: '30px' }}>
-            <Button text='Add Another Style' onClick={() => window.location.reload()} disabled={adding} style={{ marginTop: '10px' }} />
+            <Button text='Add Another Style' onClick={() => resetAllData()} disabled={adding} style={{ marginTop: '10px' }} />
           </div>
         </div>
       ) : (

@@ -11,12 +11,14 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 function ImgCard({
   images,
   path,
-  onUploadSuccess,
   errorMessage,
-  disabled = false
+  disabled = false,
+  onUploadStart,
+  onUploadSuccess,
 }: {
   images: string[];
   path: string;
+  onUploadStart?: Function;
   onUploadSuccess: Function;
   errorMessage: string;
   disabled?: boolean;
@@ -99,6 +101,7 @@ function ImgCard({
   }
 
   const handleUpload = async () => {
+    onUploadStart?.();
     Array.from(files)?.forEach(async (file, index) => {
       const compressedFile = await imageCompression(file, {
         maxSizeMB: 0.1,
