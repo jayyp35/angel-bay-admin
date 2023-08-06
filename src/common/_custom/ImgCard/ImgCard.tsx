@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { storage } from '../../../utils/firebase/firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { toast } from 'react-toastify';
+import imageCompression from 'browser-image-compression';
 import ImageViewer from 'react-simple-image-viewer';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 function ImgCard({
   images,
@@ -96,10 +98,14 @@ function ImgCard({
     inputRef.current?.click?.()
   }
 
-  const handleUpload = () => {
-    Array.from(files)?.forEach((file, index) => {
+  const handleUpload = async () => {
+    Array.from(files)?.forEach(async (file, index) => {
+      const compressedFile = await imageCompression(file, {
+        maxSizeMB: 0.1,
+        useWebWorker: true
+      });
       const storageRef = ref(storage, `/styleimgs/${path}/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      const uploadTask = uploadBytesResumable(storageRef, compressedFile);
 
       uploadTask.on(
         "state_changed",
@@ -124,9 +130,16 @@ function ImgCard({
 
   const getProgress = (percent) => {
     return (
-      <div className={styles.ProgressContainer} style={{ visibility: (percent === null || percent === 100) ? 'hidden' : 'visible' }}>
-        <div className={styles.ProgressBar} style={{ width: `${percent}%` }}></div>
-      </div>
+      <>
+        <div className={styles.ProgressContainer} style={{ visibility: (percent === null || percent === 100) ? 'hidden' : 'visible' }}>
+          <div className={styles.ProgressBar} style={{ width: `${percent}%` }}></div>
+        </div>
+
+        {(percent || percent === 0) && <div className={styles.LoadingOverlay}>
+          <LoadingSpinner />
+        </div>}
+      </>
+
     )
   }
 
@@ -147,7 +160,7 @@ function ImgCard({
       ))}
 
       {!!filesToShow?.length && filesToShow?.map((file, i) => (
-        <div key={`${file.name}-${i}`}>
+        <div key={`${file.name}-${i}`} style={{ position: 'relative' }}>
           <div className={styles.ImgCard}>
             <img src={file?.imageUrl || URL.createObjectURL(files[i]) || ''} alt="" width='100%' />
           </div>

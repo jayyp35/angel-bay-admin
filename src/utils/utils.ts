@@ -6,7 +6,7 @@ export function getAllSubstrings(str) {
       const substring = str.slice(i, j);
       if (substring !== "") {
         // @ts-ignore
-        substrings.push(substring);
+        substrings.push(substring?.toLowerCase());
       }
     }
   }

@@ -42,9 +42,9 @@ function ViewStyles({ setStyleToEdit }) {
     // setStylesData(data);
   }
 
-  const search = async (searchTerm) => {
+  const search = async (searchTerm = '') => {
     let data: any = [];
-    const searchQuery = query(collection(db, "styles"), where('searchTerms', 'array-contains', searchTerm), limit(50));
+    const searchQuery = query(collection(db, "styles"), where('searchTerms', 'array-contains', searchTerm?.toLowerCase?.()), limit(50));
     const allQuery = query(collection(db, "styles"), orderBy("name"), limit(50));
     let selectedQuery = searchTerm ? searchQuery : allQuery;
     const querySnapshot = await getDocs(selectedQuery);
