@@ -3,6 +3,20 @@
     padding: 24px;
     border-bottom: 1px solid #e5e5e5;
     height: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .Subtext {
+      color: #000000bd;
+      font-size: 14px;
+
+      .email {
+        color: #b91680;
+        font-weight: 600;
+      }
+    }
   }
 
   .MainApp {

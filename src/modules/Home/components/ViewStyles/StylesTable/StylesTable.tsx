@@ -9,7 +9,7 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
       <div className={clsx(styles.SingleStyle, styles.Header)}>
         <div>Images</div>
         <div>Style Code/ Serial Number</div>
-        <div>Name</div>
+        <div>Price</div>
         <div>Materials</div>
         <div>Categories</div>
         <div>Actions</div>
@@ -23,10 +23,10 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
             ))}
           </div>
           <div>
-            {style.styleCode || '-'} / {style.serialNumber || '-'}
+            {style.serialNumber || style.styleCode || '-'}
           </div>
           <div>
-            {style?.name || "-"}
+            {style?.price ? `${style.price}/-` : "-"}
           </div>
           <div className={styles.Badges}>
             {style?.materials?.map((material) => (

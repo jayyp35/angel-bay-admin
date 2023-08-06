@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { useAppSelector } from '../../utils/hooks';
 import styles from './Home.module.scss';
 import Sidebar from '../../common/Sidebar/Sidebar';
+import ABLogo from '../../common/ABLogo.tsx/ABLogo';
 
 function Home() {
 
@@ -9,8 +10,15 @@ function Home() {
   return (
     <div className={styles.Home}>
       <div className={styles.Top}>
-        Welcome
-        <div className={styles.Subtext}>Signed in As: {userData?.displayName ?? userData?.email}</div>
+        <div>
+          <ABLogo fontSize='50px' />
+        </div>
+        <div>
+          <div className={styles.Subtext}>
+            Signed in as:
+            <span className={styles.email}> {userData?.displayName ?? userData?.email}</span>
+          </div>
+        </div>
       </div>
 
       <div className={styles.MainApp}>

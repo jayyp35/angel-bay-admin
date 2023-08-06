@@ -18,6 +18,11 @@ body {
 }
 
 @font-face {
+  font-family: champagne;
+  src: url(../assets/fonts/champage-cyrillic.ttf);
+}
+
+@font-face {
   font-family: 'Gilroy-Light';
   src: local('Gilroy'), url(../assets/fonts/Gilroy-Light.ttf) format('truetype');
   font-weight: 300;
