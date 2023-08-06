@@ -17,21 +17,21 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getData();
+    // getData();
   }, [])
 
-  const getData = async () => {
-    const usersSnapshot = await getDocs(usersRef);
-    const collectionsSnapshot = await getDocs(collectionsRef);
+  // const getData = async () => {
+  //   const usersSnapshot = await getDocs(usersRef);
+  //   const collectionsSnapshot = await getDocs(collectionsRef);
 
-    usersSnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-    });
+  //   usersSnapshot.forEach((doc) => {
+  //     console.log(doc.id, " => ", doc.data());
+  //   });
 
-    collectionsSnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-    });
-  }
+  //   collectionsSnapshot.forEach((doc) => {
+  //     console.log(doc.id, " => ", doc.data());
+  //   });
+  // }
 
   return (
     <div className="App">

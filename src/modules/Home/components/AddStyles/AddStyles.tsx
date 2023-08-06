@@ -115,7 +115,7 @@ function AddStyles({ setStyleToEdit }) {
   }
 
   const validateStyleData = () => {
-    if (!(formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL])) return 'Please enter valid Style Code OR Serial'
+    if (!(formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL])) return 'Please enter valid Serial Or Style Code'
     if (!formData[CONSTANTS.PRICE]) return 'Please enter a valid Price'
     return '';
   }

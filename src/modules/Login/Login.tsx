@@ -6,6 +6,7 @@ import Button from '../../common/_custom/Button/Button';
 import { auth } from '../../utils/firebase/firebase';
 import { useAppDispatch } from '../../utils/hooks';
 import { setUserData } from '../../store/user/action';
+import { useNavigate } from 'react-router-dom';
 
 export const EMAIL = 'EMAIL';
 export const PASSWORD = 'PASSWORD';
@@ -13,6 +14,7 @@ export const PASSWORD = 'PASSWORD';
 function Login() {
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     [EMAIL]: '',
     [PASSWORD]: ''
@@ -28,12 +30,16 @@ function Login() {
   const onLoginClick = () => {
     signInWithEmailAndPassword(auth, formData[EMAIL], formData[PASSWORD])
       .then((userCredential) => {
+        console.log('logged in stats', userCredential.user)
+
         const user = userCredential.user;
         saveUserData(user);
+        navigate('/home/view-styles');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.error(errorCode, errorMessage)
       });
   }
 

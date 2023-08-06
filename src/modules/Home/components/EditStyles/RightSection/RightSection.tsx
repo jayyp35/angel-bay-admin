@@ -11,33 +11,36 @@ function RightSection({ addSuccess, onAddClick, adding, onAddCatergory, onAddMat
 
   return (
     <div className={styles.RightSection}>
-      <div className={styles.Section}>
-        Select Materials
-        <Select
-          options={materials}
-          isMulti
-          name='Material'
-          placeholder='Materials'
-          className={styles.Select}
-          isDisabled={addSuccess}
-          onChange={onAddMaterial}
-          value={formData[CONSTANTS.MATERIALS]}
-        />
+      <div className={styles.Top}>
+        <div className={styles.Section}>
+          Select Materials
+          <Select
+            options={materials}
+            isMulti
+            name='Material'
+            placeholder='Materials'
+            className={styles.Select}
+            isDisabled={addSuccess}
+            onChange={onAddMaterial}
+            value={formData[CONSTANTS.MATERIALS]}
+          />
+        </div>
+
+        <div className={styles.Section}>
+          Select Categories
+          <Select
+            options={categories}
+            isMulti
+            name='Categories'
+            placeholder='Categories'
+            className={styles.Select}
+            isDisabled={addSuccess}
+            onChange={onAddCatergory}
+            value={formData[CONSTANTS.CATEGORIES]}
+          />
+        </div>
       </div>
 
-      <div className={styles.Section}>
-        Select Categories
-        <Select
-          options={categories}
-          isMulti
-          name='Categories'
-          placeholder='Categories'
-          className={styles.Select}
-          isDisabled={addSuccess}
-          onChange={onAddCatergory}
-          value={formData[CONSTANTS.CATEGORIES]}
-        />
-      </div>
 
       {addSuccess ? (
         <div>
