@@ -1,110 +1,109 @@
-import { useEffect, useState } from 'react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import Input from '../../../../common/_custom/Input2/Input';
-import Text from '../../../../common/_custom/Text/Text';
-import styles from './AddStyles.module.scss';
-import ImgCard from '../../../../common/_custom/ImgCard/ImgCard';
-import clsx from 'clsx';
-import Button from '../../../../common/_custom/Button/Button';
-import Sizes from './Sizes/Sizes';
-import { db } from '../../../../utils/firebase/firebase';
-import { toast } from 'react-toastify';
-import RightSection from './RightSection/RightSection';
-import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
-import { modifyStyleFormData } from '../../../../utils/add-styles';
-import { useNavigate } from 'react-router-dom';
-
+import { useEffect, useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import Input from "../../../../common/_custom/Input2/Input";
+import Text from "../../../../common/_custom/Text/Text";
+import styles from "./AddStyles.module.scss";
+import ImgCard from "../../../../common/_custom/ImgCard/ImgCard";
+import clsx from "clsx";
+import Button from "../../../../common/_custom/Button/Button";
+import Sizes from "./Sizes/Sizes";
+import { db } from "../../../../utils/firebase/firebase";
+import { toast } from "react-toastify";
+import RightSection from "./RightSection/RightSection";
+import { CONSTANTS, SIZE } from "../../../../store/constants/style-constants";
+import { modifyStyleFormData } from "../../../../utils/add-styles";
+import { useNavigate } from "react-router-dom";
 
 function AddStyles({ setStyleToEdit }) {
-
   const navigate = useNavigate();
   const [adding, setAdding] = useState(false);
   const [imagesUploading, setImagesUploading] = useState(false);
   const [addSuccess, setAddSuccess] = useState(false);
   const [formData, setFormData] = useState<any>({
-    [CONSTANTS.STYLE_CODE]: '',
-    [CONSTANTS.NAME]: '',
-    [CONSTANTS.SERIAL]: '',
-    [CONSTANTS.DESCRIPTION]: '',
-    [CONSTANTS.PRICE]: '',
+    [CONSTANTS.STYLE_CODE]: "",
+    [CONSTANTS.NAME]: "",
+    [CONSTANTS.SERIAL]: "",
+    [CONSTANTS.DESCRIPTION]: "",
+    [CONSTANTS.PRICE]: "",
+    [CONSTANTS.KEYWORDS]: "",
     [CONSTANTS.IMAGES]: [],
     [CONSTANTS.MATERIALS]: [],
-    [CONSTANTS.CATEGORIES]: []
+    [CONSTANTS.CATEGORIES]: [],
   });
 
   const resetAllData = () => {
-    setAdding(false)
-    setImagesUploading(false)
-    setAddSuccess(false)
+    setAdding(false);
+    setImagesUploading(false);
+    setAddSuccess(false);
     setFormData({
-      [CONSTANTS.STYLE_CODE]: '',
-      [CONSTANTS.NAME]: '',
-      [CONSTANTS.SERIAL]: '',
-      [CONSTANTS.DESCRIPTION]: '',
-      [CONSTANTS.PRICE]: '',
+      [CONSTANTS.STYLE_CODE]: "",
+      [CONSTANTS.NAME]: "",
+      [CONSTANTS.SERIAL]: "",
+      [CONSTANTS.DESCRIPTION]: "",
+      [CONSTANTS.PRICE]: "",
       [CONSTANTS.IMAGES]: [],
       [CONSTANTS.MATERIALS]: [],
-      [CONSTANTS.CATEGORIES]: []
-    })
-  }
+      [CONSTANTS.CATEGORIES]: [],
+    });
+  };
 
   const changeFormData = (key: string, value: string) => {
     setFormData((formData) => ({
       ...formData,
-      [key]: value
-    }))
-  }
+      [key]: value,
+    }));
+  };
 
   const changeSizesData = (sizekey: string, value: string) => {
     setFormData((formData) => ({
       ...formData,
       [CONSTANTS.SIZES]: {
         ...formData[CONSTANTS.SIZES],
-        [sizekey]: (value)
-      }
-    }))
-  }
+        [sizekey]: value,
+      },
+    }));
+  };
 
   const onImagesUploadSuccess = (files = []) => {
     let imgUrls: any = [];
     files.forEach((file: any) => {
       imgUrls.push(file.imageUrl);
-    })
+    });
     setFormData((formData) => ({
       ...formData,
-      [CONSTANTS.IMAGES]: [...formData[CONSTANTS.IMAGES], ...imgUrls]
+      [CONSTANTS.IMAGES]: [...formData[CONSTANTS.IMAGES], ...imgUrls],
     }));
     setImagesUploading(false);
-  }
+  };
 
   const onReadyStocksAvailableClick = () => {
     setFormData((formData) => ({
       ...formData,
       [CONSTANTS.SIZES]: {
-        [SIZE.S]: '0',
-        [SIZE.M]: '0',
-        [SIZE.L]: '0',
-        [SIZE.XL]: '0',
-        [SIZE.XXL]: '0'
-      }
-    }))
-  }
+        [SIZE.S]: "0",
+        [SIZE.M]: "0",
+        [SIZE.L]: "0",
+        [SIZE.XL]: "0",
+        [SIZE.XXL]: "0",
+      },
+    }));
+  };
 
   const onAddCatergory = (categories) => {
     // const categories = options?.map((option) => option?.value) || [];
     setFormData((formData) => ({
       ...formData,
-      [CONSTANTS.CATEGORIES]: categories
-    }))
-  }
+      [CONSTANTS.CATEGORIES]: categories,
+    }));
+  };
 
   const onAddMaterial = (materials) => {
     // const categories = options?.map((option) => option?.value) || [];
     setFormData((formData) => ({
       ...formData,
-      [CONSTANTS.MATERIALS]: materials
-    }))
-  }
+      [CONSTANTS.MATERIALS]: materials,
+    }));
+  };
 
   const addData = async () => {
     setAdding(true);
@@ -119,54 +118,93 @@ function AddStyles({ setStyleToEdit }) {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setAdding(false);
-      return toast.error('This style code already exists')
+      return toast.error("This style code already exists");
     }
     try {
       await setDoc(doc(db, "styles", docId), data);
       setAddSuccess(true);
-      setAdding(false)
-
+      setAdding(false);
     } catch (err) {
-      setAdding(false)
-      console.log('err', err);
+      setAdding(false);
+      console.log("err", err);
     }
-  }
+  };
 
   const validateStyleData = () => {
-    if (!(formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL])) return 'Please enter valid Serial Or Style Code'
-    if (!formData[CONSTANTS.PRICE]) return 'Please enter a valid Price'
-    return '';
-  }
+    if (!(formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL]))
+      return "Please enter valid Serial Or Style Code";
+    if (!formData[CONSTANTS.PRICE]) return "Please enter a valid Price";
+    return "";
+  };
 
   const onEdit = () => {
     setStyleToEdit(formData);
-    navigate(`/home/edit-styles/${formData[CONSTANTS.SERIAL] || formData[CONSTANTS.STYLE_CODE]}`)
-  }
+    navigate(
+      `/home/edit-styles/${
+        formData[CONSTANTS.SERIAL] || formData[CONSTANTS.STYLE_CODE]
+      }`
+    );
+  };
 
   return (
     <div className={styles.AddStyles}>
-
       <div className={styles.MainSection}>
-        <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
-          <Input label='Serial Number' value={formData[CONSTANTS.SERIAL]} onChange={(val) => changeFormData(CONSTANTS.SERIAL, val)} disabled={addSuccess} maxLength={10} />
-          <Input label='Style Code' value={formData[CONSTANTS.STYLE_CODE]} onChange={(val) => changeFormData(CONSTANTS.STYLE_CODE, val)} disabled={addSuccess} maxLength={10} />
-          <Input label='Price' value={formData[CONSTANTS.PRICE]} onChange={(val) => changeFormData(CONSTANTS.PRICE, val)} prefill='₹' pattern='[0-9]*' disabled={addSuccess} />
-
+        <div className={styles.DoubleRow} style={{ marginTop: "0" }}>
+          <Input
+            label="Serial Number"
+            value={formData[CONSTANTS.SERIAL]}
+            onChange={(val) => changeFormData(CONSTANTS.SERIAL, val)}
+            disabled={addSuccess}
+            maxLength={10}
+          />
+          <Input
+            label="Style Code"
+            value={formData[CONSTANTS.STYLE_CODE]}
+            onChange={(val) => changeFormData(CONSTANTS.STYLE_CODE, val)}
+            disabled={addSuccess}
+            maxLength={10}
+          />
+          <Input
+            label="Price"
+            value={formData[CONSTANTS.PRICE]}
+            onChange={(val) => changeFormData(CONSTANTS.PRICE, val)}
+            prefill="₹"
+            pattern="[0-9]*"
+            disabled={addSuccess}
+          />
+          <Input
+            label="Keywords"
+            placeholder="(Enter search keywords separated by space)"
+            value={formData[CONSTANTS.KEYWORDS]}
+            onChange={(val) => changeFormData(CONSTANTS.KEYWORDS, val)}
+            disabled={addSuccess}
+          />
         </div>
 
-        <Text label='Description' value={formData[CONSTANTS.DESCRIPTION]} onChange={(val) => changeFormData(CONSTANTS.DESCRIPTION, val)} disabled={addSuccess} />
+        <Text
+          label="Description"
+          value={formData[CONSTANTS.DESCRIPTION]}
+          onChange={(val) => changeFormData(CONSTANTS.DESCRIPTION, val)}
+          disabled={addSuccess}
+        />
 
         <div
-          className={clsx(styles.Card, { [styles.InactiveCard]: !formData[CONSTANTS.SIZES] })}
+          className={clsx(styles.Card, {
+            [styles.InactiveCard]: !formData[CONSTANTS.SIZES],
+          })}
           style={{
-            cursor: addSuccess ? 'not-allowed' : '',
-            pointerEvents: addSuccess ? 'none' : 'all'
+            cursor: addSuccess ? "not-allowed" : "",
+            pointerEvents: addSuccess ? "none" : "all",
           }}
           onClick={onReadyStocksAvailableClick}
         >
-          {formData[CONSTANTS.SIZES] ? <Sizes formData={formData} changeSizesData={changeSizesData} /> : (
-            <div >
-              {addSuccess ? 'No Ready Stocks Added' : 'Click to Add Ready Stocks'}
+          {formData[CONSTANTS.SIZES] ? (
+            <Sizes formData={formData} changeSizesData={changeSizesData} />
+          ) : (
+            <div>
+              {addSuccess
+                ? "No Ready Stocks Added"
+                : "Click to Add Ready Stocks"}
             </div>
           )}
         </div>
@@ -181,7 +219,6 @@ function AddStyles({ setStyleToEdit }) {
             onUploadStart={() => setImagesUploading(true)}
           />
         </div>
-
       </div>
 
       <div className={styles.Right}>
@@ -196,9 +233,8 @@ function AddStyles({ setStyleToEdit }) {
           resetAllData={resetAllData}
         />
       </div>
-
     </div>
-  )
+  );
 }
 
-export default AddStyles
+export default AddStyles;

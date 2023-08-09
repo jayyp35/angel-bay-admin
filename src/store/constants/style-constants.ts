@@ -31,7 +31,8 @@ export const CONSTANTS = {
   PRICE: 'price',
   SIZES: 'sizes',
   IMAGES: 'images',
-  CATEGORIES: 'categories'
+  CATEGORIES: 'categories',
+  KEYWORDS: 'keywords'
 }
 export const SIZE = {
   S: 's',
