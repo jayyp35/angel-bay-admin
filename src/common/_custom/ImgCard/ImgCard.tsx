@@ -253,6 +253,7 @@ function ImgCard({
 
             {!!deleteItem && (
                 <Modal
+                    withoutCloseButton
                     size='tiny'
                     open={!!deleteItem}
                     onClose={() => setDeleteItem(false)}
@@ -265,7 +266,7 @@ function ImgCard({
                             columnGap: '10px',
                             justifyContent: 'flex-end',
                         }}>
-                        <Button text='Confirm' onClick={confirmDelete} small />
+                        <Button text='Confirm' onClick={confirmDelete} small loading={deleting} />
                         <Button
                             variant='white'
                             text='Cancel'

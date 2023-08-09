@@ -2,6 +2,7 @@ import { CONSTANTS, categoriesMap, materialsMap } from "../store/constants/style
 import { getAllSubstrings } from "./utils";
 
 export const modifyStyleFormData = (formData) => {
+  console.log('form data for mod is',formData)
   let styleCodeSearches = getAllSubstrings(formData[CONSTANTS.STYLE_CODE]);
   let styleNumberSearches = getAllSubstrings(formData[CONSTANTS.SERIAL]);;
 
