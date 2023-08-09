@@ -26,6 +26,34 @@
       transform: scale(1.1);
     }
   }
+
+  .Delete{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.ImgUploaded{
+  &:hover {
+    border: 1px dashed #c7c7c7;
+
+    &>img {
+      transition: all 10ms ease-in-out;
+      transform: none;
+    }
+  }
+
+  .Delete{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    &:hover {
+      transition: all 10ms ease-in-out;
+      transform: scale(1.1);
+    }
+  }
 }
 
 .ProgressContainer {

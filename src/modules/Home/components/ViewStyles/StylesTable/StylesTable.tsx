@@ -17,11 +17,11 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
             {stylesData.map((style: any, i) => (
                 <div key={style.serialNumber || style.styleCode} className={styles.SingleStyle}>
                     <div onClick={() => setImgsToPreview(style?.images)}>
-                        {style?.images?.map((imageUrl) => (
+                        {style?.images?.map((image) => (
                             <img
-                                key={imageUrl}
-                                src={imageUrl}
-                                alt="img"
+                                key={image.imageUrl}
+                                src={image.imageUrl}
+                                alt='img'
                                 height={'50px'}
                                 style={{ marginRight: '10px' }}
                             />
@@ -45,8 +45,8 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
                     </div>
                     <div>
                         <Button
-                            text="Edit"
-                            variant="black"
+                            text='Edit'
+                            variant='black'
                             onClick={() => handleEdit(style)}
                             fit
                             style={{ marginTop: '0' }}
