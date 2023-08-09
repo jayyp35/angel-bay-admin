@@ -1,12 +1,12 @@
-import styles from './ImgCard.module.scss';
-import plusIcon from '../../../assets/plus.svg';
-import { useEffect, useRef, useState } from 'react';
-import { storage } from '../../../utils/firebase/firebase';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { toast } from 'react-toastify';
-import imageCompression from 'browser-image-compression';
-import ImageViewer from 'react-simple-image-viewer';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import styles from "./ImgCard.module.scss";
+import plusIcon from "../../../assets/plus.svg";
+import { useEffect, useRef, useState } from "react";
+import { storage } from "../../../utils/firebase/firebase";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { toast } from "react-toastify";
+import imageCompression from "browser-image-compression";
+import ImageViewer from "react-simple-image-viewer";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 function ImgCard({
   images,
@@ -26,17 +26,19 @@ function ImgCard({
   const [files, setFiles] = useState<File[]>([]);
   const [filesToShow, setFilesToShow] = useState<any>([]);
   const [allUploaded, setAllUploaded] = useState(true);
-  const [showImagesPreview, setShowImagesPreview] = useState<boolean | number>(false);
+  const [showImagesPreview, setShowImagesPreview] = useState<boolean | number>(
+    false
+  );
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const showNotice = !!(filesToShow?.length && images?.length)
+  const showNotice = !!(filesToShow?.length && images?.length);
   function handleChange(event) {
     const files = Array.from(event.target.files).map((file: any) => ({
       name: file.name,
       size: file.size,
       type: file.type,
       uploadPercent: 0,
-      imageUrl: ''
+      imageUrl: "",
     }));
     setAllUploaded(false);
     setFiles(event.target.files);
@@ -48,22 +50,22 @@ function ImgCard({
       return files.map((file, j) => {
         return {
           ...file,
-          ...(index === j) ? { uploadPercent: percent } : {}
-        }
-      })
-    })
-  }
+          ...(index === j ? { uploadPercent: percent } : {}),
+        };
+      });
+    });
+  };
 
   const updateImageUrl = (url, index) => {
     setFilesToShow((files) => {
       return files.map((file, j) => {
         return {
           ...file,
-          ...(index === j) ? { imageUrl: url } : {}
-        }
-      })
-    })
-  }
+          ...(index === j ? { imageUrl: url } : {}),
+        };
+      });
+    });
+  };
 
   const checkIfAllComplete = () => {
     let allDone = true;
@@ -80,13 +82,13 @@ function ImgCard({
       onUploadSuccess(filesToShow);
       setFiles([]);
     }
-  }
+  };
 
   useEffect(() => {
     if (files?.length) {
-      handleUpload()
+      handleUpload();
     }
-  }, [files])
+  }, [files]);
 
   useEffect(() => {
     if (filesToShow?.length) {
@@ -96,19 +98,19 @@ function ImgCard({
 
   const onImgCardClick = () => {
     if (errorMessage) return toast.error(errorMessage);
-    if (!path) return toast.error('Upload Path Error');
-    inputRef.current?.click?.()
-  }
+    if (!path) return toast.error("Upload Path Error");
+    inputRef.current?.click?.();
+  };
 
   const handleUpload = async () => {
     onUploadStart?.();
     Array.from(files)?.forEach(async (file, index) => {
-      const compressedFile = await imageCompression(file, {
-        maxSizeMB: 0.1,
-        useWebWorker: true
-      });
+      // const compressedFile = await imageCompression(file, {
+      //   maxSizeMB: 1,
+      //   useWebWorker: true,
+      // });
       const storageRef = ref(storage, `/styleimgs/${path}/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, compressedFile);
+      const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
         "state_changed",
@@ -127,57 +129,81 @@ function ImgCard({
           });
         }
       );
-    })
-
+    });
   };
 
   const getProgress = (percent) => {
     return (
       <>
-        <div className={styles.ProgressContainer} style={{ visibility: (percent === null || percent === 100) ? 'hidden' : 'visible' }}>
-          <div className={styles.ProgressBar} style={{ width: `${percent}%` }}></div>
+        <div
+          className={styles.ProgressContainer}
+          style={{
+            visibility:
+              percent === null || percent === 100 ? "hidden" : "visible",
+          }}
+        >
+          <div
+            className={styles.ProgressBar}
+            style={{ width: `${percent}%` }}
+          ></div>
         </div>
 
-        {(percent || percent === 0) && <div className={styles.LoadingOverlay}>
-          <LoadingSpinner />
-        </div>}
+        {(percent || percent === 0) && (
+          <div className={styles.LoadingOverlay}>
+            <LoadingSpinner />
+          </div>
+        )}
       </>
-
-    )
-  }
+    );
+  };
 
   return (
     <div className={styles.Images}>
+      {!!images?.length &&
+        images?.map((file, i) => (
+          <div
+            key={`${file}-${i}`}
+            onClick={() => {
+              if (allUploaded) setShowImagesPreview(i);
+            }}
+          >
+            <div className={styles.ImgCard}>
+              <img src={file || ""} alt="" width="100%" />
+            </div>
+            {getProgress(null)}
+          </div>
+        ))}
 
-      {!!images?.length && images?.map((file, i) => (
-        <div key={`${file}-${i}`} onClick={() => {
-          if (allUploaded)
-            setShowImagesPreview(i)
-        }}
-        >
-          <div className={styles.ImgCard}>
-            <img src={file || ''} alt="" width='100%' />
+      {!!filesToShow?.length &&
+        filesToShow?.map((file, i) => (
+          <div key={`${file.name}-${i}`} style={{ position: "relative" }}>
+            <div className={styles.ImgCard}>
+              <img
+                src={file?.imageUrl || URL.createObjectURL(files[i]) || ""}
+                alt=""
+                width="100%"
+              />
+            </div>
+            {getProgress(file.uploadPercent)}
+          </div>
+        ))}
+
+      {!disabled && (
+        <div>
+          <div className={styles.ImgCard} onClick={onImgCardClick}>
+            <img src={plusIcon} alt="plus" height="15px" />
+            <input
+              className={styles.FileInput}
+              type="file"
+              ref={inputRef}
+              onChange={handleChange}
+              accept="/image/*"
+              multiple
+            />
           </div>
           {getProgress(null)}
         </div>
-      ))}
-
-      {!!filesToShow?.length && filesToShow?.map((file, i) => (
-        <div key={`${file.name}-${i}`} style={{ position: 'relative' }}>
-          <div className={styles.ImgCard}>
-            <img src={file?.imageUrl || URL.createObjectURL(files[i]) || ''} alt="" width='100%' />
-          </div>
-          {getProgress(file.uploadPercent)}
-        </div>
-      ))}
-
-      {!disabled && <div>
-        <div className={styles.ImgCard} onClick={onImgCardClick}>
-          <img src={plusIcon} alt='plus' height='15px' />
-          <input className={styles.FileInput} type='file' ref={inputRef} onChange={handleChange} accept='/image/*' multiple />
-        </div>
-        {getProgress(null)}
-      </div>}
+      )}
       {/* {showNotice && <div className={styles.Notice}>Please enter Serial Number/Style Code and Price before uploading any images.</div>} */}
 
       {!!(showImagesPreview !== false) && (
@@ -190,7 +216,7 @@ function ImgCard({
         />
       )}
     </div>
-  )
+  );
 }
 
 export default ImgCard;
