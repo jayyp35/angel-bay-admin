@@ -6,7 +6,7 @@ import Input from '../../../common/_custom/Input2/Input';
 import Button from '../../../common/_custom/Button/Button';
 import { INVOICE_CONSTANTS } from '../Invoicing';
 
-function Company({ createOrder, formData, changeValue }) {
+function Company({ createOrder, formData, changeValue, creating }) {
     const {
         NAME,
         PERSON_OF_CONTACT,
@@ -81,9 +81,8 @@ function Company({ createOrder, formData, changeValue }) {
                     onChange={(val) => changeValue([PIN], val)}
                     value={formData[PIN]}
                 />
+                <Button text='Create Order' onClick={createOrder} loading={creating} fit />
             </div>
-
-            <Button text='Create Order' onClick={onCreateClick} />
         </div>
     );
 }

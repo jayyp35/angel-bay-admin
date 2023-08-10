@@ -24,7 +24,7 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
                             <img
                                 key={image.imageUrl}
                                 src={image.imageUrl}
-                                alt='img'
+                                alt='-'
                                 height={'50px'}
                                 style={{ marginRight: '10px' }}
                             />

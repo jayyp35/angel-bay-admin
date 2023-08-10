@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import styles from './Invoicing.module.scss';
 import Company from './components/Company';
 import Right from './components/Right/Right';
+import { addInvoiceService } from '../../services/services';
+import { useAppSelector } from '../../utils/hooks';
 
 export const INVOICE_CONSTANTS = {
     NAME: 'name',
@@ -17,6 +19,7 @@ export const INVOICE_CONSTANTS = {
 };
 
 function Invoice(props) {
+    const user = useAppSelector((state) => state.user.userData);
     const [formData, setFormData] = useState({
         [INVOICE_CONSTANTS.NAME]: '',
         [INVOICE_CONSTANTS.PERSON_OF_CONTACT]: '',
@@ -27,6 +30,7 @@ function Invoice(props) {
         [INVOICE_CONSTANTS.LANDMARK]: '',
         [INVOICE_CONSTANTS.PIN]: '',
     });
+    const [creating, setCreating] = useState(false);
 
     const changeValue = (key, value) => {
         setFormData((formData) => ({
@@ -36,14 +40,25 @@ function Invoice(props) {
     };
 
     const createOrder = () => {
-        // const single_order = JSON.parse(JSON.stringify(singleOrderItem));
-        // setOrderData([single_order])
+        addInvoiceService(formData, user, {
+            onStart: () => {
+                setCreating(true);
+            },
+            finally: () => {
+                setCreating(false);
+            },
+        });
     };
 
     return (
         <div className={styles.Invoice}>
             <div className={styles.Left}>
-                <Company createOrder={createOrder} formData={formData} changeValue={changeValue} />
+                <Company
+                    createOrder={createOrder}
+                    formData={formData}
+                    changeValue={changeValue}
+                    creating={creating}
+                />
             </div>
 
             <div className={styles.Right}>
