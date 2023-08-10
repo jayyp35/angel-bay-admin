@@ -13,8 +13,10 @@ import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { getStyleFormData, modifyStyleFormData } from '../../../../utils/add-styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import backicon from '../../../../assets/chevron-back.svg';
+import { useAppSelector } from '../../../../utils/hooks';
 
 function EditStyles({ styleToEdit }) {
+    const user = useAppSelector((state) => state.user.userData);
     const [adding, setAdding] = useState(false);
     const [addSuccess, setAddSuccess] = useState(false);
     const [formData, setFormData] = useState<any>({
@@ -131,7 +133,7 @@ function EditStyles({ styleToEdit }) {
             return toast.error(errorMsg);
         }
         const docId = uploadData[CONSTANTS.STYLE_CODE] || uploadData[CONSTANTS.SERIAL];
-        const data = modifyStyleFormData(uploadData);
+        const data = modifyStyleFormData(uploadData, false, user);
 
         try {
             await setDoc(doc(db, 'styles', docId), data);

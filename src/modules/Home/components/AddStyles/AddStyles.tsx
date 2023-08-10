@@ -13,9 +13,11 @@ import RightSection from './RightSection/RightSection';
 import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { modifyStyleFormData } from '../../../../utils/add-styles';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../../../utils/hooks';
 
 function AddStyles({ setStyleToEdit }) {
     const navigate = useNavigate();
+    const user = useAppSelector((state) => state.user.userData);
     const [adding, setAdding] = useState(false);
     const [imagesUploading, setImagesUploading] = useState(false);
     const [addSuccess, setAddSuccess] = useState(false);
@@ -125,7 +127,7 @@ function AddStyles({ setStyleToEdit }) {
             return toast.error(errorMsg);
         }
         const docId = uploadData[CONSTANTS.STYLE_CODE] || uploadData[CONSTANTS.SERIAL];
-        const data = modifyStyleFormData(uploadData);
+        const data = modifyStyleFormData(uploadData, true, user);
         const docRef = doc(db, 'styles', docId);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -218,7 +220,7 @@ function AddStyles({ setStyleToEdit }) {
 
                 <div className={styles.Images}>
                     <ImgCard
-                        images={formData[CONSTANTS.IMAGES]?.map((img) => img.imageUrl) || []}
+                        images={formData[CONSTANTS.IMAGES]}
                         path={formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL]}
                         onUploadSuccess={onImagesUploadSuccess}
                         errorMessage={validateStyleData()}

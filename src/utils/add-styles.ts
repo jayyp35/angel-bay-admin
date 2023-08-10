@@ -1,8 +1,9 @@
+import { Timestamp } from "firebase/firestore";
 import { CONSTANTS, categoriesMap, materialsMap } from "../store/constants/style-constants"
 import { getAllSubstrings } from "./utils";
+import dayjs from "dayjs";
 
-export const modifyStyleFormData = (formData) => {
-  console.log('form data for mod is',formData)
+export const modifyStyleFormData = (formData,isAdd = false,user) => {
   let styleCodeSearches = getAllSubstrings(formData[CONSTANTS.STYLE_CODE]);
   let styleNumberSearches = getAllSubstrings(formData[CONSTANTS.SERIAL]);;
 
@@ -10,7 +11,16 @@ export const modifyStyleFormData = (formData) => {
     ...formData,
     [CONSTANTS.MATERIALS]: formData[CONSTANTS.MATERIALS].map((material) => material.value),
     [CONSTANTS.CATEGORIES]: formData[CONSTANTS.CATEGORIES].map((category) => category.value),
-    z_searchTerms: [...styleNumberSearches, ...styleCodeSearches]
+    z_searchTerms: [...styleNumberSearches, ...styleCodeSearches],
+    ...(isAdd 
+      ? 
+      {
+        createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        createdBy: user?.email
+      } : {
+        updatedAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        updatedBy: user?.email
+    })
   }
 }
 
