@@ -16,7 +16,10 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
             </div>
             {stylesData.map((style: any, i) => (
                 <div key={style.serialNumber || style.styleCode} className={styles.SingleStyle}>
-                    <div onClick={() => setImgsToPreview(style?.images)}>
+                    <div
+                        onClick={() =>
+                            setImgsToPreview(style?.images?.map((img) => img.imageUrl) || [])
+                        }>
                         {style?.images?.map((image) => (
                             <img
                                 key={image.imageUrl}

@@ -243,7 +243,7 @@ function ImgCard({
 
             {!!(showImagesPreview !== false) && (
                 <ImageViewer
-                    src={images}
+                    src={images?.map((img: any) => img.imageUrl) || []}
                     currentIndex={parseInt(`${showImagesPreview}`) || 0}
                     disableScroll={true}
                     closeOnClickOutside={true}

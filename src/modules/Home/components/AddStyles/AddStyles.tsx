@@ -218,7 +218,7 @@ function AddStyles({ setStyleToEdit }) {
 
                 <div className={styles.Images}>
                     <ImgCard
-                        images={formData[CONSTANTS.IMAGES]}
+                        images={formData[CONSTANTS.IMAGES]?.map((img) => img.imageUrl) || []}
                         path={formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL]}
                         onUploadSuccess={onImagesUploadSuccess}
                         errorMessage={validateStyleData()}
