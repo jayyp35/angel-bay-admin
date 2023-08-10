@@ -1,18 +1,21 @@
 .Invoice {
-  color: #D4D9DD;
-
+display: flex;
+height: calc(100vh - 100px);
   .Title {
-    font-size: 20px;
-    padding-bottom: 20px;
+    font-size: 16px;
     text-align: center;
   }
 
-  .Card {
-    // margin: 0 40px;
-    margin-top: 40px;
-    padding: 40px;
-    background-color: #D4D9dd;
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  .Left{
+    width: 100%;
+    padding: 24px;
+  }
+
+  .Right{
+    height: 100%;
+    padding: 24px;
+    height: 100%;
+    width: 500px;
+    border-left: 1px solid #e5e5e5;
   }
 }

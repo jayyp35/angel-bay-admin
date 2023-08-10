@@ -1,18 +1,9 @@
 .Company {
   color: #222222;
 
-  .Title {
-    font-weight: 600;
-  }
-
-  .Subtitle {
-    font-weight: 500;
-  }
-
-  .ErrorText {
-    margin-left: 20px;
-    font-weight: 600;
-    font-size: 14px;
-    color: rgb(192, 0, 0);
+  .Form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+column-gap: 20px;
   }
 }

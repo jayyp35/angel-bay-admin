@@ -1,39 +1,56 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-// import Input from '../../common/_custom/input/input';
-// import { singleOrderItem } from '../../store/invoice_constants';
-// import Company from './components/Company';
-// import Order from './components/Order';
-
-import styles from './Invoice.module.scss';
+import styles from './Invoicing.module.scss';
 import Company from './components/Company';
+import Right from './components/Right/Right';
+
+export const INVOICE_CONSTANTS = {
+    NAME: 'name',
+    PERSON_OF_CONTACT: 'personOfContact',
+    CONTACT_NUMBER: 'contactNumber',
+    ALTERNATE_NUMBER: 'alternateNumber',
+    EMAIL: 'email',
+    ADDR_LINE1: 'addr_1',
+    ADDR_LINE2: 'addr_2',
+    LANDMARK: 'addr_3',
+    PIN: 'pincode',
+};
 
 function Invoice(props) {
+    const [formData, setFormData] = useState({
+        [INVOICE_CONSTANTS.NAME]: '',
+        [INVOICE_CONSTANTS.PERSON_OF_CONTACT]: '',
+        [INVOICE_CONSTANTS.CONTACT_NUMBER]: '',
+        [INVOICE_CONSTANTS.EMAIL]: '',
+        [INVOICE_CONSTANTS.ADDR_LINE1]: '',
+        [INVOICE_CONSTANTS.ADDR_LINE2]: '',
+        [INVOICE_CONSTANTS.LANDMARK]: '',
+        [INVOICE_CONSTANTS.PIN]: '',
+    });
 
-  const [orderData, setOrderData] = useState([]);
-  // const order_details = useSelector(state => state.invoice.order_details);
+    const changeValue = (key, value) => {
+        setFormData((formData) => ({
+            ...formData,
+            [key]: value,
+        }));
+    };
 
-  const createOrder = () => {
-    // const single_order = JSON.parse(JSON.stringify(singleOrderItem));
-    // setOrderData([single_order])
-  }
+    const createOrder = () => {
+        // const single_order = JSON.parse(JSON.stringify(singleOrderItem));
+        // setOrderData([single_order])
+    };
 
-  return (
-    <div className={styles.Invoice}>
-      <div className={styles.Title}>Generate Invoice</div>
+    return (
+        <div className={styles.Invoice}>
+            <div className={styles.Left}>
+                <Company createOrder={createOrder} formData={formData} changeValue={changeValue} />
+            </div>
 
-      <div className={styles.Card}>
-        <Company createOrder={createOrder} />
-      </div>
-
-      {/* {!!order_details?.length && (
-        <div className={'Card mt-40'}>
-          <Order orderData={orderData} setOrderData={setOrderData} />
+            <div className={styles.Right}>
+                <Right />
+            </div>
         </div>
-      )} */}
-
-    </div>
-  )
+    );
 }
 
 export default Invoice;
