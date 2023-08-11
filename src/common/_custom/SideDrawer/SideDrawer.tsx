@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SideDrawerHeader from './components/SideDrawerHeader';
-import closeIcon from '../../../assets/close.svg';
+import closeIcon from './close.svg';
 import styles from './SideDrawer.module.scss';
 import clsx from 'clsx';
 
@@ -11,12 +11,7 @@ interface SideDrawerProps {
     onClose?: Function;
 }
 
-function SideDrawer({
-    children,
-    heading = 'Upload Data',
-    allowClose = false,
-    onClose,
-}: SideDrawerProps) {
+function SideDrawer({ children, heading = 'Header', allowClose = true, onClose }: SideDrawerProps) {
     const [closing, setClosing] = useState(false);
 
     const closeDrawer = () => {

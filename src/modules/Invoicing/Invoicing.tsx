@@ -6,6 +6,7 @@ import Company from './components/Company/Company';
 import { addInvoiceService } from '../../services/services';
 import { useAppSelector } from '../../utils/hooks';
 import OrderDetails from './components/OrderDetails/OrderDetails';
+import SideDrawer from '../../common/_custom/SideDrawer/SideDrawer';
 
 export const INVOICE_CONSTANTS = {
     NAME: 'name',
@@ -46,7 +47,7 @@ function Invoice(props) {
         ],
     });
     const [creating, setCreating] = useState(false);
-    const [createdDocId, setCreatedDocId] = useState('');
+    const [showDrawer, setShowDrawer] = useState(false);
 
     const changeValue = (key, value) => {
         setFormData((formData) => ({
@@ -70,6 +71,7 @@ function Invoice(props) {
                         },
                     ],
                 });
+                setShowDrawer(true);
             },
             finally: () => {
                 setCreating(false);
@@ -88,6 +90,12 @@ function Invoice(props) {
                 />
 
                 {!!orderDetails && <OrderDetails orderDetails={orderDetails} />}
+                {showDrawer && (
+                    <SideDrawer onClose={() => setShowDrawer(false)}>
+                        <SideDrawer.Header>Order Details</SideDrawer.Header>
+                        <OrderDetails orderDetails={orderDetails} />
+                    </SideDrawer>
+                )}
             </div>
 
             <div className={styles.Right}>
