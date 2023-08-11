@@ -45,6 +45,7 @@ function RightSection({
                         isDisabled={addSuccess}
                         onChange={onAddCatergory}
                         value={formData[CONSTANTS.CATEGORIES]}
+                        closeMenuOnSelect={false}
                     />
                 </div>
             </div>
