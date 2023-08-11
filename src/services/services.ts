@@ -9,9 +9,8 @@ export async function addInvoiceService(payload, user, handlers: Handlers) {
         createdBy: user?.email,
         createdAt: dayjs().format('YYYY-MM-DD'),
     })
-        .then((data) => {
-            console.log('on add invoice success', data);
-            handlers?.onSuccess?.();
+        .then((docRef) => {
+            handlers?.onSuccess?.(docRef.id);
         })
         .catch(() => {
             handlers?.onFailure?.();

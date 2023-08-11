@@ -1,0 +1,8 @@
+.OrderDetails{
+    border: 1px solid red;
+}
+.SingleItem {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+}

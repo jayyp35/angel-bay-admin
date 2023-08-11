@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Company.module.scss';
-import Input from '../../../common/_custom/Input2/Input';
-import Button from '../../../common/_custom/Button/Button';
-import { INVOICE_CONSTANTS } from '../Invoicing';
+import Input from '../../../../common/_custom/Input2/Input';
+import Button from '../../../../common/_custom/Button/Button';
+import { INVOICE_CONSTANTS } from '../../Invoicing';
 
 function Company({ createOrder, formData, changeValue, creating }) {
     const {
