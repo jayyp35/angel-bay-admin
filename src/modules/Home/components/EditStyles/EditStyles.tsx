@@ -25,6 +25,7 @@ function EditStyles({ styleToEdit }) {
         [CONSTANTS.SERIAL]: '',
         [CONSTANTS.DESCRIPTION]: '',
         [CONSTANTS.PRICE]: '',
+        [CONSTANTS.KEYWORDS]: '',
         [CONSTANTS.IMAGES]: [],
         [CONSTANTS.MATERIALS]: [],
         [CONSTANTS.CATEGORIES]: [],
@@ -182,6 +183,13 @@ function EditStyles({ styleToEdit }) {
                         onChange={(val) => changeFormData(CONSTANTS.PRICE, val)}
                         prefill='₹'
                         pattern='[0-9]*'
+                        disabled={addSuccess}
+                    />
+                    <Input
+                        label='Keywords'
+                        placeholder='(Enter search keywords separated by space)'
+                        value={formData[CONSTANTS.KEYWORDS]}
+                        onChange={(val) => changeFormData(CONSTANTS.KEYWORDS, val)}
                         disabled={addSuccess}
                     />
                 </div>

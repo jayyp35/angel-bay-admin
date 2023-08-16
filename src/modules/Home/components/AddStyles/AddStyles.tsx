@@ -43,6 +43,7 @@ function AddStyles({ setStyleToEdit }) {
             [CONSTANTS.SERIAL]: '',
             [CONSTANTS.DESCRIPTION]: '',
             [CONSTANTS.PRICE]: '',
+            [CONSTANTS.KEYWORDS]: '',
             [CONSTANTS.IMAGES]: [],
             [CONSTANTS.MATERIALS]: [],
             [CONSTANTS.CATEGORIES]: [],
