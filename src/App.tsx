@@ -1,6 +1,6 @@
 import './scss/app.scss';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
-import { getDocs, collection } from 'firebase/firestore'
+import { HashRouter as BrowserRouter, useNavigate } from 'react-router-dom';
+import { getDocs, collection } from 'firebase/firestore';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RootRoutes from './routes/RootRoutes';
@@ -11,48 +11,46 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useAppDispatch } from './utils/hooks';
 import { setUserData } from './store/user/action';
 
-
 function App() {
+    const dispatch = useAppDispatch();
 
-  const dispatch = useAppDispatch();
+    useEffect(() => {
+        // getData();
+    }, []);
 
-  useEffect(() => {
-    // getData();
-  }, [])
+    // const getData = async () => {
+    //   const usersSnapshot = await getDocs(usersRef);
+    //   const collectionsSnapshot = await getDocs(collectionsRef);
 
-  // const getData = async () => {
-  //   const usersSnapshot = await getDocs(usersRef);
-  //   const collectionsSnapshot = await getDocs(collectionsRef);
+    //   usersSnapshot.forEach((doc) => {
+    //     console.log(doc.id, " => ", doc.data());
+    //   });
 
-  //   usersSnapshot.forEach((doc) => {
-  //     console.log(doc.id, " => ", doc.data());
-  //   });
+    //   collectionsSnapshot.forEach((doc) => {
+    //     console.log(doc.id, " => ", doc.data());
+    //   });
+    // }
 
-  //   collectionsSnapshot.forEach((doc) => {
-  //     console.log(doc.id, " => ", doc.data());
-  //   });
-  // }
+    return (
+        <div className='App'>
+            <BrowserRouter>
+                <RootRoutes />
+            </BrowserRouter>
 
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <RootRoutes />
-      </BrowserRouter>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-    </div>
-  );
+            <ToastContainer
+                position='top-right'
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='colored'
+            />
+        </div>
+    );
 }
 
 export default App;
