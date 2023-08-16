@@ -1,26 +1,28 @@
 {
   "files": {
-    "main.css": "/static/css/main.d50e0d03.css",
-    "main.js": "/static/js/main.75a9ef8c.js",
-    "static/js/787.2c4cbfe1.chunk.js": "/static/js/787.2c4cbfe1.chunk.js",
-    "static/media/champage-cyrillic.ttf": "/static/media/champage-cyrillic.05d1c97796c0390063ca.ttf",
-    "static/media/Gilroy-Light.ttf": "/static/media/Gilroy-Light.1822a291dd62fe2cca72.ttf",
-    "static/media/Gilroy-Regular.ttf": "/static/media/Gilroy-Regular.5b89a8df3b17dccdb73f.ttf",
-    "static/media/Gilroy-Medium.ttf": "/static/media/Gilroy-Medium.1b4da6582f83f45ea039.ttf",
-    "static/media/Gilroy-SemiBold.ttf": "/static/media/Gilroy-SemiBold.07b9100a72fe7d46d20a.ttf",
-    "static/media/Gilroy-Bold.ttf": "/static/media/Gilroy-Bold.ca49f7658c4eaac78b6d.ttf",
-    "static/media/Gilroy-ExtraBold.ttf": "/static/media/Gilroy-ExtraBold.59a66eb8c577778daaa5.ttf",
-    "static/media/done-animated.gif": "/static/media/done-animated.49a3a4bec801e946395a.gif",
-    "static/media/plus.svg": "/static/media/plus.3ccf59bf91b9783e9632d6d815e4e111.svg",
-    "index.html": "/index.html",
-    "static/media/search.svg": "/static/media/search.623ce9213ab6a422592132c458b69b1b.svg",
-    "static/media/chevron-back.svg": "/static/media/chevron-back.0b9ef282ec767c9aad98aa191ad3692e.svg",
-    "main.d50e0d03.css.map": "/static/css/main.d50e0d03.css.map",
-    "main.75a9ef8c.js.map": "/static/js/main.75a9ef8c.js.map",
-    "787.2c4cbfe1.chunk.js.map": "/static/js/787.2c4cbfe1.chunk.js.map"
+    "main.css": "/angel-bay-admin/static/css/main.64aab06d.css",
+    "main.js": "/angel-bay-admin/static/js/main.7984ac85.js",
+    "static/js/787.2c4cbfe1.chunk.js": "/angel-bay-admin/static/js/787.2c4cbfe1.chunk.js",
+    "static/media/champage-cyrillic.ttf": "/angel-bay-admin/static/media/champage-cyrillic.05d1c97796c0390063ca.ttf",
+    "static/media/Gilroy-Light.ttf": "/angel-bay-admin/static/media/Gilroy-Light.1822a291dd62fe2cca72.ttf",
+    "static/media/Gilroy-Regular.ttf": "/angel-bay-admin/static/media/Gilroy-Regular.5b89a8df3b17dccdb73f.ttf",
+    "static/media/Gilroy-Medium.ttf": "/angel-bay-admin/static/media/Gilroy-Medium.1b4da6582f83f45ea039.ttf",
+    "static/media/Gilroy-SemiBold.ttf": "/angel-bay-admin/static/media/Gilroy-SemiBold.07b9100a72fe7d46d20a.ttf",
+    "static/media/Gilroy-Bold.ttf": "/angel-bay-admin/static/media/Gilroy-Bold.ca49f7658c4eaac78b6d.ttf",
+    "static/media/Gilroy-ExtraBold.ttf": "/angel-bay-admin/static/media/Gilroy-ExtraBold.59a66eb8c577778daaa5.ttf",
+    "static/media/done-animated.gif": "/angel-bay-admin/static/media/done-animated.49a3a4bec801e946395a.gif",
+    "static/media/close.svg": "/angel-bay-admin/static/media/close.cb623d15459b42da333677ce27e29bab.svg",
+    "static/media/plus.svg": "/angel-bay-admin/static/media/plus.3ccf59bf91b9783e9632d6d815e4e111.svg",
+    "index.html": "/angel-bay-admin/index.html",
+    "static/media/search.svg": "/angel-bay-admin/static/media/search.623ce9213ab6a422592132c458b69b1b.svg",
+    "static/media/bin.svg": "/angel-bay-admin/static/media/bin.56435be9f45a8a6b3620d3b1f06d272a.svg",
+    "static/media/chevron-back.svg": "/angel-bay-admin/static/media/chevron-back.0b9ef282ec767c9aad98aa191ad3692e.svg",
+    "main.64aab06d.css.map": "/angel-bay-admin/static/css/main.64aab06d.css.map",
+    "main.7984ac85.js.map": "/angel-bay-admin/static/js/main.7984ac85.js.map",
+    "787.2c4cbfe1.chunk.js.map": "/angel-bay-admin/static/js/787.2c4cbfe1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d50e0d03.css",
-    "static/js/main.75a9ef8c.js"
+    "static/css/main.64aab06d.css",
+    "static/js/main.7984ac85.js"
   ]
 }
