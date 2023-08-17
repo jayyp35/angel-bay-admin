@@ -11,11 +11,14 @@ import StylesTable from './StylesTable/StylesTable';
 import { useAppDispatch, useAppSelector, useDebounce } from '../../../../utils/hooks';
 import ImageViewer from 'react-simple-image-viewer';
 import { setSearchTerm, setStyleData } from '../../../../store/viewStyles/actions';
+import SideDrawer from '../../../../common/_custom/SideDrawer/SideDrawer';
+import EditStyles from '../EditStyles/EditStyles';
 
-function ViewStyles({ setStyleToEdit }) {
+function ViewStyles({}) {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const viewStylesData = useAppSelector((state) => state.viewStyles);
+    const [styleToEdit, setStyleToEdit] = useState(null);
     const [imgsToPreview, setImgsToPreview] = useState([]);
     const debouncedSearchTerm = useDebounce(viewStylesData.searchTerm, 1000);
 
@@ -60,7 +63,6 @@ function ViewStyles({ setStyleToEdit }) {
 
     const handleEdit = (styleData) => {
         setStyleToEdit(styleData);
-        navigate(`/home/edit-styles/${styleData?.serialNumber || styleData?.styleCode}`);
     };
 
     return (
@@ -87,6 +89,13 @@ function ViewStyles({ setStyleToEdit }) {
                     closeOnClickOutside={true}
                     onClose={() => setImgsToPreview([])}
                 />
+            )}
+
+            {!!styleToEdit && (
+                <SideDrawer onClose={() => setStyleToEdit(null)}>
+                    <SideDrawer.Header>Edit Style</SideDrawer.Header>
+                    <EditStyles styleToEdit={styleToEdit} />
+                </SideDrawer>
             )}
         </div>
     );

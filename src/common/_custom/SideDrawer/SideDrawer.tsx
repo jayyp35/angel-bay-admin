@@ -19,7 +19,7 @@ function SideDrawer({ children, heading = 'Header', allowClose = true, onClose }
         setTimeout(() => {
             onClose && onClose();
             setClosing(false);
-        }, 500);
+        }, 340);
     };
 
     return (
@@ -32,8 +32,8 @@ function SideDrawer({ children, heading = 'Header', allowClose = true, onClose }
                     <img
                         className={styles.closeIcon}
                         src={closeIcon}
-                        alt='close'
-                        height='15px'
+                        alt=''
+                        height='20px'
                         onClick={closeDrawer}
                     />
                 )}

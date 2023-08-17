@@ -15,8 +15,7 @@ import { modifyStyleFormData } from '../../../../utils/add-styles';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../../utils/hooks';
 
-function AddStyles({ setStyleToEdit }) {
-    const navigate = useNavigate();
+function AddStyles() {
     const user = useAppSelector((state) => state.user.userData);
     const [adding, setAdding] = useState(false);
     const [imagesUploading, setImagesUploading] = useState(false);
@@ -153,10 +152,7 @@ function AddStyles({ setStyleToEdit }) {
     };
 
     const onEdit = () => {
-        setStyleToEdit(formData);
-        navigate(
-            `/home/edit-styles/${formData[CONSTANTS.SERIAL] || formData[CONSTANTS.STYLE_CODE]}`,
-        );
+        setAddSuccess(false);
     };
 
     return (

@@ -3,7 +3,6 @@ import { CONSTANTS, categories, materials } from '../../../../../store/constants
 import styles from './RightSection.module.scss';
 import Select from 'react-select';
 import done from '../../../../../assets/done-animated.gif';
-import { useNavigate } from 'react-router-dom';
 
 function RightSection({
     addSuccess,
@@ -15,8 +14,6 @@ function RightSection({
     onEdit,
     resetAllData,
 }) {
-    const navigate = useNavigate();
-
     return (
         <div className={styles.RightSection}>
             <div className={styles.Top}>
@@ -56,7 +53,7 @@ function RightSection({
                         <img src={done} alt='' height={'100%'} />
                         Style Added Successfully
                     </div>
-                    <div style={{ marginTop: '50px' }}>
+                    <div style={{ marginTop: '30px' }}>
                         Is there something wrong with the data entered?
                         <Button
                             text='Edit'
@@ -65,12 +62,21 @@ function RightSection({
                             style={{ marginTop: '10px' }}
                         />
                     </div>
-                    <div style={{ marginTop: '30px' }}>
+                    <div style={{ marginTop: '20px' }}>
                         <Button
                             text='Add Another Style'
                             onClick={() => resetAllData()}
                             disabled={adding}
                             style={{ marginTop: '10px' }}
+                        />
+                    </div>
+                    <div style={{ marginTop: '20px' }}>
+                        <Button
+                            text='View All Styles'
+                            onClick={() => resetAllData()}
+                            disabled={adding}
+                            style={{ marginTop: '10px' }}
+                            variant='white'
                         />
                     </div>
                 </div>

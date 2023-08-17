@@ -8,7 +8,6 @@ import { onAuthStateChanged } from 'firebase/auth';
 import Home from '../modules/Home/Home';
 import AddStyles from '../modules/Home/components/AddStyles/AddStyles';
 import ViewStyles from '../modules/Home/components/ViewStyles/ViewStyles';
-import EditStyles from '../modules/Home/components/EditStyles/EditStyles';
 import { doc, getDoc } from 'firebase/firestore';
 import Invoice from '../modules/Invoicing/Invoicing';
 
@@ -56,18 +55,8 @@ function RootRoutes() {
                 <Route path='*' element={<div>404 Page not found</div>} />
                 <Route path={'/'} element={<Login />} />
                 <Route path={'/home'} element={<Home />}>
-                    <Route
-                        path={'/home/add-styles'}
-                        element={<AddStyles setStyleToEdit={setStyleToEdit} />}
-                    />
-                    <Route
-                        path={'/home/edit-styles/:styleId'}
-                        element={<EditStyles styleToEdit={styleToEdit} />}
-                    />
-                    <Route
-                        path={'/home/view-styles'}
-                        element={<ViewStyles setStyleToEdit={setStyleToEdit} />}
-                    />
+                    <Route path={'/home/add-styles'} element={<AddStyles />} />
+                    <Route path={'/home/view-styles'} element={<ViewStyles />} />
                     <Route path={'/home/create-invoice'} element={<Invoice />} />
                 </Route>
             </Routes>

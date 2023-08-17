@@ -21,7 +21,7 @@
     width: 1260px;
     height: 100%;
     position: relative;
-    animation: moveIn 500ms;
+    animation: moveIn 350ms;
     animation-timing-function: cubic-bezier();
 
     position: relative;
@@ -59,7 +59,7 @@
 }
 
 .CloseDrawer {
-    animation: moveOut 500ms;
+    animation: moveOut 350ms;
     animation-timing-function: cubic-bezier();
 }
 

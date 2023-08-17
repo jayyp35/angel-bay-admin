@@ -12,7 +12,6 @@ import RightSection from './RightSection/RightSection';
 import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { getStyleFormData, modifyStyleFormData } from '../../../../utils/add-styles';
 import { useNavigate, useParams } from 'react-router-dom';
-import backicon from '../../../../assets/chevron-back.svg';
 import { useAppSelector } from '../../../../utils/hooks';
 
 function EditStyles({ styleToEdit }) {
@@ -32,19 +31,10 @@ function EditStyles({ styleToEdit }) {
     });
 
     const navigate = useNavigate();
-    const params = useParams();
 
     useEffect(() => {
         if (styleToEdit) setFormData(getStyleFormData(styleToEdit));
     }, [styleToEdit]);
-
-    useEffect(() => {
-        if (params?.styleId) verifyStyleExists(params?.styleId);
-        else {
-            toast.error('Invalid Style Code!');
-            // navigate('/home/add')
-        }
-    }, []);
 
     const verifyStyleExists = async (styleId) => {
         const docRef = doc(db, 'styles', styleId);
@@ -160,10 +150,6 @@ function EditStyles({ styleToEdit }) {
     return (
         <div className={styles.EditStyles}>
             <div className={styles.MainSection}>
-                <div className={styles.Back} onClick={() => navigate(-1)}>
-                    <img src={backicon} alt='back' height={'20px'} />
-                    Back
-                </div>
                 <div className={styles.DoubleRow} style={{ marginTop: '0' }}>
                     <Input
                         label='Serial Number'
