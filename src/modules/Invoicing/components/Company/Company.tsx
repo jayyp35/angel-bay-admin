@@ -6,16 +6,16 @@ import Input from '../../../../common/_custom/Input2/Input';
 import Button from '../../../../common/_custom/Button/Button';
 import { INVOICE_CONSTANTS } from '../../Invoicing';
 
-function Company({ createOrder, formData, changeValue, creating }) {
+function Company({ addBuyer, buyerDetailsLoading, createOrder, formData, changeValue, creating }) {
     const {
-        NAME,
+        COMPANY_NAME,
         PERSON_OF_CONTACT,
         CONTACT_NUMBER,
         EMAIL,
-        ADDR_LINE1,
-        ADDR_LINE2,
-        LANDMARK,
-        PIN,
+        // ADDR_LINE1,
+        // ADDR_LINE2,
+        // LANDMARK,
+        // PIN,
     } = INVOICE_CONSTANTS;
     const dispatch = useDispatch();
 
@@ -31,8 +31,8 @@ function Company({ createOrder, formData, changeValue, creating }) {
                 <Input
                     label='Company Name'
                     // error={errors.name}
-                    onChange={(val) => changeValue([NAME], val)}
-                    value={formData[NAME]}
+                    onChange={(val) => changeValue([COMPANY_NAME], val)}
+                    value={formData[COMPANY_NAME]}
                 />
 
                 <Input
@@ -59,7 +59,7 @@ function Company({ createOrder, formData, changeValue, creating }) {
                     value={formData[ALTERNATE_NUMBER]}
                 /> */}
 
-                <Input
+                {/* <Input
                     label={'Address Line 1'}
                     // error={errors.addr1}
                     onChange={(val) => changeValue([ADDR_LINE1], val)}
@@ -80,8 +80,15 @@ function Company({ createOrder, formData, changeValue, creating }) {
                     label='Pincode'
                     onChange={(val) => changeValue([PIN], val)}
                     value={formData[PIN]}
+                /> */}
+                <Button
+                    text='Add Buyer & Create Invoice'
+                    onClick={addBuyer}
+                    loading={buyerDetailsLoading}
+                    fit
                 />
-                <Button text='Create Order' onClick={createOrder} loading={creating} fit />
+
+                <Button text='Create Invoice' onClick={createOrder} loading={creating} fit />
             </div>
         </div>
     );

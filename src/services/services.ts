@@ -12,6 +12,24 @@ import {
 import { db } from '../utils/firebase/firebase';
 import dayjs from 'dayjs';
 
+export function addBuyerService(payload, user, handlers: Handlers) {
+    handlers?.onStart?.();
+    addDoc(collection(db, 'buyers'), {
+        ...payload,
+        createdBy: user?.email,
+        createdAt: dayjs().format('YYYY-MM-DD'),
+    })
+        .then((docRef) => {
+            handlers?.onSuccess?.(docRef.id);
+        })
+        .catch(() => {
+            handlers?.onFailure?.();
+        })
+        .finally(() => {
+            handlers?.finally?.();
+        });
+}
+
 export function addInvoiceService(payload, user, handlers: Handlers) {
     handlers?.onStart?.();
     addDoc(collection(db, 'invoices'), {

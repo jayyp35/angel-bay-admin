@@ -43,6 +43,7 @@ function OrderDetails({ orderDetails }) {
 
     return (
         <div className={styles.OrderDetails}>
+            <div>Buyer data {orderDetails?.buyerId}</div>
             {orderDetails?.styles?.map((style, index) => (
                 <div className={styles.SingleItem} key={index}>
                     <CreatableSelect
