@@ -31,7 +31,8 @@
   },
   "scripts": {
  "predeploy": "npm run build",
- "deploy": "gh-pages -d build",
+ "deploy": "npm run add-domain && gh-pages -d build",
+ "add-domain": "echo \"admin.angelbay.co.in\" > build/CNAME",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -56,6 +57,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "@babel/plugin-proposal-private-property-in-object": ""
   }
 }
