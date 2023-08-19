@@ -3,7 +3,9 @@ import { INVOICE_CONSTANTS } from '../modules/Invoicing/Invoicing';
 import { Timestamp } from 'firebase/firestore';
 
 export const getAddBuyerData = (formData, user, isAdd = false) => {
-    let companyNameSearches = getAllSubstrings(formData[INVOICE_CONSTANTS.COMPANY_NAME]);
+    let companyNameSearches = getAllSubstrings(
+        formData[INVOICE_CONSTANTS.COMPANY_NAME]?.substring(0, 15),
+    );
 
     return {
         ...formData,

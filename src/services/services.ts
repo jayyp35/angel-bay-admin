@@ -77,6 +77,40 @@ export function getStyles(payload: GetStylesPayload, handlers: Handlers) {
         });
 }
 
+export function getBuyers(payload: GetStylesPayload, handlers: Handlers) {
+    handlers?.onStart?.();
+    let searchQuery;
+    if (payload?.searchTerm) {
+        searchQuery = query(
+            collection(db, 'buyers'),
+            where('z_searchTerms', 'array-contains', payload?.searchTerm?.toLowerCase?.()),
+            limit(payload.limit),
+        );
+    } else {
+        searchQuery = query(collection(db, 'buyers'), limit(payload.limit));
+    }
+
+    getDocs(searchQuery)
+        .then((querySnapshot) => {
+            let data: any = [];
+            querySnapshot.forEach((doc) => {
+                const docData: any = doc.data();
+                const id = doc.id;
+                data.push({
+                    ...docData,
+                    id,
+                });
+            });
+            handlers?.onSuccess?.(data);
+        })
+        .catch(() => {
+            handlers?.onFailure?.();
+        })
+        .finally(() => {
+            handlers?.finally?.();
+        });
+}
+
 export interface Handlers {
     onStart?: Function;
     onSuccess?: Function;

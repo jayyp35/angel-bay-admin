@@ -6,12 +6,20 @@ import Input from '../../../../common/_custom/Input2/Input';
 import Button from '../../../../common/_custom/Button/Button';
 import { INVOICE_CONSTANTS } from '../../Invoicing';
 
-function Company({ addBuyer, buyerDetailsLoading, createOrder, formData, changeValue, creating }) {
+function Company({
+    addBuyer,
+    buyerDetailsLoading,
+    handleCreateOrderClick,
+    formData,
+    changeValue,
+    creating,
+}) {
     const {
         COMPANY_NAME,
         PERSON_OF_CONTACT,
         CONTACT_NUMBER,
         EMAIL,
+        ID,
         // ADDR_LINE1,
         // ADDR_LINE2,
         // LANDMARK,
@@ -82,13 +90,13 @@ function Company({ addBuyer, buyerDetailsLoading, createOrder, formData, changeV
                     value={formData[PIN]}
                 /> */}
                 <Button
-                    text='Add Buyer & Create Invoice'
-                    onClick={addBuyer}
+                    text={formData[ID] ? 'Create Invoice' : 'Add Buyer & Create Invoice'}
+                    onClick={handleCreateOrderClick}
                     loading={buyerDetailsLoading}
                     fit
                 />
 
-                <Button text='Create Invoice' onClick={createOrder} loading={creating} fit />
+                {/* <Button text='Create Invoice' onClick={createOrder} loading={creating} fit /> */}
             </div>
         </div>
     );
