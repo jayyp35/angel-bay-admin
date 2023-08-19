@@ -23,11 +23,12 @@ function SideDrawer({ children, heading = 'Header', allowClose = true, onClose }
     };
 
     return (
-        <div className={styles.DrawerBackdrop}>
+        <div className={styles.DrawerBackdrop} onClick={closeDrawer}>
             <div
                 className={clsx(styles.DrawerBody, {
                     [styles.CloseDrawer]: closing,
-                })}>
+                })}
+                onClick={(e) => e.stopPropagation()}>
                 {allowClose && (
                     <img
                         className={styles.closeIcon}
