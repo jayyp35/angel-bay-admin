@@ -11,24 +11,38 @@
             font-size: 13px;
             color: #233299;
             font-weight: 600;
-
             display: flex;
             justify-content: space-between;
-
+            position: relative;
             &>img{
                 cursor: pointer;
             }
         }
 
+        .Btn{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
         .Info{
             color: black;
-            margin-top: 12px;
+            margin-top: 5px;
             font-size: 12px;
             font-weight: 400;
+        }
 
-            .Bold{
-                font-weight: 500;
-            }
+        .InfoDouble{
+            color: black;
+            margin-top: 5px;
+            font-size: 12px;
+            font-weight: 400;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 20px;
+        }
+             .Bold{
+            font-weight: 500;
         }
     }
 }

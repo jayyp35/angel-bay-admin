@@ -16,6 +16,7 @@ interface ButtonProps {
     rounded?: boolean;
     small?: boolean;
     tiny?: boolean;
+    className?: string;
 }
 function Button({
     text = 'Button',
