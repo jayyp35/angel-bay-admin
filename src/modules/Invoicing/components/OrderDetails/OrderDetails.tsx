@@ -45,36 +45,6 @@ function OrderDetails({ selectedBuyer }) {
     return (
         <div className={styles.OrderDetails}>
             <BuyerDetails selectedBuyer={selectedBuyer} />
-            {/* <div className={styles.Top}>
-                <div>
-                    Buyer Details
-                    <Input
-                        value={selectedBuyer?.companyName}
-                        onChange={() => {}}
-                        disabled
-                        size='small'
-                        // borderlessDisabled
-                        style={{ marginTop: '0px' }}
-                    />
-                    <Input
-                        value={selectedBuyer?.personOfContact}
-                        onChange={() => {}}
-                        disabled
-                        size='small'
-                        // borderlessDisabled
-                        style={{ marginTop: '0px' }}
-                    />
-                    <Input
-                        value={selectedBuyer?.contactNumber}
-                        onChange={() => {}}
-                        disabled
-                        size='small'
-                        // borderlessDisabled
-                        style={{ marginTop: '0px' }}
-                    />
-                </div>
-                <div>Shipping Details</div>
-            </div> */}
 
             {/* <div>Buyer data {orderDetails?.buyerId}</div> */}
             {/* {orderDetails?.styles?.map((style, index) => (

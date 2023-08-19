@@ -2,6 +2,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 16px;
 
     .Section{
     border: 1px solid #e5e5e5;

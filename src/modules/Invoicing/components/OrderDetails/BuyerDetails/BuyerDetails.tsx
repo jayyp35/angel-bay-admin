@@ -61,6 +61,14 @@ function BuyerDetails({ selectedBuyer }) {
                             disabled={!editDetails}
                         />
                     </div>
+                    <div className={styles.Info}>
+                        <span className={styles.Bold}>Email:</span>{' '}
+                        <Input
+                            onChange={() => {}}
+                            value={selectedBuyer?.email}
+                            disabled={!editDetails}
+                        />
+                    </div>
                 </div>
             </div>
 
