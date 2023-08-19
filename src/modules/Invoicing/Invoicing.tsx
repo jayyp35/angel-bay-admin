@@ -17,6 +17,7 @@ export const INVOICE_CONSTANTS = {
     CONTACT_NUMBER: 'contactNumber',
     ALTERNATE_NUMBER: 'alternateNumber',
     EMAIL: 'email',
+    SHIPPING_DETAILS: 'shippingDetails',
     ADDR_LINE1: 'addr_1',
     ADDR_LINE2: 'addr_2',
     LANDMARK: 'addr_3',
@@ -32,6 +33,8 @@ export const ORDER_CONSTANTS = {
 function Invoice(props) {
     const user = useAppSelector((state) => state.user.userData);
 
+    const [addingBuyer, setAddingBuyer] = useState(false);
+    const [creating, setCreating] = useState(false);
     const [formData, setFormData] = useState({
         [INVOICE_CONSTANTS.COMPANY_NAME]: '',
         [INVOICE_CONSTANTS.PERSON_OF_CONTACT]: '',
@@ -44,12 +47,11 @@ function Invoice(props) {
         [INVOICE_CONSTANTS.LANDMARK]: '',
         [INVOICE_CONSTANTS.PIN]: '',
     });
-    const [orderDetails, setOrderDetails] = useState<any>({
-        docId: '',
-        styles: [],
-    });
-    const [buyerDetailsLoading, setBuyerDetailsLoading] = useState(false);
-    const [creating, setCreating] = useState(false);
+    // const [orderDetails, setOrderDetails] = useState<any>({
+    //     docId: '',
+    //     styles: [],
+    // });
+    const [selectedBuyer, setSelectedBuyer] = useState(null);
     const [showDrawer, setShowDrawer] = useState(false);
 
     const changeValue = (key, value) => {
@@ -57,6 +59,10 @@ function Invoice(props) {
             ...formData,
             [key]: value,
         }));
+    };
+
+    const initialiseBuyerData = (buyer) => {
+        // setFopr;
     };
 
     const resetFormData = () => {
@@ -68,37 +74,28 @@ function Invoice(props) {
         });
     };
 
-    const resetShippingData = () => {
-        setShippingDetails({
-            [INVOICE_CONSTANTS.ADDR_LINE1]: '',
-            [INVOICE_CONSTANTS.ADDR_LINE2]: '',
-            [INVOICE_CONSTANTS.LANDMARK]: '',
-            [INVOICE_CONSTANTS.PIN]: '',
-        });
-    };
-
     const addBuyer = () => {
         let errorMsg = validateBuyerData(formData);
         if (errorMsg) return toast.error(errorMsg);
         const addBuyerData = getAddBuyerData(formData, user, true);
         addBuyerService(addBuyerData, user, {
             onStart: () => {
-                setBuyerDetailsLoading(true);
+                setAddingBuyer(true);
             },
             onSuccess: (buyerId: string) => {
-                setOrderDetails({
-                    buyerId: buyerId,
-                    styles: [
-                        {
-                            [ORDER_CONSTANTS.STYLE_CODE]: '',
-                            [ORDER_CONSTANTS.CUSTOMISATION]: '',
-                        },
-                    ],
-                });
+                // setOrderDetails({
+                //     buyerId: buyerId,
+                //     styles: [
+                //         {
+                //             [ORDER_CONSTANTS.STYLE_CODE]: '',
+                //             [ORDER_CONSTANTS.CUSTOMISATION]: '',
+                //         },
+                //     ],
+                // });
                 setShowDrawer(true);
             },
             finally: () => {
-                setBuyerDetailsLoading(false);
+                setAddingBuyer(false);
             },
         });
     };
@@ -109,15 +106,15 @@ function Invoice(props) {
                 setCreating(true);
             },
             onSuccess: (docId: string) => {
-                setOrderDetails({
-                    docId: docId,
-                    styles: [
-                        {
-                            [ORDER_CONSTANTS.STYLE_CODE]: '',
-                            [ORDER_CONSTANTS.CUSTOMISATION]: '',
-                        },
-                    ],
-                });
+                // setOrderDetails({
+                //     docId: docId,
+                //     styles: [
+                //         {
+                //             [ORDER_CONSTANTS.STYLE_CODE]: '',
+                //             [ORDER_CONSTANTS.CUSTOMISATION]: '',
+                //         },
+                //     ],
+                // });
                 setShowDrawer(true);
             },
             finally: () => {
@@ -132,6 +129,11 @@ function Invoice(props) {
         } else addBuyer();
     };
 
+    const selectBuyer = (buyer) => {
+        setSelectedBuyer(buyer);
+        setShowDrawer(true);
+    };
+
     // useEffect(() => {
     //     console.log('form data', formData);
     // }, [formData]);
@@ -141,7 +143,7 @@ function Invoice(props) {
             <div className={styles.Left}>
                 <Company
                     addBuyer={addBuyer}
-                    buyerDetailsLoading={buyerDetailsLoading}
+                    buyerDetailsLoading={addingBuyer}
                     handleCreateOrderClick={handleCreateOrderClick}
                     formData={formData}
                     changeValue={changeValue}
@@ -152,7 +154,7 @@ function Invoice(props) {
                 {showDrawer && (
                     <SideDrawer onClose={() => setShowDrawer(false)}>
                         <SideDrawer.Header>Order Details</SideDrawer.Header>
-                        <OrderDetails orderDetails={orderDetails} />
+                        <OrderDetails selectedBuyer={selectedBuyer} />
                     </SideDrawer>
                 )}
             </div>
@@ -162,6 +164,7 @@ function Invoice(props) {
                     setFormData={setFormData}
                     formData={formData}
                     resetFormData={resetFormData}
+                    selectBuyer={selectBuyer}
                 />
             </div>
         </div>

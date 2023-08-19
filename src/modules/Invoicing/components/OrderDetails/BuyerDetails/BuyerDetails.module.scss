@@ -1,0 +1,34 @@
+.BuyerDetails{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+
+    .Section{
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+
+        .Title{
+            font-size: 13px;
+            color: #233299;
+            font-weight: 600;
+
+            display: flex;
+            justify-content: space-between;
+
+            &>img{
+                cursor: pointer;
+            }
+        }
+
+        .Info{
+            color: black;
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: 400;
+
+            .Bold{
+                font-weight: 500;
+            }
+        }
+    }
+}

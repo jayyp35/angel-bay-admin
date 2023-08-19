@@ -6,7 +6,7 @@ import styles from './ExistingBuyers.module.scss';
 import clsx from 'clsx';
 import { INVOICE_CONSTANTS } from '../../Invoicing';
 
-function ExistingBuyers({ formData, setFormData, resetFormData }) {
+function ExistingBuyers({ formData, setFormData, resetFormData, selectBuyer }) {
     const [buyers, setBuyers] = useState<any>([]);
     const [fetching, setFetching] = useState(false);
 
@@ -30,14 +30,7 @@ function ExistingBuyers({ formData, setFormData, resetFormData }) {
                     className={clsx(styles.Buyer, {
                         [styles.SelectedBuyer]: buyer.id === formData?.id,
                     })}
-                    onClick={() => {
-                        if (
-                            formData[INVOICE_CONSTANTS.ID] &&
-                            buyer.id === formData[INVOICE_CONSTANTS.ID]
-                        )
-                            resetFormData();
-                        else setFormData(buyer);
-                    }}>
+                    onClick={() => selectBuyer(buyer)}>
                     <div>
                         <div className={styles.Company}>{buyer?.companyName}</div>
                         <div className={styles.Person}>{buyer?.personOfContact}</div>

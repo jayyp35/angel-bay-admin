@@ -5,8 +5,9 @@ import styles from './OrderDetails.module.scss';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '../../../../utils/hooks';
 import { getStyles } from '../../../../services/services';
+import BuyerDetails from './BuyerDetails/BuyerDetails';
 
-function OrderDetails({ orderDetails }) {
+function OrderDetails({ selectedBuyer }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [styleOptions, setStyleOptions] = useState([]);
     const [selectedStyle, setSelectedStyle] = useState(null);
@@ -43,8 +44,40 @@ function OrderDetails({ orderDetails }) {
 
     return (
         <div className={styles.OrderDetails}>
-            <div>Buyer data {orderDetails?.buyerId}</div>
-            {orderDetails?.styles?.map((style, index) => (
+            <BuyerDetails selectedBuyer={selectedBuyer} />
+            {/* <div className={styles.Top}>
+                <div>
+                    Buyer Details
+                    <Input
+                        value={selectedBuyer?.companyName}
+                        onChange={() => {}}
+                        disabled
+                        size='small'
+                        // borderlessDisabled
+                        style={{ marginTop: '0px' }}
+                    />
+                    <Input
+                        value={selectedBuyer?.personOfContact}
+                        onChange={() => {}}
+                        disabled
+                        size='small'
+                        // borderlessDisabled
+                        style={{ marginTop: '0px' }}
+                    />
+                    <Input
+                        value={selectedBuyer?.contactNumber}
+                        onChange={() => {}}
+                        disabled
+                        size='small'
+                        // borderlessDisabled
+                        style={{ marginTop: '0px' }}
+                    />
+                </div>
+                <div>Shipping Details</div>
+            </div> */}
+
+            {/* <div>Buyer data {orderDetails?.buyerId}</div> */}
+            {/* {orderDetails?.styles?.map((style, index) => (
                 <div className={styles.SingleItem} key={index}>
                     <CreatableSelect
                         options={styleOptions}
@@ -62,7 +95,7 @@ function OrderDetails({ orderDetails }) {
                         onChange={() => {}}
                     />
                 </div>
-            ))}
+            ))} */}
         </div>
     );
 }
