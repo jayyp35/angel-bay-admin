@@ -69,12 +69,13 @@
 }
 
 .TinyInput{
-  padding: 12px;
-  font-size: 12px;
+  padding: 8px;
+  font-size: 8px;
+  border-radius: 4px;
   &:-webkit-autofill+label {
     top: -15px;
     left: 0;
-    font-size: 10px;
+    font-size: 8px;
     color: #828282;
     font-weight: 300;
   }

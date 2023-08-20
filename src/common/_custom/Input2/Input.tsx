@@ -55,6 +55,7 @@ function Input({
                     [styles.Invalid]: !isValid,
                     [styles.PrefillInput]: !!prefill,
                     [styles.SmallInput]: size === 'small',
+                    [styles.TinyInput]: size === 'tiny',
                     [styles.BorderlessDisbaled]: borderlessDisabled,
                 })}
                 type={type}
