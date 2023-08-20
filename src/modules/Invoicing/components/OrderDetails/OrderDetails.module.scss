@@ -1,20 +1,37 @@
 .OrderDetails{
     height: 100%;
-    padding: 16px;
+
+    display: flex;
+    flex-direction: row;
+
+    .LeftSection{
+        flex: 1 1 0;
+        padding: 16px;
+
+    }
+    .RightSection{
+        padding: 16px;
+        width: 400px;
+        border-left: 1px solid #e5e5e5;
+    }
 }
 .SingleItem {
-    // display: grid;
-    // grid-template-columns: 1fr 1fr;
-    // column-gap: 20px;
+    position: relative;
+    padding: 5px;
     margin-top: 10px;
     border: 1px dashed #e5e5e5;
     display: flex;
     align-items: flex-start;
+    height: 88px;
 
     .Images{
-        border: 1px solid black;
         width: 150px;
-        margin-right: 20px;
+        max-height: 80px;
+        overflow: auto;
+
+        & > img{
+            margin-right: 5px;
+        }
     }
     .Inputs{
         display: flex;
@@ -24,5 +41,31 @@
     .Select{
         font-size: 10px;
         width: 210px;
+    }
+
+    .StyleData{
+        font-size: 10px;
+        display: flex;
+        column-gap: 20px;
+        margin-left: 20px;
+
+        .Data{
+            width: 65px;
+        }
+
+        .Item{
+            margin-top: 5px;
+
+        }
+        .Bold{
+            font-weight: 600;
+        }
+
+    }
+    .Delete{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
     }
 }

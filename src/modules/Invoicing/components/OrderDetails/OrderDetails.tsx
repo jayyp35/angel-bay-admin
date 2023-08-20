@@ -9,19 +9,21 @@ import BuyerDetails from './BuyerDetails/BuyerDetails';
 import bin from '../../../../assets/bin.svg';
 import Sizes from '../../../Home/components/AddStyles/Sizes/Sizes';
 import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
+import Button from '../../../../common/_custom/Button/Button';
 
 function OrderDetails({ selectedBuyer }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [styleOptions, setStyleOptions] = useState([]);
-    const [selectedStyle, setSelectedStyle] = useState(null);
+
     const debouncedSearchTerm = useDebounce(searchTerm, 200);
 
     const [orderDetails, setOrderDetails] = useState<any>({
         buyerId: '',
         styles: [
             {
-                [ORDER_CONSTANTS.STYLE_CODE]: '',
+                selectedStyle: null,
                 [ORDER_CONSTANTS.CUSTOMISATION]: '',
+                [ORDER_CONSTANTS.RANGES]: '',
                 [CONSTANTS.SIZES]: {
                     [SIZE.XS]: '0',
                     [SIZE.S]: '0',
@@ -30,7 +32,7 @@ function OrderDetails({ selectedBuyer }) {
                     [SIZE.XL]: '0',
                     [SIZE.XXL]: '0',
                     [SIZE.XXXL]: '0',
-                    [SIZE.FREE]: '0',
+                    [SIZE.FS]: '0',
                 },
             },
         ],
@@ -39,10 +41,89 @@ function OrderDetails({ selectedBuyer }) {
     useEffect(() => {
         search(debouncedSearchTerm);
     }, [debouncedSearchTerm]);
+    useEffect(() => {
+        console.log('order detauls', orderDetails);
+    }, [orderDetails]);
 
-    const onStyleSelect = (payload) => {
-        const optionsLength = payload?.length;
-        setSelectedStyle(payload?.[optionsLength - 1]);
+    const onStyleSelect = (payload, index) => {
+        const styleToSelect = payload?.[payload?.length - 1];
+        setOrderDetails((orderDetails) => ({
+            ...orderDetails,
+            styles: orderDetails.styles.map((style, i) => {
+                if (i === index)
+                    return {
+                        ...style,
+                        selectedStyle: styleToSelect,
+                    };
+                else return style;
+            }),
+        }));
+    };
+
+    const changeField = (key, value, index) => {
+        setOrderDetails((orderDetails) => ({
+            ...orderDetails,
+            styles: orderDetails.styles.map((style, i) => {
+                if (i === index)
+                    return {
+                        ...style,
+                        [key]: value,
+                    };
+                else return style;
+            }),
+        }));
+    };
+
+    const changeSizeCount = (size, value, index) => {
+        setOrderDetails((orderDetails) => ({
+            ...orderDetails,
+            styles: orderDetails.styles.map((style, i) => {
+                if (i === index)
+                    return {
+                        ...style,
+                        [CONSTANTS.SIZES]: {
+                            ...style[CONSTANTS.SIZES],
+                            [size]: value,
+                        },
+                    };
+                else return style;
+            }),
+        }));
+    };
+
+    const addStyle = () => {
+        setOrderDetails((orderDetails) => ({
+            ...orderDetails,
+            styles: [
+                ...orderDetails.styles,
+                {
+                    selectedStyle: null,
+                    [ORDER_CONSTANTS.CUSTOMISATION]: '',
+                    [ORDER_CONSTANTS.RANGES]: '',
+                    [CONSTANTS.SIZES]: {
+                        [SIZE.XS]: '0',
+                        [SIZE.S]: '0',
+                        [SIZE.M]: '0',
+                        [SIZE.L]: '0',
+                        [SIZE.XL]: '0',
+                        [SIZE.XXL]: '0',
+                        [SIZE.XXXL]: '0',
+                        [SIZE.FS]: '0',
+                    },
+                },
+            ],
+        }));
+    };
+
+    const deleteStyle = (index) => {
+        let styles = JSON.parse(JSON.stringify(orderDetails.styles));
+        console.log('filtered array before delte', index, styles);
+        let filteredStyles = styles.filter((style, i) => i !== index);
+        console.log('filtered array after delte', index, filteredStyles);
+        setOrderDetails((orderDetails) => ({
+            ...orderDetails,
+            styles: filteredStyles,
+        }));
     };
 
     const search = async (searchTerm = '') => {
@@ -67,54 +148,94 @@ function OrderDetails({ selectedBuyer }) {
 
     return (
         <div className={styles.OrderDetails}>
-            <BuyerDetails selectedBuyer={selectedBuyer} />
-
-            {/* <div>Buyer data {selectedBuyer?.id}</div> */}
-            {orderDetails?.styles?.map((style, index) => (
-                <div className={styles.SingleItem} key={index}>
-                    {index + 1}.&nbsp;
-                    <div style={{ marginRight: '20px' }}>
-                        <CreatableSelect
-                            options={styleOptions}
-                            isMulti
-                            name='Style Code'
-                            placeholder='Style Code / Serial'
-                            className={styles.Select}
-                            onChange={onStyleSelect}
-                            value={[selectedStyle]}
-                            closeMenuOnSelect={true}
-                        />
-                        <div className={styles.Inputs}>
-                            <Input
-                                value={style[ORDER_CONSTANTS.CUSTOMISATION]}
-                                placeholder='Customisations'
-                                onChange={() => {}}
-                                style={{ marginTop: '0px', width: '100px' }}
-                                size='tiny'
+            <div className={styles.LeftSection}>
+                {' '}
+                <BuyerDetails selectedBuyer={selectedBuyer} />
+                {orderDetails?.styles?.map((style, index) => (
+                    <div className={styles.SingleItem} key={`${index}-a`}>
+                        {index + 1}.&nbsp;
+                        <div style={{ marginRight: '20px' }}>
+                            <CreatableSelect
+                                options={styleOptions}
+                                isMulti
+                                name='Style Code'
+                                placeholder='Style Code / Serial'
+                                className={styles.Select}
+                                onChange={(payload) => onStyleSelect(payload, index)}
+                                value={[style.selectedStyle]}
+                                closeMenuOnSelect={true}
                             />
-                            <Input
-                                value={style[ORDER_CONSTANTS.CUSTOMISATION]}
-                                placeholder='Size Range'
-                                onChange={() => {}}
-                                style={{ marginTop: '0px', width: '100px' }}
-                                size='tiny'
+                            <div className={styles.Inputs}>
+                                <Input
+                                    value={style[ORDER_CONSTANTS.CUSTOMISATION]}
+                                    placeholder='Customisations'
+                                    onChange={(val) =>
+                                        changeField(ORDER_CONSTANTS.CUSTOMISATION, val, index)
+                                    }
+                                    style={{ marginTop: '0px', width: '100px' }}
+                                    size='tiny'
+                                />
+                                <Input
+                                    value={style[ORDER_CONSTANTS.RANGES]}
+                                    placeholder='Size Range'
+                                    onChange={(val) =>
+                                        changeField(ORDER_CONSTANTS.RANGES, val, index)
+                                    }
+                                    style={{ marginTop: '0px', width: '100px' }}
+                                    size='tiny'
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <Sizes
+                                formData={style}
+                                changeSizesData={(size, val) => changeSizeCount(size, val, index)}
+                                variant='invoice'
+                            />
+                        </div>
+                        {!!style.selectedStyle && (
+                            <div className={styles.StyleData}>
+                                <div className={styles.Data}>
+                                    {' '}
+                                    <div className={styles.Item}>
+                                        <div className={styles.Bold}>Item Code:</div>
+                                        {style.selectedStyle?.serialNumber ||
+                                            style.selectedStyle?.styleCode}
+                                    </div>
+                                    <div className={styles.Item}>
+                                        <div className={styles.Bold}>Price:</div>{' '}
+                                        {style.selectedStyle?.price}/-
+                                    </div>
+                                </div>
+                                <div className={styles.Images}>
+                                    {style.selectedStyle?.images?.map((img, i) => (
+                                        <img src={img.imageUrl} alt='' key={i} height='60px' />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        <div>
+                            <img
+                                src={bin}
+                                alt='b'
+                                height='25px'
+                                className={styles.Delete}
+                                onClick={() => deleteStyle(index)}
                             />
                         </div>
                     </div>
-                    <div>
-                        <Sizes formData={style} changeSizesData={() => {}} variant='invoice' />
-                    </div>
-                    <div>
-                        Style Data
-                        <div>Item Name</div>
-                        <div>Price</div>
-                        <div className={styles.Images}>hi</div>
-                    </div>
-                    <div>
-                        <img src={bin} alt='b' height='25px' />
-                    </div>
-                </div>
-            ))}
+                ))}
+                <Button small text='Add' onClick={addStyle} fit style={{ marginTop: '10px' }} />
+                <Button
+                    small
+                    text='Generate PDF'
+                    onClick={() => {}}
+                    fit
+                    style={{ marginTop: '10px' }}
+                />
+            </div>
+
+            <div className={styles.RightSection}>Right section</div>
         </div>
     );
 }

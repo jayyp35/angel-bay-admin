@@ -42,7 +42,7 @@ export const SIZE = {
     XL: 'xl',
     XXL: '2xl',
     XXXL: '3xl',
-    FREE: 'free',
+    FS: 'fs',
 };
 
 export const categoriesMap = {

@@ -18,7 +18,7 @@
 
 .DrawerBody {
     background: white;
-    width: 1260px;
+    width: 90vw;
     height: 100%;
     position: relative;
     animation: moveIn 350ms;
@@ -65,10 +65,10 @@
 
 @keyframes moveIn {
     0% {
-        transform: translateX(1260px);
+        transform: translateX(90vw);
     }
     25% {
-        transform: translateX(1260px);
+        transform: translateX(90vw);
     }
     100% {
         transform: translateX(0);
@@ -83,7 +83,7 @@
         transform: translateX(0);
     }
     100% {
-        transform: translateX(1260px);
+        transform: translateX(90vw);
     }
 }
 

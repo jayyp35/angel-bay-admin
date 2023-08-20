@@ -5,7 +5,6 @@ import clsx from 'clsx';
 
 function Sizes({ formData, changeSizesData, variant }: any) {
     const sizes = formData[CONSTANTS.SIZES] || [];
-    console.log('sizes data', formData);
     return (
         <div className={clsx(styles.Sizes, { [styles.SizesInvoice]: variant === 'invoice' })}>
             {Object.keys(sizes).map((size) => (

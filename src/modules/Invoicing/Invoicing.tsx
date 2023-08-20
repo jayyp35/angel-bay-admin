@@ -28,6 +28,7 @@ export const INVOICE_CONSTANTS = {
 export const ORDER_CONSTANTS = {
     STYLE_CODE: 'styleCode',
     CUSTOMISATION: 'customisation',
+    RANGES: 'ranges',
 };
 
 function Invoice(props) {
