@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, Font, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
-
+import ablogo from '../../assets/ablogo.png';
 const img =
     'https://firebasestorage.googleapis.com/v0/b/angel-bay.appspot.com/o/styleimgs%2F3344%2FWhatsApp%20Image%202023-07-27%20at%2014.28.02.jpeg?alt=media&token=4c598ac2-37ee-4f64-bea5-7a01506d6538';
 const styles = StyleSheet.create({
@@ -21,8 +21,10 @@ const styles = StyleSheet.create({
         fontSize: '8px',
     },
     addresses: {
+        marginTop: '10px',
         padding: '5px 5px',
         flexDirection: 'row',
+        fontSize: '12px',
     },
     address: {
         flexGrow: 1,
@@ -200,6 +202,11 @@ function InvoicePDF({ selectedBuyer, orderDetails }) {
                     <Text style={styles.bold}>GSTIN - 08ACBPK4426F1ZW</Text>
                     <Text>Tax Invoice</Text>
                 </View>
+                <Image
+                    src={ablogo}
+                    style={{ height: '50px', objectFit: 'scale-down', marginTop: '10px' }}
+                />
+
                 <View style={styles.addresses}>
                     <View style={styles.address}>
                         <Text style={styles.bold}>Angel Bay - Patterns India</Text>
