@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-pdf/renderer": "^3.1.12",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -30,9 +31,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
- "predeploy": "npm run build",
- "deploy": "npm run add-domain && gh-pages -d build",
- "add-domain": "echo \"admin.angelbay.co.in\" > build/CNAME",
+    "predeploy": "npm run build",
+    "deploy": "npm run add-domain && gh-pages -d build",
+    "add-domain": "echo \"admin.angelbay.co.in\" > build/CNAME",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -9,12 +9,14 @@ import BuyerDetails from './BuyerDetails/BuyerDetails';
 import bin from '../../../../assets/bin.svg';
 import Sizes from '../../../Home/components/AddStyles/Sizes/Sizes';
 import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
+import { PDFViewer } from '@react-pdf/renderer';
 import Button from '../../../../common/_custom/Button/Button';
+import InvoicePDF from '../../../InvoicePDF/InvoicePDF';
 
 function OrderDetails({ selectedBuyer }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [styleOptions, setStyleOptions] = useState([]);
-
+    const [showPDF, setShowPDF] = useState(false);
     const debouncedSearchTerm = useDebounce(searchTerm, 200);
 
     const [orderDetails, setOrderDetails] = useState<any>({
@@ -229,10 +231,17 @@ function OrderDetails({ selectedBuyer }) {
                 <Button
                     small
                     text='Generate PDF'
-                    onClick={() => {}}
+                    onClick={() => setShowPDF((val) => !val)}
                     fit
                     style={{ marginTop: '10px' }}
                 />
+                <div style={{ height: '600px', marginBottom: '40px' }}>
+                    {showPDF && (
+                        <PDFViewer width={'95%'} height={'100%'}>
+                            <InvoicePDF selectedBuyer={selectedBuyer} orderDetails={orderDetails} />
+                        </PDFViewer>
+                    )}
+                </div>
             </div>
 
             <div className={styles.RightSection}>Right section</div>
