@@ -14,6 +14,9 @@ export const getAddBuyerData = (formData, user, isAdd = false) => {
             ...(formData[INVOICE_CONSTANTS.CONTACT_NUMBER]
                 ? [formData[INVOICE_CONSTANTS.CONTACT_NUMBER]]
                 : []),
+            ...(formData[INVOICE_CONSTANTS.PERSON_OF_CONTACT]
+                ? [formData[INVOICE_CONSTANTS.PERSON_OF_CONTACT]]
+                : []),
         ],
         invoices: [],
         ...(isAdd

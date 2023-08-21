@@ -5,25 +5,35 @@ import mobile from '../../../../assets/mobile.svg';
 import styles from './ExistingBuyers.module.scss';
 import clsx from 'clsx';
 import { INVOICE_CONSTANTS } from '../../Invoicing';
+import Search from '../../../../common/_custom/Search/Search';
+import { useDebounce } from '../../../../utils/hooks';
 
 function ExistingBuyers({ formData, setFormData, resetFormData, selectBuyer }) {
+    const [searchTerm, setSearchTerm] = useState('');
     const [buyers, setBuyers] = useState<any>([]);
     const [fetching, setFetching] = useState(false);
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
     useEffect(() => {
         getBuyers(
-            { searchTerm: '', limit: 10 },
+            { searchTerm: debouncedSearchTerm, limit: 10 },
             {
                 onStart: () => setFetching(true),
                 onSuccess: (data) => setBuyers([...data]),
                 finally: () => setFetching(false),
             },
         );
-    }, []);
+    }, [debouncedSearchTerm]);
 
     return (
         <div className={styles.ExistingBuyers}>
             <div className={styles.Title}>Existing Buyers</div>
+            <Search
+                value={searchTerm}
+                onChange={(val) => setSearchTerm(val)}
+                style={{ marginTop: 0 }}
+                placeholder='Search by Company Name / Person / Mobile'
+            />
             {buyers?.map((buyer, i) => (
                 <div
                     key={i}
