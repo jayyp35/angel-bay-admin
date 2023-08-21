@@ -20,8 +20,10 @@ export const INVOICE_CONSTANTS = {
     SHIPPING_DETAILS: 'shippingDetails',
     ADDR_LINE1: 'addr_1',
     ADDR_LINE2: 'addr_2',
+    CITY: 'city',
+    STATE: 'state',
     LANDMARK: 'addr_3',
-    PIN: 'pincode',
+    PINCODE: 'pincode',
     ID: 'id',
 };
 
@@ -32,26 +34,38 @@ export const ORDER_CONSTANTS = {
 };
 
 function Invoice(props) {
+    const {
+        COMPANY_NAME,
+        PERSON_OF_CONTACT,
+        CONTACT_NUMBER,
+        EMAIL,
+        ADDR_LINE1,
+        ADDR_LINE2,
+        CITY,
+        STATE,
+        LANDMARK,
+        PINCODE,
+        SHIPPING_DETAILS,
+    } = INVOICE_CONSTANTS;
     const user = useAppSelector((state) => state.user.userData);
 
     const [addingBuyer, setAddingBuyer] = useState(false);
     const [creating, setCreating] = useState(false);
     const [formData, setFormData] = useState({
-        [INVOICE_CONSTANTS.COMPANY_NAME]: '',
-        [INVOICE_CONSTANTS.PERSON_OF_CONTACT]: '',
-        [INVOICE_CONSTANTS.CONTACT_NUMBER]: '',
-        [INVOICE_CONSTANTS.EMAIL]: '',
+        [COMPANY_NAME]: '',
+        [PERSON_OF_CONTACT]: '',
+        [CONTACT_NUMBER]: '',
+        [EMAIL]: '',
     });
     const [shippingDetails, setShippingDetails] = useState({
-        [INVOICE_CONSTANTS.ADDR_LINE1]: '',
-        [INVOICE_CONSTANTS.ADDR_LINE2]: '',
-        [INVOICE_CONSTANTS.LANDMARK]: '',
-        [INVOICE_CONSTANTS.PIN]: '',
+        [ADDR_LINE1]: '',
+        [ADDR_LINE2]: '',
+        [CITY]: '',
+        [STATE]: '',
+        [LANDMARK]: '',
+        [PINCODE]: '',
     });
-    // const [orderDetails, setOrderDetails] = useState<any>({
-    //     docId: '',
-    //     styles: [],
-    // });
+
     const [selectedBuyer, setSelectedBuyer] = useState(null);
     const [showDrawer, setShowDrawer] = useState(false);
 
@@ -63,15 +77,32 @@ function Invoice(props) {
     };
 
     const initialiseBuyerData = (buyer) => {
-        // setFopr;
+        if (buyer) {
+            setFormData({
+                [COMPANY_NAME]: buyer?.[COMPANY_NAME] || '',
+                [PERSON_OF_CONTACT]: buyer?.[PERSON_OF_CONTACT] || '',
+                [CONTACT_NUMBER]: buyer?.[CONTACT_NUMBER] || '',
+                [EMAIL]: buyer?.[EMAIL] || '',
+            });
+        }
+        if (buyer?.[SHIPPING_DETAILS]) {
+            setShippingDetails({
+                [ADDR_LINE1]: buyer?.[SHIPPING_DETAILS]?.[ADDR_LINE1] || '',
+                [ADDR_LINE2]: buyer?.[SHIPPING_DETAILS]?.[ADDR_LINE2] || '',
+                [CITY]: buyer?.[SHIPPING_DETAILS]?.[CITY] || '',
+                [STATE]: buyer?.[SHIPPING_DETAILS]?.[STATE] || '',
+                [LANDMARK]: buyer?.[SHIPPING_DETAILS]?.[LANDMARK] || '',
+                [PINCODE]: buyer?.[SHIPPING_DETAILS]?.[PINCODE] || '',
+            });
+        }
     };
 
     const resetFormData = () => {
         setFormData({
-            [INVOICE_CONSTANTS.COMPANY_NAME]: '',
-            [INVOICE_CONSTANTS.PERSON_OF_CONTACT]: '',
-            [INVOICE_CONSTANTS.CONTACT_NUMBER]: '',
-            [INVOICE_CONSTANTS.EMAIL]: '',
+            [COMPANY_NAME]: '',
+            [PERSON_OF_CONTACT]: '',
+            [CONTACT_NUMBER]: '',
+            [EMAIL]: '',
         });
     };
 
@@ -84,15 +115,6 @@ function Invoice(props) {
                 setAddingBuyer(true);
             },
             onSuccess: (buyerId: string) => {
-                // setOrderDetails({
-                //     buyerId: buyerId,
-                //     styles: [
-                //         {
-                //             [ORDER_CONSTANTS.STYLE_CODE]: '',
-                //             [ORDER_CONSTANTS.CUSTOMISATION]: '',
-                //         },
-                //     ],
-                // });
                 setShowDrawer(true);
             },
             finally: () => {
@@ -101,28 +123,28 @@ function Invoice(props) {
         });
     };
 
-    const createOrder = () => {
-        addInvoiceService(formData, user, {
-            onStart: () => {
-                setCreating(true);
-            },
-            onSuccess: (docId: string) => {
-                // setOrderDetails({
-                //     docId: docId,
-                //     styles: [
-                //         {
-                //             [ORDER_CONSTANTS.STYLE_CODE]: '',
-                //             [ORDER_CONSTANTS.CUSTOMISATION]: '',
-                //         },
-                //     ],
-                // });
-                setShowDrawer(true);
-            },
-            finally: () => {
-                setCreating(false);
-            },
-        });
-    };
+    // const createOrder = () => {
+    //     addInvoiceService(formData, user, {
+    //         onStart: () => {
+    //             setCreating(true);
+    //         },
+    //         onSuccess: (docId: string) => {
+    //             // setOrderDetails({
+    //             //     docId: docId,
+    //             //     styles: [
+    //             //         {
+    //             //             [ORDER_CONSTANTS.STYLE_CODE]: '',
+    //             //             [ORDER_CONSTANTS.CUSTOMISATION]: '',
+    //             //         },
+    //             //     ],
+    //             // });
+    //             setShowDrawer(true);
+    //         },
+    //         finally: () => {
+    //             setCreating(false);
+    //         },
+    //     });
+    // };
 
     const handleCreateOrderClick = () => {
         if (formData[INVOICE_CONSTANTS.ID]) {
@@ -132,12 +154,9 @@ function Invoice(props) {
 
     const selectBuyer = (buyer) => {
         setSelectedBuyer(buyer);
+        initialiseBuyerData(buyer);
         setShowDrawer(true);
     };
-
-    // useEffect(() => {
-    //     console.log('form data', formData);
-    // }, [formData]);
 
     return (
         <div className={styles.Invoice}>
@@ -151,11 +170,15 @@ function Invoice(props) {
                     creating={creating}
                 />
 
-                {/* {!orderDetails?.docId && <OrderDetails orderDetails={orderDetails} />} */}
                 {showDrawer && (
                     <SideDrawer onClose={() => setShowDrawer(false)}>
                         <SideDrawer.Header>Order Details</SideDrawer.Header>
-                        <OrderDetails selectedBuyer={selectedBuyer} />
+                        <OrderDetails
+                            selectedBuyer={selectedBuyer}
+                            formData={formData}
+                            setFormData={setFormData}
+                            changeValue={changeValue}
+                        />
                     </SideDrawer>
                 )}
             </div>

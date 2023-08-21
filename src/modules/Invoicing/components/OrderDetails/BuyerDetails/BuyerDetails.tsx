@@ -3,14 +3,38 @@ import pencil from '../../../../../assets/pencil-blue.svg';
 import styles from './BuyerDetails.module.scss';
 import Button from '../../../../../common/_custom/Button/Button';
 import Input from '../../../../../common/_custom/Input3/Input';
+import { INVOICE_CONSTANTS } from '../../../Invoicing';
 
-function BuyerDetails({ selectedBuyer }) {
+function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
+    const {
+        PERSON_OF_CONTACT,
+        COMPANY_NAME,
+        CONTACT_NUMBER,
+        EMAIL,
+        SHIPPING_DETAILS,
+        ADDR_LINE1,
+        ADDR_LINE2,
+        CITY,
+        STATE,
+        LANDMARK,
+        PINCODE,
+    } = INVOICE_CONSTANTS;
     const [editDetails, setEditDetails] = useState(false);
     const [editShipping, setEditShipping] = useState(false);
 
     useEffect(() => {
         if (selectedBuyer && !selectedBuyer?.shippingDetails) setEditShipping(true);
     }, [selectedBuyer]);
+
+    const changeShippingDetail = (key, value) => {
+        setFormData((formData) => ({
+            ...formData,
+            [SHIPPING_DETAILS]: {
+                ...formData?.[SHIPPING_DETAILS],
+                [key]: value,
+            },
+        }));
+    };
 
     return (
         <div className={styles.BuyerDetails}>
@@ -40,32 +64,42 @@ function BuyerDetails({ selectedBuyer }) {
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Company Name:</span>{' '}
                         <Input
-                            onChange={() => {}}
-                            value={selectedBuyer?.companyName}
+                            onChange={(val) => changeValue(COMPANY_NAME, val)}
+                            value={
+                                editDetails ? formData?.[COMPANY_NAME] : selectedBuyer?.companyName
+                            }
                             disabled={!editDetails}
                         />
                     </div>
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Person Of Contact:</span>{' '}
                         <Input
-                            onChange={() => {}}
-                            value={selectedBuyer?.personOfContact}
+                            onChange={(val) => changeValue(PERSON_OF_CONTACT, val)}
+                            value={
+                                editDetails
+                                    ? formData?.[PERSON_OF_CONTACT]
+                                    : selectedBuyer?.personOfContact
+                            }
                             disabled={!editDetails}
                         />
                     </div>
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Contact Number:</span>{' '}
                         <Input
-                            onChange={() => {}}
-                            value={selectedBuyer?.contactNumber}
+                            onChange={(val) => changeValue(CONTACT_NUMBER, val)}
+                            value={
+                                editDetails
+                                    ? formData?.[CONTACT_NUMBER]
+                                    : selectedBuyer?.contactNumber
+                            }
                             disabled={!editDetails}
                         />
                     </div>
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Email:</span>{' '}
                         <Input
-                            onChange={() => {}}
-                            value={selectedBuyer?.email}
+                            onChange={(val) => changeValue(EMAIL, val)}
+                            value={editDetails ? formData?.[EMAIL] : selectedBuyer?.email}
                             disabled={!editDetails}
                         />
                     </div>
@@ -102,16 +136,24 @@ function BuyerDetails({ selectedBuyer }) {
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Address Line 1:</span>{' '}
                         <Input
-                            onChange={() => {}}
-                            value={selectedBuyer?.companyName}
+                            onChange={(val) => changeShippingDetail(ADDR_LINE1, val)}
+                            value={
+                                editShipping
+                                    ? formData?.[SHIPPING_DETAILS]?.[ADDR_LINE1]
+                                    : selectedBuyer?.[SHIPPING_DETAILS]?.[ADDR_LINE1]
+                            }
                             disabled={!editShipping}
                         />
                     </div>
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Address Line 2:</span>{' '}
                         <Input
-                            onChange={() => {}}
-                            value={selectedBuyer?.companyName}
+                            onChange={(val) => changeShippingDetail(ADDR_LINE2, val)}
+                            value={
+                                editShipping
+                                    ? formData?.[SHIPPING_DETAILS]?.[ADDR_LINE2]
+                                    : selectedBuyer?.[SHIPPING_DETAILS]?.[ADDR_LINE2]
+                            }
                             disabled={!editShipping}
                         />
                     </div>
@@ -119,16 +161,24 @@ function BuyerDetails({ selectedBuyer }) {
                         <div>
                             <span className={styles.Bold}>City:</span>{' '}
                             <Input
-                                onChange={() => {}}
-                                value={selectedBuyer?.companyName}
+                                onChange={(val) => changeShippingDetail(CITY, val)}
+                                value={
+                                    editShipping
+                                        ? formData?.[SHIPPING_DETAILS]?.[CITY]
+                                        : selectedBuyer?.[SHIPPING_DETAILS]?.[CITY]
+                                }
                                 disabled={!editShipping}
                             />
                         </div>
                         <div>
                             <span className={styles.Bold}>State:</span>{' '}
                             <Input
-                                onChange={() => {}}
-                                value={selectedBuyer?.companyName}
+                                onChange={(val) => changeShippingDetail(STATE, val)}
+                                value={
+                                    editShipping
+                                        ? formData?.[SHIPPING_DETAILS]?.[STATE]
+                                        : selectedBuyer?.[SHIPPING_DETAILS]?.[STATE]
+                                }
                                 disabled={!editShipping}
                             />
                         </div>
@@ -136,8 +186,12 @@ function BuyerDetails({ selectedBuyer }) {
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Pincode:</span>{' '}
                         <Input
-                            onChange={() => {}}
-                            value={selectedBuyer?.companyName}
+                            onChange={(val) => changeShippingDetail(PINCODE, val)}
+                            value={
+                                editShipping
+                                    ? formData?.[SHIPPING_DETAILS]?.[PINCODE]
+                                    : selectedBuyer?.[SHIPPING_DETAILS]?.[PINCODE]
+                            }
                             disabled={!editShipping}
                         />
                     </div>

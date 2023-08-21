@@ -13,7 +13,7 @@ import { PDFViewer } from '@react-pdf/renderer';
 import Button from '../../../../common/_custom/Button/Button';
 import InvoicePDF from '../../../InvoicePDF/InvoicePDF';
 
-function OrderDetails({ selectedBuyer }) {
+function OrderDetails({ selectedBuyer, formData, setFormData, changeValue }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [styleOptions, setStyleOptions] = useState([]);
     const [showPDF, setShowPDF] = useState(false);
@@ -119,9 +119,7 @@ function OrderDetails({ selectedBuyer }) {
 
     const deleteStyle = (index) => {
         let styles = JSON.parse(JSON.stringify(orderDetails.styles));
-        console.log('filtered array before delte', index, styles);
         let filteredStyles = styles.filter((style, i) => i !== index);
-        console.log('filtered array after delte', index, filteredStyles);
         setOrderDetails((orderDetails) => ({
             ...orderDetails,
             styles: filteredStyles,
@@ -152,7 +150,12 @@ function OrderDetails({ selectedBuyer }) {
         <div className={styles.OrderDetails}>
             <div className={styles.LeftSection}>
                 {' '}
-                <BuyerDetails selectedBuyer={selectedBuyer} />
+                <BuyerDetails
+                    selectedBuyer={selectedBuyer}
+                    formData={formData}
+                    setFormData={setFormData}
+                    changeValue={changeValue}
+                />
                 {orderDetails?.styles?.map((style, index) => (
                     <div className={styles.SingleItem} key={`${index}-a`}>
                         {index + 1}.&nbsp;
