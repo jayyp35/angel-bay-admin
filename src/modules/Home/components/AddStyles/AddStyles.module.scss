@@ -1,10 +1,11 @@
 .AddStyles {
   display: flex;
+  flex-direction: row;
   height: 100%;
 
   .MainSection {
     padding: 24px;
-    width: 100%;
+    flex: 1 1 0;
   }
 
   .Right {

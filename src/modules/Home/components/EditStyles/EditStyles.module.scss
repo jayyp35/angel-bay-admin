@@ -1,10 +1,11 @@
 .EditStyles {
   display: flex;
+  flex-direction: row;
   height: 100%;
 
   .MainSection {
+    flex: 1 1 0;
     padding: 24px;
-    width: 100%;
   }
 
   .Right {
