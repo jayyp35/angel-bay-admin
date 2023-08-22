@@ -4,8 +4,19 @@ import styles from './BuyerDetails.module.scss';
 import Button from '../../../../../common/_custom/Button/Button';
 import Input from '../../../../../common/_custom/Input3/Input';
 import { INVOICE_CONSTANTS } from '../../../Invoicing';
+import { setShippingDetails } from '../../../../../services/services';
+import { toast } from 'react-toastify';
+import { validateShippingData } from '../../../../../services/validations';
 
-function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
+function BuyerDetails({
+    selectedBuyer,
+    formData,
+    shippingDetails,
+    setFormData,
+    changeValue,
+    changeShippingValue,
+    setSelectedBuyer,
+}) {
     const {
         PERSON_OF_CONTACT,
         COMPANY_NAME,
@@ -23,17 +34,20 @@ function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
     const [editShipping, setEditShipping] = useState(false);
 
     useEffect(() => {
+        console.log('selected buyer', selectedBuyer);
         if (selectedBuyer && !selectedBuyer?.shippingDetails) setEditShipping(true);
     }, [selectedBuyer]);
 
-    const changeShippingDetail = (key, value) => {
-        setFormData((formData) => ({
-            ...formData,
-            [SHIPPING_DETAILS]: {
-                ...formData?.[SHIPPING_DETAILS],
-                [key]: value,
+    const saveShipping = () => {
+        let errorMsg = validateShippingData(shippingDetails);
+        if (errorMsg) return toast.error(errorMsg);
+        setShippingDetails(shippingDetails, selectedBuyer.id, {
+            finally: () => {
+                setSelectedBuyer((selectedBuyer) => ({ ...selectedBuyer, shippingDetails }));
+                toast.success('Shipping Details Saved');
+                setEditShipping(false);
             },
-        }));
+        });
     };
 
     return (
@@ -117,7 +131,7 @@ function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
                                         ? 'Save Shipping Details'
                                         : 'Save'
                                 }
-                                onClick={() => setEditShipping(false)}
+                                onClick={saveShipping}
                                 tiny
                                 style={{ marginTop: '0' }}
                             />
@@ -136,10 +150,10 @@ function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Address Line 1:</span>{' '}
                         <Input
-                            onChange={(val) => changeShippingDetail(ADDR_LINE1, val)}
+                            onChange={(val) => changeShippingValue(ADDR_LINE1, val)}
                             value={
                                 editShipping
-                                    ? formData?.[SHIPPING_DETAILS]?.[ADDR_LINE1]
+                                    ? shippingDetails?.[ADDR_LINE1]
                                     : selectedBuyer?.[SHIPPING_DETAILS]?.[ADDR_LINE1]
                             }
                             disabled={!editShipping}
@@ -148,10 +162,10 @@ function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Address Line 2:</span>{' '}
                         <Input
-                            onChange={(val) => changeShippingDetail(ADDR_LINE2, val)}
+                            onChange={(val) => changeShippingValue(ADDR_LINE2, val)}
                             value={
                                 editShipping
-                                    ? formData?.[SHIPPING_DETAILS]?.[ADDR_LINE2]
+                                    ? shippingDetails?.[ADDR_LINE2]
                                     : selectedBuyer?.[SHIPPING_DETAILS]?.[ADDR_LINE2]
                             }
                             disabled={!editShipping}
@@ -161,10 +175,10 @@ function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
                         <div>
                             <span className={styles.Bold}>City:</span>{' '}
                             <Input
-                                onChange={(val) => changeShippingDetail(CITY, val)}
+                                onChange={(val) => changeShippingValue(CITY, val)}
                                 value={
                                     editShipping
-                                        ? formData?.[SHIPPING_DETAILS]?.[CITY]
+                                        ? shippingDetails?.[CITY]
                                         : selectedBuyer?.[SHIPPING_DETAILS]?.[CITY]
                                 }
                                 disabled={!editShipping}
@@ -173,10 +187,10 @@ function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
                         <div>
                             <span className={styles.Bold}>State:</span>{' '}
                             <Input
-                                onChange={(val) => changeShippingDetail(STATE, val)}
+                                onChange={(val) => changeShippingValue(STATE, val)}
                                 value={
                                     editShipping
-                                        ? formData?.[SHIPPING_DETAILS]?.[STATE]
+                                        ? shippingDetails?.[STATE]
                                         : selectedBuyer?.[SHIPPING_DETAILS]?.[STATE]
                                 }
                                 disabled={!editShipping}
@@ -186,10 +200,10 @@ function BuyerDetails({ selectedBuyer, formData, setFormData, changeValue }) {
                     <div className={styles.Info}>
                         <span className={styles.Bold}>Pincode:</span>{' '}
                         <Input
-                            onChange={(val) => changeShippingDetail(PINCODE, val)}
+                            onChange={(val) => changeShippingValue(PINCODE, val)}
                             value={
                                 editShipping
-                                    ? formData?.[SHIPPING_DETAILS]?.[PINCODE]
+                                    ? shippingDetails?.[PINCODE]
                                     : selectedBuyer?.[SHIPPING_DETAILS]?.[PINCODE]
                             }
                             disabled={!editShipping}

@@ -8,21 +8,21 @@ import { INVOICE_CONSTANTS } from '../../Invoicing';
 import Search from '../../../../common/_custom/Search/Search';
 import { useDebounce } from '../../../../utils/hooks';
 
-function ExistingBuyers({ formData, setFormData, resetFormData, selectBuyer }) {
+function ExistingBuyers({
+    formData,
+    setFormData,
+    resetFormData,
+    selectBuyer,
+    buyers,
+    setBuyers,
+    fetchBuyers,
+}) {
     const [searchTerm, setSearchTerm] = useState('');
-    const [buyers, setBuyers] = useState<any>([]);
     const [fetching, setFetching] = useState(false);
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
     useEffect(() => {
-        getBuyers(
-            { searchTerm: debouncedSearchTerm, limit: 10 },
-            {
-                onStart: () => setFetching(true),
-                onSuccess: (data) => setBuyers([...data]),
-                finally: () => setFetching(false),
-            },
-        );
+        fetchBuyers(debouncedSearchTerm);
     }, [debouncedSearchTerm]);
 
     return (

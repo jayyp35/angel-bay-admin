@@ -30,6 +30,26 @@ export function addBuyerService(payload, user, handlers: Handlers) {
         });
 }
 
+export function setShippingDetails(payload, buyerId, handlers: Handlers) {
+    handlers?.onStart?.();
+    setDoc(
+        doc(db, 'buyers', buyerId),
+        {
+            shippingDetails: payload,
+        },
+        { merge: true },
+    )
+        .then(() => {
+            handlers?.onSuccess?.();
+        })
+        .catch(() => {
+            handlers?.onFailure?.();
+        })
+        .finally(() => {
+            handlers?.finally?.();
+        });
+}
+
 export function addInvoiceService(payload, user, handlers: Handlers) {
     handlers?.onStart?.();
     addDoc(collection(db, 'invoices'), {

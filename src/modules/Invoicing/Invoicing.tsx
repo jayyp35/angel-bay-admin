@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styles from './Invoicing.module.scss';
 import ExistingBuyers from './components/ExistingBuyers/ExistingBuyers';
 import Company from './components/Company/Company';
-import { addBuyerService, addInvoiceService } from '../../services/services';
+import { addBuyerService, addInvoiceService, getBuyers } from '../../services/services';
 import { useAppSelector } from '../../utils/hooks';
 import OrderDetails from './components/OrderDetails/OrderDetails';
 import SideDrawer from '../../common/_custom/SideDrawer/SideDrawer';
@@ -68,10 +68,17 @@ function Invoice(props) {
 
     const [selectedBuyer, setSelectedBuyer] = useState(null);
     const [showDrawer, setShowDrawer] = useState(false);
+    const [buyers, setBuyers] = useState<any>([]);
 
     const changeValue = (key, value) => {
         setFormData((formData) => ({
             ...formData,
+            [key]: value,
+        }));
+    };
+    const changeShippingValue = (key, value) => {
+        setShippingDetails((shippingDetails) => ({
+            ...shippingDetails,
             [key]: value,
         }));
     };
@@ -93,6 +100,15 @@ function Invoice(props) {
                 [STATE]: buyer?.[SHIPPING_DETAILS]?.[STATE] || '',
                 [LANDMARK]: buyer?.[SHIPPING_DETAILS]?.[LANDMARK] || '',
                 [PINCODE]: buyer?.[SHIPPING_DETAILS]?.[PINCODE] || '',
+            });
+        } else {
+            setShippingDetails({
+                [ADDR_LINE1]: '',
+                [ADDR_LINE2]: '',
+                [CITY]: '',
+                [STATE]: '',
+                [LANDMARK]: '',
+                [PINCODE]: '',
             });
         }
     };
@@ -121,6 +137,15 @@ function Invoice(props) {
                 setAddingBuyer(false);
             },
         });
+    };
+
+    const fetchBuyers = (searchTerm) => {
+        getBuyers(
+            { searchTerm: searchTerm, limit: 10 },
+            {
+                onSuccess: (data) => setBuyers([...data]),
+            },
+        );
     };
 
     // const createOrder = () => {
@@ -171,13 +196,20 @@ function Invoice(props) {
                 />
 
                 {showDrawer && (
-                    <SideDrawer onClose={() => setShowDrawer(false)}>
+                    <SideDrawer
+                        onClose={() => {
+                            setShowDrawer(false);
+                            fetchBuyers('');
+                        }}>
                         <SideDrawer.Header>Order Details</SideDrawer.Header>
                         <OrderDetails
                             selectedBuyer={selectedBuyer}
                             formData={formData}
+                            shippingDetails={shippingDetails}
+                            setSelectedBuyer={setSelectedBuyer}
                             setFormData={setFormData}
                             changeValue={changeValue}
+                            changeShippingValue={changeShippingValue}
                         />
                     </SideDrawer>
                 )}
@@ -185,6 +217,9 @@ function Invoice(props) {
 
             <div className={styles.Right}>
                 <ExistingBuyers
+                    buyers={buyers}
+                    setBuyers={setBuyers}
+                    fetchBuyers={fetchBuyers}
                     setFormData={setFormData}
                     formData={formData}
                     resetFormData={resetFormData}

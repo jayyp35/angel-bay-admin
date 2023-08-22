@@ -13,7 +13,15 @@ import { PDFViewer } from '@react-pdf/renderer';
 import Button from '../../../../common/_custom/Button/Button';
 import InvoicePDF from '../../../InvoicePDF/InvoicePDF';
 
-function OrderDetails({ selectedBuyer, formData, setFormData, changeValue }) {
+function OrderDetails({
+    selectedBuyer,
+    formData,
+    setFormData,
+    changeValue,
+    changeShippingValue,
+    shippingDetails,
+    setSelectedBuyer,
+}) {
     const [searchTerm, setSearchTerm] = useState('');
     const [styleOptions, setStyleOptions] = useState([]);
     const [showPDF, setShowPDF] = useState(false);
@@ -153,8 +161,11 @@ function OrderDetails({ selectedBuyer, formData, setFormData, changeValue }) {
                 <BuyerDetails
                     selectedBuyer={selectedBuyer}
                     formData={formData}
+                    shippingDetails={shippingDetails}
                     setFormData={setFormData}
                     changeValue={changeValue}
+                    changeShippingValue={changeShippingValue}
+                    setSelectedBuyer={setSelectedBuyer}
                 />
                 {orderDetails?.styles?.map((style, index) => (
                     <div className={styles.SingleItem} key={`${index}-a`}>

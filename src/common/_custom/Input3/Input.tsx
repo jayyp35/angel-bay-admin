@@ -59,7 +59,7 @@ function Input({
                 })}
                 type={type}
                 pattern={pattern}
-                value={value}
+                value={value ?? ''}
                 onChange={handleChange}
                 onKeyUp={(e) => {
                     if (onEnter && e.key === 'Enter') onEnter();

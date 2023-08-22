@@ -12,6 +12,7 @@ function Company({
     handleCreateOrderClick,
     formData,
     changeValue,
+
     creating,
 }) {
     const {
