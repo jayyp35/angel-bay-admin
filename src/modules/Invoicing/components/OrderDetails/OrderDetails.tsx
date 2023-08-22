@@ -12,6 +12,7 @@ import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { PDFViewer } from '@react-pdf/renderer';
 import Button from '../../../../common/_custom/Button/Button';
 import InvoicePDF from '../../../InvoicePDF/InvoicePDF';
+import { toast } from 'react-toastify';
 
 function OrderDetails({
     selectedBuyer,
@@ -51,9 +52,6 @@ function OrderDetails({
     useEffect(() => {
         search(debouncedSearchTerm);
     }, [debouncedSearchTerm]);
-    useEffect(() => {
-        console.log('order detauls', orderDetails);
-    }, [orderDetails]);
 
     const onStyleSelect = (payload, index) => {
         const styleToSelect = payload?.[payload?.length - 1];
@@ -102,27 +100,40 @@ function OrderDetails({
     };
 
     const addStyle = () => {
-        setOrderDetails((orderDetails) => ({
-            ...orderDetails,
-            styles: [
-                ...orderDetails.styles,
-                {
-                    selectedStyle: null,
-                    [ORDER_CONSTANTS.CUSTOMISATION]: '',
-                    [ORDER_CONSTANTS.RANGES]: '',
-                    [CONSTANTS.SIZES]: {
-                        [SIZE.XS]: '0',
-                        [SIZE.S]: '0',
-                        [SIZE.M]: '0',
-                        [SIZE.L]: '0',
-                        [SIZE.XL]: '0',
-                        [SIZE.XXL]: '0',
-                        [SIZE.XXXL]: '0',
-                        [SIZE.FS]: '0',
-                    },
-                },
-            ],
-        }));
+        setOrderDetails((orderDetails) => {
+            const stylesLength = orderDetails?.styles?.length;
+            if (
+                stylesLength &&
+                !orderDetails?.styles?.[stylesLength - 1]?.selectedStyle?.[
+                    ORDER_CONSTANTS.STYLE_CODE
+                ]
+            ) {
+                toast.error(`Enter style code for Sno. ${stylesLength}`);
+                return orderDetails;
+            } else {
+                return {
+                    ...orderDetails,
+                    styles: [
+                        ...orderDetails.styles,
+                        {
+                            selectedStyle: null,
+                            [ORDER_CONSTANTS.CUSTOMISATION]: '',
+                            [ORDER_CONSTANTS.RANGES]: '',
+                            [CONSTANTS.SIZES]: {
+                                [SIZE.XS]: '0',
+                                [SIZE.S]: '0',
+                                [SIZE.M]: '0',
+                                [SIZE.L]: '0',
+                                [SIZE.XL]: '0',
+                                [SIZE.XXL]: '0',
+                                [SIZE.XXXL]: '0',
+                                [SIZE.FS]: '0',
+                            },
+                        },
+                    ],
+                };
+            }
+        });
     };
 
     const deleteStyle = (index) => {
@@ -167,88 +178,93 @@ function OrderDetails({
                     changeShippingValue={changeShippingValue}
                     setSelectedBuyer={setSelectedBuyer}
                 />
-                {orderDetails?.styles?.map((style, index) => (
-                    <div className={styles.SingleItem} key={`${index}-a`}>
-                        {index + 1}.&nbsp;
-                        <div style={{ marginRight: '20px' }}>
-                            <CreatableSelect
-                                options={styleOptions}
-                                isMulti
-                                name='Style Code'
-                                placeholder='Style Code / Serial'
-                                className={styles.Select}
-                                onChange={(payload) => onStyleSelect(payload, index)}
-                                value={[style.selectedStyle]}
-                                closeMenuOnSelect={true}
-                            />
-                            <div className={styles.Inputs}>
-                                <Input
-                                    value={style[ORDER_CONSTANTS.CUSTOMISATION]}
-                                    placeholder='Customisations'
-                                    onChange={(val) =>
-                                        changeField(ORDER_CONSTANTS.CUSTOMISATION, val, index)
-                                    }
-                                    style={{ marginTop: '0px', width: '100px' }}
-                                    size='tiny'
+                <div className={styles.OrderForm}>
+                    {' '}
+                    {orderDetails?.styles?.map((style, index) => (
+                        <div className={styles.SingleItem} key={`${index}-a`}>
+                            {index + 1}.&nbsp;
+                            <div style={{ marginRight: '20px' }}>
+                                <CreatableSelect
+                                    options={styleOptions}
+                                    isMulti
+                                    name='Style Code'
+                                    placeholder='Style Code / Serial'
+                                    className={styles.Select}
+                                    onChange={(payload) => onStyleSelect(payload, index)}
+                                    value={[style.selectedStyle]}
+                                    closeMenuOnSelect={true}
                                 />
-                                <Input
-                                    value={style[ORDER_CONSTANTS.RANGES]}
-                                    placeholder='Size Range'
-                                    onChange={(val) =>
-                                        changeField(ORDER_CONSTANTS.RANGES, val, index)
+                                <div className={styles.Inputs}>
+                                    <Input
+                                        value={style[ORDER_CONSTANTS.CUSTOMISATION]}
+                                        placeholder='Customisations'
+                                        onChange={(val) =>
+                                            changeField(ORDER_CONSTANTS.CUSTOMISATION, val, index)
+                                        }
+                                        style={{ marginTop: '0px', width: '100px' }}
+                                        size='tiny'
+                                    />
+                                    <Input
+                                        value={style[ORDER_CONSTANTS.RANGES]}
+                                        placeholder='Size Range'
+                                        onChange={(val) =>
+                                            changeField(ORDER_CONSTANTS.RANGES, val, index)
+                                        }
+                                        style={{ marginTop: '0px', width: '100px' }}
+                                        size='tiny'
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <Sizes
+                                    formData={style}
+                                    changeSizesData={(size, val) =>
+                                        changeSizeCount(size, val, index)
                                     }
-                                    style={{ marginTop: '0px', width: '100px' }}
-                                    size='tiny'
+                                    variant='invoice'
+                                />
+                            </div>
+                            {!!style.selectedStyle && (
+                                <div className={styles.StyleData}>
+                                    <div className={styles.Data}>
+                                        {' '}
+                                        <div className={styles.Item}>
+                                            <div className={styles.Bold}>Item Code:</div>
+                                            {style.selectedStyle?.serialNumber ||
+                                                style.selectedStyle?.styleCode}
+                                        </div>
+                                        <div className={styles.Item}>
+                                            <div className={styles.Bold}>Price:</div>{' '}
+                                            {style.selectedStyle?.price}/-
+                                        </div>
+                                    </div>
+                                    <div className={styles.Images}>
+                                        {style.selectedStyle?.images?.map((img, i) => (
+                                            <img src={img.imageUrl} alt='' key={i} height='60px' />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            <div>
+                                <img
+                                    src={bin}
+                                    alt='b'
+                                    height='25px'
+                                    className={styles.Delete}
+                                    onClick={() => deleteStyle(index)}
                                 />
                             </div>
                         </div>
-                        <div>
-                            <Sizes
-                                formData={style}
-                                changeSizesData={(size, val) => changeSizeCount(size, val, index)}
-                                variant='invoice'
-                            />
-                        </div>
-                        {!!style.selectedStyle && (
-                            <div className={styles.StyleData}>
-                                <div className={styles.Data}>
-                                    {' '}
-                                    <div className={styles.Item}>
-                                        <div className={styles.Bold}>Item Code:</div>
-                                        {style.selectedStyle?.serialNumber ||
-                                            style.selectedStyle?.styleCode}
-                                    </div>
-                                    <div className={styles.Item}>
-                                        <div className={styles.Bold}>Price:</div>{' '}
-                                        {style.selectedStyle?.price}/-
-                                    </div>
-                                </div>
-                                <div className={styles.Images}>
-                                    {style.selectedStyle?.images?.map((img, i) => (
-                                        <img src={img.imageUrl} alt='' key={i} height='60px' />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                        <div>
-                            <img
-                                src={bin}
-                                alt='b'
-                                height='25px'
-                                className={styles.Delete}
-                                onClick={() => deleteStyle(index)}
-                            />
-                        </div>
-                    </div>
-                ))}
-                <Button small text='Add' onClick={addStyle} fit style={{ marginTop: '10px' }} />
-                <Button
-                    small
-                    text='Generate PDF'
-                    onClick={() => setShowPDF((val) => !val)}
-                    fit
-                    style={{ marginTop: '10px' }}
-                />
+                    ))}
+                    <Button small text='Add' onClick={addStyle} fit style={{ marginTop: '10px' }} />
+                    <Button
+                        small
+                        text='Generate PDF'
+                        onClick={() => setShowPDF((val) => !val)}
+                        fit
+                        style={{ marginTop: '10px' }}
+                    />
+                </div>
                 <div style={{ height: '600px', marginBottom: '40px' }}>
                     {showPDF && (
                         <PDFViewer width={'95%'} height={'100%'}>

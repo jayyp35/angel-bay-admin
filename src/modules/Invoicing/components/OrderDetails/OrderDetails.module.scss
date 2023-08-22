@@ -7,7 +7,14 @@
     .LeftSection{
         flex: 1 1 0;
         padding: 16px;
-overflow: scroll;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+          }
+          & {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+          }
     }
     .RightSection{
         padding: 16px;
@@ -21,7 +28,7 @@ overflow: scroll;
     margin-top: 10px;
     border: 1px dashed #e5e5e5;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     height: 88px;
 
     .Images{

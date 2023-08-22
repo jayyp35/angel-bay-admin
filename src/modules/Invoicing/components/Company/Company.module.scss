@@ -1,5 +1,9 @@
 .Company {
   color: #222222;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 20px;
+  padding: 24px;
+
   .Form{
     display: grid;
     grid-template-columns: 1fr 1fr;
