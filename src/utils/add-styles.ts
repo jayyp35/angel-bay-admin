@@ -6,15 +6,13 @@ import dayjs from 'dayjs';
 export const modifyStyleFormData = (formData, isAdd = false, user) => {
     let styleCodeSearches = getAllSubstrings(formData[CONSTANTS.STYLE_CODE]);
     let styleNumberSearches = getAllSubstrings(formData[CONSTANTS.SERIAL]);
-
+    let keywords = formData[CONSTANTS.KEYWORDS]?.split(' ')?.map((style) => style?.toLowerCase?.());
     return {
         ...formData,
         [CONSTANTS.MATERIALS]: formData[CONSTANTS.MATERIALS].map((material) => material.value),
         [CONSTANTS.CATEGORIES]: formData[CONSTANTS.CATEGORIES].map((category) => category.value),
-        [CONSTANTS.KEYWORDS]: [
-            ...formData[CONSTANTS.KEYWORDS]?.split(' ')?.map((style) => style?.toLowerCase?.()),
-        ],
-        z_searchTerms: [...styleNumberSearches, ...styleCodeSearches],
+        [CONSTANTS.KEYWORDS]: [...keywords],
+        z_searchTerms: [...styleNumberSearches, ...styleCodeSearches, ...keywords],
         ...(isAdd
             ? {
                   createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),

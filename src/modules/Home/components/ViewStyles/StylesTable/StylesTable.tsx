@@ -8,14 +8,14 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
         <div className={styles.Table}>
             <div className={clsx(styles.SingleStyle, styles.Header)}>
                 <div>Images</div>
-                <div>Style Code/ Serial Number</div>
+                <div>Serial Number/ Style Code</div>
                 <div>Price</div>
                 <div>Materials</div>
                 <div>Categories</div>
                 <div>Actions</div>
             </div>
             {stylesData.map((style: any, i) => (
-                <div key={style.serialNumber || style.styleCode} className={styles.SingleStyle}>
+                <div key={style.serialNumber} className={styles.SingleStyle}>
                     <div
                         onClick={() =>
                             setImgsToPreview(style?.images?.map((img) => img.imageUrl) || [])
@@ -30,7 +30,9 @@ function StylesTable({ stylesData, handleEdit, setImgsToPreview }) {
                             />
                         ))}
                     </div>
-                    <div>{style.serialNumber || style.styleCode || '-'}</div>
+                    <div>
+                        {style.serialNumber}/{style.styleCode || '-'}
+                    </div>
                     <div>{style?.price ? `${style.price}/-` : '-'}</div>
                     <div className={styles.Badges}>
                         {style?.materials?.map((material) => (

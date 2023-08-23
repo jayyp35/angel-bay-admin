@@ -161,8 +161,8 @@ function OrderDetails({
                 onSuccess: (data) => {
                     setStyleOptions(
                         data?.map((item) => ({
-                            value: item.serialNumber || item.styleCode,
-                            label: item.serialNumber || item.styleCode,
+                            value: item.serialNumber,
+                            label: `${item.serialNumber} / ${item.styleCode || '-'}`,
                             ...item,
                         })),
                     );
@@ -311,12 +311,14 @@ function OrderDetails({
                                         <div className={styles.StyleData}>
                                             <div className={styles.Data}>
                                                 {' '}
-                                                <div className={styles.Item}>
+                                                {/* <div className={styles.Item}>
                                                     <div className={styles.Bold}>Item Code:</div>
                                                     {style.selectedStyle?.serialNumber ||
                                                         style.selectedStyle?.styleCode}
-                                                </div>
-                                                <div className={styles.Item}>
+                                                </div> */}
+                                                <div
+                                                    className={styles.Item}
+                                                    style={{ marginTop: '0' }}>
                                                     <div className={styles.Bold}>Price:</div>{' '}
                                                     {style.selectedStyle?.price}/-
                                                 </div>

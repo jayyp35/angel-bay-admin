@@ -126,7 +126,7 @@ function AddStyles() {
             setAdding(false);
             return toast.error(errorMsg);
         }
-        const docId = uploadData[CONSTANTS.STYLE_CODE] || uploadData[CONSTANTS.SERIAL];
+        const docId = uploadData[CONSTANTS.SERIAL];
         const data = modifyStyleFormData(uploadData, true, user);
         const docRef = doc(db, 'styles', docId);
         const docSnap = await getDoc(docRef);
@@ -145,8 +145,7 @@ function AddStyles() {
     };
 
     const validateStyleData = () => {
-        if (!(formData[CONSTANTS.STYLE_CODE] || formData[CONSTANTS.SERIAL]))
-            return 'Please enter valid Serial Or Style Code';
+        if (!formData[CONSTANTS.SERIAL]) return 'Serial Number is mandatory';
         if (!formData[CONSTANTS.PRICE]) return 'Please enter a valid Price';
         return '';
     };

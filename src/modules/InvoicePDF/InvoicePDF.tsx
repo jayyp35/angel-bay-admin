@@ -300,8 +300,8 @@ function InvoicePDF({ selectedBuyer, orderDetails, getTotalQuantity }) {
                                     </View>
                                     <View style={styles.nameandsize}>
                                         <Text>
-                                            {style.selectedStyle?.serialNumber ||
-                                                style.selectedStyle?.styleCode}
+                                            {style.selectedStyle?.serialNumber}&nbsp;/&nbsp;
+                                            {style.selectedStyle?.styleCode || '-'}
                                         </Text>
                                         <Text>{style.selectedStyle?.name}</Text>
                                         <View>
