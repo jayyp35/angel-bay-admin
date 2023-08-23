@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Page, Text, Font, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import ablogo from '../../assets/ablogo.png';
+import { SIZE } from '../../store/constants/style-constants';
 const img =
     'https://firebasestorage.googleapis.com/v0/b/angel-bay.appspot.com/o/styleimgs%2F3344%2FWhatsApp%20Image%202023-07-27%20at%2014.28.02.jpeg?alt=media&token=4c598ac2-37ee-4f64-bea5-7a01506d6538';
 const styles = StyleSheet.create({
@@ -77,13 +78,15 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
     },
     total2: {
-        fontSize: '10px',
-        margin: '0.1in 0',
-        paddingBottom: '0.2in',
-        borderBottom: '1px solid black',
+        margin: '7px 0 0 0',
     },
     total3: {
-        padding: '4 0',
+        margin: '7px 0 0 5px',
+        paddingBottom: '7px',
+        borderBottom: '1px solid black',
+    },
+    total: {
+        fontSize: '10px',
         display: 'flex',
         alignSelf: 'flex-end',
     },
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
 const sectionStyles = StyleSheet.create({
     headers: {
         flexDirection: 'row',
-        fontSize: '8px',
+        fontSize: '7px',
         backgroundColor: 'black',
         color: 'white',
         padding: '4 2',
@@ -148,7 +151,7 @@ const sectionStyles = StyleSheet.create({
     section6: {
         flexGrow: 1,
         textAlign: 'right',
-        fontSize: '10px',
+        fontSize: '8px',
         padding: '0 4',
     },
 });
@@ -192,8 +195,56 @@ const last = StyleSheet.create({
         textDecoration: 'underline',
     },
 });
-const a = [1, 2, 3, 4, 5, 6, 7, 8];
-function InvoicePDF({ selectedBuyer, orderDetails }) {
+
+function InvoicePDF({ selectedBuyer, orderDetails, getTotalQuantity }) {
+    const IGST = 12;
+    const [totals, setTotals] = useState({
+        totalQuantity: 0,
+        totalIgst: 0,
+        totalPrice: 0,
+    });
+
+    useEffect(() => {
+        if (orderDetails?.styles?.length) {
+            let totalQuantity = 0,
+                totalIgstVal = 0,
+                totalPrice = 0;
+            orderDetails?.styles?.forEach((style) => {
+                const { quantity, price, upcharge, amount, upchargeAmount, igstAmount, total } =
+                    getAmounts(style);
+                totalQuantity += quantity;
+                totalIgstVal += igstAmount;
+                totalPrice += total;
+            });
+            setTotals((totals) => ({
+                ...totals,
+                totalQuantity: totalQuantity,
+                totalIgst: totalIgstVal,
+                totalPrice: totalPrice,
+            }));
+        }
+    }, [orderDetails?.styles]);
+
+    const getAmounts = (style) => {
+        const selectedStyle = style?.selectedStyle;
+        const quantity = getTotalQuantity(style?.sizes || {});
+        const price = parseFloat(selectedStyle?.price) || 0;
+        const upcharge = parseFloat(selectedStyle?.upcharge) || 0;
+        const amount = price * quantity;
+        const upchargeAmount = (upcharge / 100) * amount;
+        const igstAmount = 0.12 * amount;
+        const total = amount + upchargeAmount + igstAmount;
+
+        return {
+            quantity,
+            price,
+            upcharge,
+            amount,
+            upchargeAmount,
+            igstAmount,
+            total,
+        };
+    };
     return (
         <Document style={styles.doc}>
             <Page size='A4' style={styles.page} wrap>
@@ -230,82 +281,120 @@ function InvoicePDF({ selectedBuyer, orderDetails }) {
                     <Text style={sectionStyles.h2}>Style Details.</Text>
                     <Text style={sectionStyles.h3}>Total Qty.</Text>
                     <Text style={sectionStyles.h4}>Rate Per Pc</Text>
-                    <Text style={sectionStyles.h5}>Upcharge</Text>
+                    <Text style={sectionStyles.h5}>Upcharge Per Pc</Text>
                     <Text style={sectionStyles.h6}>Total INR</Text>
                 </View>
 
-                {a.map((a) => (
-                    <View style={styles.singleItem} wrap={false}>
-                        <View style={sectionStyles.section1}>
-                            <Text>1</Text>
-                        </View>
-                        <View style={sectionStyles.section2}>
-                            <View style={styles.imgandname}>
-                                <View>
-                                    <Image src={img} style={styles.image} />
-                                </View>
-                                <View style={styles.nameandsize}>
-                                    <Text>Style Code</Text>
-                                    <Text>Name</Text>
+                {orderDetails?.styles?.map((style, i) => {
+                    const { quantity, price, upcharge, amount, upchargeAmount, igstAmount, total } =
+                        getAmounts(style);
+                    return (
+                        <View style={styles.singleItem} wrap={false} key={i}>
+                            <View style={sectionStyles.section1}>
+                                <Text>1</Text>
+                            </View>
+                            <View style={sectionStyles.section2}>
+                                <View style={styles.imgandname}>
                                     <View>
-                                        <View style={styles.sizes}>
-                                            <Text style={styles.singlesize}>XS: 20</Text>
-                                            <Text style={styles.singlesize}>S: 10</Text>
-                                            <Text style={styles.singlesize}>M: 10</Text>
-                                            <Text style={styles.singlesize}>L: 10</Text>
-                                        </View>
-                                        <View style={styles.sizes}>
-                                            <Text style={styles.singlesize}>XL: 10</Text>
-                                            <Text style={styles.singlesize}>2XL: 10</Text>
-                                            <Text style={styles.singlesize}>3XL: 10</Text>
-                                            <Text style={styles.singlesize}>FS: 10</Text>
+                                        <Image src={img} style={styles.image} />
+                                    </View>
+                                    <View style={styles.nameandsize}>
+                                        <Text>
+                                            {style.selectedStyle?.serialNumber ||
+                                                style.selectedStyle?.styleCode}
+                                        </Text>
+                                        <Text>{style.selectedStyle?.name}</Text>
+                                        <View>
+                                            <View style={styles.sizes}>
+                                                <Text style={styles.singlesize}>
+                                                    XS: {style.sizes?.[SIZE.XS] || 0}
+                                                </Text>
+                                                <Text style={styles.singlesize}>
+                                                    S: {style.sizes?.[SIZE.S] || 0}
+                                                </Text>
+                                                <Text style={styles.singlesize}>
+                                                    M: {style.sizes?.[SIZE.M] || 0}
+                                                </Text>
+                                                <Text style={styles.singlesize}>
+                                                    L: {style.sizes?.[SIZE.L] || 0}
+                                                </Text>
+                                            </View>
+                                            <View style={styles.sizes}>
+                                                <Text style={styles.singlesize}>
+                                                    XL: {style.sizes?.[SIZE.XL] || 0}
+                                                </Text>
+                                                <Text style={styles.singlesize}>
+                                                    2XL: {style.sizes?.[SIZE.XXL] || 0}
+                                                </Text>
+                                                <Text style={styles.singlesize}>
+                                                    3XL: {style.sizes?.[SIZE.XXXL] || 0}
+                                                </Text>
+                                                <Text style={styles.singlesize}>
+                                                    FS: {style.sizes?.[SIZE.FS] || 0}
+                                                </Text>
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
                             </View>
-                        </View>
 
-                        <View style={sectionStyles.section3}>
-                            <Text>10</Text>
-                        </View>
-
-                        <View style={sectionStyles.section4}>
-                            <Text>2499/-</Text>
-                        </View>
-
-                        <View style={sectionStyles.section5}>
-                            <Text>604.80/-</Text>
-                        </View>
-
-                        <View style={sectionStyles.section6}>
-                            <Text style={styles.total1}>5400/-</Text>
-                            <View style={styles.total2}>
-                                <Text style={styles.total1}>+IGST(@12%)</Text>
-                                <Text style={styles.total1}>806.30/-</Text>
+                            <View style={sectionStyles.section3}>
+                                <Text>{quantity}</Text>
                             </View>
-                            <Text style={styles.total3}>6599/-</Text>
+
+                            <View style={sectionStyles.section4}>
+                                <Text>{price}/-</Text>
+                            </View>
+
+                            <View style={sectionStyles.section5}>
+                                <Text style={{ fontSize: '8px' }}>@{style?.upcharge}%</Text>
+                                <Text style={{ marginTop: '10px' }}>{upcharge}/-</Text>
+                            </View>
+
+                            <View style={sectionStyles.section6}>
+                                <Text style={styles.total1}>{amount}/-</Text>
+                                <View style={styles.total2}>
+                                    <Text style={styles.total1}>+Upcharge</Text>
+                                    <Text style={styles.total1}>
+                                        {upchargeAmount}
+                                        /-
+                                    </Text>
+                                </View>
+                                <View style={styles.total3}>
+                                    <Text style={styles.total1}>+IGST(@12%)</Text>
+                                    <Text style={styles.total1}>
+                                        {igstAmount}
+                                        /-
+                                    </Text>
+                                </View>
+                                <Text style={styles.total}>{total}/-</Text>
+                            </View>
                         </View>
-                    </View>
-                ))}
+                    );
+                })}
 
                 <View style={styles3.amounts}>
                     <View style={styles3.totals}>
                         <View style={styles3.totalsRow}>
                             <Text style={styles3.totalsLeft}>Total Payable:</Text>
                             <View style={styles3.totalsRight}>
-                                <Text>24500/-</Text>
+                                <Text>{Math.round(totals?.totalPrice || 0)}/-</Text>
                             </View>
                         </View>
                         <View style={[styles3.totalsRow, styles3.advance]}>
                             <Text style={styles3.totalsLeft}>30% Advance:</Text>
                             <View style={styles3.totalsRight}>
-                                <Text>24500/-</Text>
+                                <Text>{Math.round(0.3 * (totals?.totalPrice || 0))}/-</Text>
                             </View>
                         </View>
                         <View style={[styles3.totalsRow]}>
                             <Text style={styles3.totalsLeft}>Remaining Payable:</Text>
                             <View style={styles3.totalsRight}>
-                                <Text>24500/-</Text>
+                                <Text>
+                                    {Math.round(totals?.totalPrice || 0) -
+                                        Math.round(0.3 * (totals?.totalPrice || 0))}
+                                    /-
+                                </Text>
                             </View>
                         </View>
                     </View>
@@ -314,15 +403,23 @@ function InvoicePDF({ selectedBuyer, orderDetails }) {
                         <Text style={styles3.totalsRow}>Breakup</Text>
                         <View style={styles3.totalsRow}>
                             <Text style={styles3.totalsLeft}>Amount before Tax:</Text>
-                            <Text style={styles3.totalsRight}>24500/-</Text>
+                            <Text style={styles3.totalsRight}>
+                                {Math.round(totals?.totalPrice || 0) -
+                                    Math.round(totals?.totalIgst || 0)}
+                                /-
+                            </Text>
                         </View>
                         <View style={styles3.totalsRow}>
                             <Text style={styles3.totalsLeft}>IGST Total:</Text>
-                            <Text style={styles3.totalsRight}>24500/-</Text>
+                            <Text style={styles3.totalsRight}>
+                                {Math.round(totals?.totalIgst || 0)}/-
+                            </Text>
                         </View>
                         <View style={[styles3.totalsRow]}>
                             <Text style={styles3.totalsLeft}>Total with Tax:</Text>
-                            <Text style={styles3.totalsRight}>24500/-</Text>
+                            <Text style={styles3.totalsRight}>
+                                {Math.round(totals?.totalPrice || 0)}/-
+                            </Text>
                         </View>
                     </View>
                 </View>

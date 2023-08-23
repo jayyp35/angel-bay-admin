@@ -55,32 +55,6 @@
 .PrefillInput {
   padding-left: 60px;
 }
-
-.SmallInput{
-  padding: 10px;
-  font-size: 10px;
-  &:-webkit-autofill+label {
-    top: -15px;
-    left: 0;
-    font-size: 8px;
-    color: #828282;
-    font-weight: 300;
-  }
-}
-
-.TinyInput{
-  padding: 8px;
-  font-size: 8px;
-  border-radius: 4px;
-  &:-webkit-autofill+label {
-    top: -15px;
-    left: 0;
-    font-size: 8px;
-    color: #828282;
-    font-weight: 300;
-  }
-}
-
 .FormLabel {
   position: absolute;
   pointer-events: none;
@@ -93,6 +67,35 @@
   transition: 0.5s;
   margin-bottom: 0px;
 }
+
+
+.SmallInput{
+  padding: 10px;
+  font-size: 10px;
+  &:-webkit-autofill+label {
+    top: -15px;
+    left: 0;
+    font-size: 8px;
+    color: #828282;
+    font-weight: 300;
+  }
+
+  
+}
+
+.TinyInput{
+  padding: 8px 5px;
+  font-size: 8px;
+  border-radius: 4px;
+  &:-webkit-autofill+label {
+    top: -15px;
+    left: 0;
+    font-size: 8px;
+    color: #828282;
+    font-weight: 300;
+  }
+}
+
 
 .Prefill {
   position: absolute;

@@ -29,8 +29,10 @@ export const INVOICE_CONSTANTS = {
 
 export const ORDER_CONSTANTS = {
     STYLE_CODE: 'styleCode',
+    COMMENTS: 'comments',
     CUSTOMISATION: 'customisation',
-    RANGES: 'ranges',
+    UPCHARGE: 'upcharge',
+    ADDITIONAL_CHARGE: 'additionalCharge',
 };
 
 function Invoice(props) {

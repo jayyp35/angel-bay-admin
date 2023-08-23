@@ -69,6 +69,26 @@
         }
 
     }
+
+    .UpchargeBox{
+        width: 100px;
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+        margin-left: 20px;
+        &>div{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            font-size: 8px;
+        }
+
+        .UpchargeLabel{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+        }
+    }
     .Delete{
         position: absolute;
         top: 5px;
