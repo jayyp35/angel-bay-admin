@@ -20,6 +20,8 @@ function AddStyles() {
     const [adding, setAdding] = useState(false);
     const [imagesUploading, setImagesUploading] = useState(false);
     const [addSuccess, setAddSuccess] = useState(false);
+    const [editing, setEditing] = useState(false);
+
     const [formData, setFormData] = useState<any>({
         [CONSTANTS.STYLE_CODE]: '',
         [CONSTANTS.NAME]: '',
@@ -63,7 +65,7 @@ function AddStyles() {
             price: style?.price,
             styleCode: style?.styleCode || '',
             serialNumber: style?.serialNumber,
-            imageUrl: style?.images?.[0]?.imageUrl || '',
+            images: [style?.images?.[0]],
             label: style?.serialNumber || style?.styleCode,
             value: style?.serialNumber,
         }));
@@ -109,9 +111,8 @@ function AddStyles() {
     };
 
     useEffect(() => {
-        console.log('form data changes', formData);
+        console.log('formdata changes', formData);
     }, [formData]);
-
     const onReadyStocksAvailableClick = () => {
         setFormData((formData) => ({
             ...formData,
@@ -151,7 +152,7 @@ function AddStyles() {
         const data = modifyStyleFormData(uploadData, true, user);
         const docRef = doc(db, 'styles', docId);
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
+        if (!editing && docSnap.exists()) {
             setAdding(false);
             return toast.error('This style code already exists');
         }
@@ -172,6 +173,7 @@ function AddStyles() {
     };
 
     const onEdit = () => {
+        setEditing(true);
         setAddSuccess(false);
     };
 
@@ -250,6 +252,7 @@ function AddStyles() {
 
             <div className={styles.Right}>
                 <RightSection
+                    editing={editing}
                     addSuccess={addSuccess}
                     onAddClick={addData}
                     adding={adding || imagesUploading}

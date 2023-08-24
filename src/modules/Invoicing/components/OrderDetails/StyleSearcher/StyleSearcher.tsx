@@ -11,6 +11,7 @@ interface SearcherProps {
     className?: string;
     closeMenuOnSelect?: boolean;
     createAble?: boolean;
+    isDisabled?: boolean;
 }
 
 function StyleSearcher({
@@ -19,6 +20,7 @@ function StyleSearcher({
     className,
     closeMenuOnSelect = false,
     createAble = false,
+    isDisabled = false,
 }: SearcherProps) {
     const [styleOptions, setStyleOptions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -62,6 +64,7 @@ function StyleSearcher({
                     value={selectedValues}
                     onChange={onChange}
                     closeMenuOnSelect={closeMenuOnSelect}
+                    isDisabled={isDisabled}
                 />
             ) : (
                 <Select
@@ -75,6 +78,7 @@ function StyleSearcher({
                     value={selectedValues}
                     onChange={onChange}
                     closeMenuOnSelect={closeMenuOnSelect}
+                    isDisabled={isDisabled}
                 />
             )}
         </>

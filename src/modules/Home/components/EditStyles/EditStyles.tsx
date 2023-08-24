@@ -28,9 +28,8 @@ function EditStyles({ styleToEdit }) {
         [CONSTANTS.IMAGES]: [],
         [CONSTANTS.MATERIALS]: [],
         [CONSTANTS.CATEGORIES]: [],
+        [CONSTANTS.STYLES_IN_SET]: [],
     });
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (styleToEdit) setFormData(getStyleFormData(styleToEdit));
@@ -43,6 +42,22 @@ function EditStyles({ styleToEdit }) {
             toast.error('Invalid Style Code!');
             // navigate('/home/add')
         }
+    };
+
+    const addStylesInSet = (payload) => {
+        const updatedPayload = payload?.map((style) => ({
+            name: style?.name || '',
+            price: style?.price,
+            styleCode: style?.styleCode || '',
+            serialNumber: style?.serialNumber,
+            imageUrl: style?.images?.[0]?.imageUrl || '',
+            label: style?.serialNumber || style?.styleCode,
+            value: style?.serialNumber,
+        }));
+        setFormData((formData) => ({
+            ...formData,
+            [CONSTANTS.STYLES_IN_SET]: updatedPayload,
+        }));
     };
 
     const changeFormData = (key: string, value: string) => {
@@ -100,7 +115,6 @@ function EditStyles({ styleToEdit }) {
     };
 
     const onAddCatergory = (categories) => {
-        // const categories = options?.map((option) => option?.value) || [];
         setFormData((formData) => ({
             ...formData,
             [CONSTANTS.CATEGORIES]: categories,
@@ -108,7 +122,6 @@ function EditStyles({ styleToEdit }) {
     };
 
     const onAddMaterial = (materials) => {
-        // const categories = options?.map((option) => option?.value) || [];
         setFormData((formData) => ({
             ...formData,
             [CONSTANTS.MATERIALS]: materials,
@@ -224,8 +237,8 @@ function EditStyles({ styleToEdit }) {
                     onAddCatergory={onAddCatergory}
                     onAddMaterial={onAddMaterial}
                     formData={formData}
-                    // styleId={formData[CONSTANTS.SERIAL] || formData[CONSTANTS.STYLE_CODE]}
                     onEdit={onEdit}
+                    addStylesInSet={addStylesInSet}
                 />
             </div>
         </div>

@@ -12,6 +12,15 @@
   font-weight: 500;
 }
 
+.StyleImages{
+  height: 70px;
+  margin-top: 10px;
+  &>img{
+  height: 100%;
+  margin-right: 10px;
+  }
+}
+
 .Select {
   margin-top: 10px;
   font-weight: 400;

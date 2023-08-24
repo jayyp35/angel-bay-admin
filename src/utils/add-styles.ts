@@ -32,7 +32,7 @@ const getStylesInSetPayload = (stylesInSet = []) => {
         price: style?.price,
         styleCode: style?.styleCode || '',
         serialNumber: style?.serialNumber,
-        imageUrl: style?.imageUrl || '',
+        images: style?.images || '',
     }));
 };
 
@@ -48,5 +48,10 @@ export const getStyleFormData = (styleData) => {
             label: categoriesMap[categoryCode],
         })),
         [CONSTANTS.KEYWORDS]: styleData[CONSTANTS.KEYWORDS].join(' '),
+        [CONSTANTS.STYLES_IN_SET]: styleData[CONSTANTS.STYLES_IN_SET].map((style) => ({
+            ...style,
+            label: style?.serialNumber,
+            value: style?.serialNumber,
+        })),
     };
 };

@@ -4,6 +4,7 @@ import styles from './RightSection.module.scss';
 import Select from 'react-select';
 import done from '../../../../../assets/done-animated.gif';
 import { useNavigate } from 'react-router-dom';
+import StyleSearcher from '../../../../Invoicing/components/OrderDetails/StyleSearcher/StyleSearcher';
 
 function RightSection({
     addSuccess,
@@ -13,6 +14,7 @@ function RightSection({
     onAddMaterial,
     formData,
     onEdit,
+    addStylesInSet,
 }) {
     const navigate = useNavigate();
 
@@ -46,6 +48,21 @@ function RightSection({
                         value={formData[CONSTANTS.CATEGORIES]}
                         closeMenuOnSelect={false}
                     />
+                </div>
+
+                <div className={styles.Section}>
+                    Select Styles in Set
+                    <StyleSearcher
+                        selectedValues={formData[CONSTANTS.STYLES_IN_SET]}
+                        className={styles.Select}
+                        onChange={addStylesInSet}
+                        isDisabled={addSuccess}
+                    />
+                    <div className={styles.StyleImages}>
+                        {formData[CONSTANTS.STYLES_IN_SET]?.map((style, i) => (
+                            <img key={i} src={style?.images?.[0]?.imageUrl} alt='' />
+                        ))}
+                    </div>
                 </div>
             </div>
 

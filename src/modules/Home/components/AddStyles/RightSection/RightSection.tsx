@@ -6,6 +6,7 @@ import done from '../../../../../assets/done-animated.gif';
 import StyleSearcher from '../../../../Invoicing/components/OrderDetails/StyleSearcher/StyleSearcher';
 
 function RightSection({
+    editing,
     addSuccess,
     onAddClick,
     adding,
@@ -53,7 +54,13 @@ function RightSection({
                         selectedValues={formData[CONSTANTS.STYLES_IN_SET]}
                         className={styles.Select}
                         onChange={addStylesInSet}
+                        isDisabled={addSuccess}
                     />
+                    <div className={styles.StyleImages}>
+                        {formData[CONSTANTS.STYLES_IN_SET]?.map((style, i) => (
+                            <img key={i} src={style?.images?.[0]?.imageUrl} alt='' />
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -92,7 +99,7 @@ function RightSection({
                 </div>
             ) : (
                 <Button
-                    text='Add Style'
+                    text={editing ? 'Save' : 'Add Style'}
                     onClick={() => onAddClick()}
                     loading={adding}
                     disabled={adding}
