@@ -33,6 +33,7 @@ export const CONSTANTS = {
     IMAGES: 'images',
     CATEGORIES: 'categories',
     KEYWORDS: 'keywords',
+    STYLES_IN_SET: 'stylesInSet',
 };
 export const SIZE = {
     XS: 'xs',

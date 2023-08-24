@@ -7,11 +7,13 @@ export const modifyStyleFormData = (formData, isAdd = false, user) => {
     let styleCodeSearches = getAllSubstrings(formData[CONSTANTS.STYLE_CODE]);
     let styleNumberSearches = getAllSubstrings(formData[CONSTANTS.SERIAL]);
     let keywords = formData[CONSTANTS.KEYWORDS]?.split(' ')?.map((style) => style?.toLowerCase?.());
+    let stylesInSet = getStylesInSetPayload(formData[CONSTANTS.STYLES_IN_SET]);
     return {
         ...formData,
         [CONSTANTS.MATERIALS]: formData[CONSTANTS.MATERIALS].map((material) => material.value),
         [CONSTANTS.CATEGORIES]: formData[CONSTANTS.CATEGORIES].map((category) => category.value),
         [CONSTANTS.KEYWORDS]: [...keywords],
+        [CONSTANTS.STYLES_IN_SET]: stylesInSet,
         z_searchTerms: [...styleNumberSearches, ...styleCodeSearches, ...keywords],
         ...(isAdd
             ? {
@@ -23,6 +25,15 @@ export const modifyStyleFormData = (formData, isAdd = false, user) => {
                   updatedBy: user?.email,
               }),
     };
+};
+const getStylesInSetPayload = (stylesInSet = []) => {
+    return stylesInSet?.map((style: any) => ({
+        name: style?.name || '',
+        price: style?.price,
+        styleCode: style?.styleCode || '',
+        serialNumber: style?.serialNumber,
+        imageUrl: style?.imageUrl || '',
+    }));
 };
 
 export const getStyleFormData = (styleData) => {

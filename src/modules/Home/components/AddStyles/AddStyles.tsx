@@ -30,6 +30,7 @@ function AddStyles() {
         [CONSTANTS.IMAGES]: [],
         [CONSTANTS.MATERIALS]: [],
         [CONSTANTS.CATEGORIES]: [],
+        [CONSTANTS.STYLES_IN_SET]: [],
     });
 
     const resetAllData = () => {
@@ -53,6 +54,22 @@ function AddStyles() {
         setFormData((formData) => ({
             ...formData,
             [key]: value,
+        }));
+    };
+
+    const addStylesInSet = (payload) => {
+        const updatedPayload = payload?.map((style) => ({
+            name: style?.name || '',
+            price: style?.price,
+            styleCode: style?.styleCode || '',
+            serialNumber: style?.serialNumber,
+            imageUrl: style?.images?.[0]?.imageUrl || '',
+            label: style?.serialNumber || style?.styleCode,
+            value: style?.serialNumber,
+        }));
+        setFormData((formData) => ({
+            ...formData,
+            [CONSTANTS.STYLES_IN_SET]: updatedPayload,
         }));
     };
 
@@ -90,6 +107,10 @@ function AddStyles() {
         setFormData(updatedFormData);
         addData(updatedFormData);
     };
+
+    useEffect(() => {
+        console.log('form data changes', formData);
+    }, [formData]);
 
     const onReadyStocksAvailableClick = () => {
         setFormData((formData) => ({
@@ -237,6 +258,7 @@ function AddStyles() {
                     formData={formData}
                     onEdit={onEdit}
                     resetAllData={resetAllData}
+                    addStylesInSet={addStylesInSet}
                 />
             </div>
         </div>

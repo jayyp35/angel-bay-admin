@@ -3,6 +3,7 @@ import { CONSTANTS, categories, materials } from '../../../../../store/constants
 import styles from './RightSection.module.scss';
 import Select from 'react-select';
 import done from '../../../../../assets/done-animated.gif';
+import StyleSearcher from '../../../../Invoicing/components/OrderDetails/StyleSearcher/StyleSearcher';
 
 function RightSection({
     addSuccess,
@@ -13,6 +14,7 @@ function RightSection({
     formData,
     onEdit,
     resetAllData,
+    addStylesInSet,
 }) {
     return (
         <div className={styles.RightSection}>
@@ -43,6 +45,14 @@ function RightSection({
                         onChange={onAddCatergory}
                         value={formData[CONSTANTS.CATEGORIES]}
                         closeMenuOnSelect={false}
+                    />
+                </div>
+                <div className={styles.Section}>
+                    Select Styles in Set
+                    <StyleSearcher
+                        selectedValues={formData[CONSTANTS.STYLES_IN_SET]}
+                        className={styles.Select}
+                        onChange={addStylesInSet}
                     />
                 </div>
             </div>

@@ -13,6 +13,7 @@ import { PDFViewer } from '@react-pdf/renderer';
 import Button from '../../../../common/_custom/Button/Button';
 import InvoicePDF from '../../../InvoicePDF/InvoicePDF';
 import { toast } from 'react-toastify';
+import StyleSearcher from './StyleSearcher/StyleSearcher';
 
 function OrderDetails({
     selectedBuyer,
@@ -23,10 +24,7 @@ function OrderDetails({
     shippingDetails,
     setSelectedBuyer,
 }) {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [styleOptions, setStyleOptions] = useState([]);
     const [showPDF, setShowPDF] = useState(false);
-    const debouncedSearchTerm = useDebounce(searchTerm, 200);
 
     const [orderDetails, setOrderDetails] = useState<any>({
         buyerId: '',
@@ -50,10 +48,6 @@ function OrderDetails({
             },
         ],
     });
-
-    useEffect(() => {
-        search(debouncedSearchTerm);
-    }, [debouncedSearchTerm]);
 
     const onStyleSelect = (payload, index) => {
         const styleToSelect = payload?.[payload?.length - 1];
@@ -151,26 +145,6 @@ function OrderDetails({
         }));
     };
 
-    const search = async (searchTerm = '') => {
-        getStyles(
-            {
-                limit: 10,
-                searchTerm: searchTerm,
-            },
-            {
-                onSuccess: (data) => {
-                    setStyleOptions(
-                        data?.map((item) => ({
-                            value: item.serialNumber,
-                            label: `${item.serialNumber} / ${item.styleCode || '-'}`,
-                            ...item,
-                        })),
-                    );
-                },
-            },
-        );
-    };
-
     const getTotalQuantity = (sizes) => {
         let total = 0;
         Object.keys(sizes ?? {}).forEach((size) => {
@@ -218,16 +192,13 @@ function OrderDetails({
                                 <div className={styles.SingleItem} key={`${index}-a`}>
                                     {index + 1}.&nbsp;
                                     <div style={{ marginRight: '20px' }}>
-                                        <CreatableSelect
-                                            options={styleOptions}
-                                            isMulti
-                                            name='Style Code'
-                                            placeholder='Style Code / Serial'
+                                        <StyleSearcher
+                                            selectedValues={[style.selectedStyle]}
                                             className={styles.Select}
                                             onChange={(payload) => onStyleSelect(payload, index)}
-                                            value={[style.selectedStyle]}
                                             closeMenuOnSelect={true}
                                         />
+
                                         <div className={styles.Inputs}>
                                             <Input
                                                 value={style[ORDER_CONSTANTS.COMMENTS]}
