@@ -8,9 +8,46 @@ import {
     query,
     setDoc,
     where,
+    writeBatch,
 } from 'firebase/firestore';
 import { db } from '../utils/firebase/firebase';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
+
+export function SyncStyleSets(payload) {
+    const batch = writeBatch(db);
+    const styleData = payload.styleData;
+    const stylesInSet = styleData?.stylesInSet || [];
+
+    const setData = {
+        images: styleData?.images?.[0] ? [styleData?.images?.[0]] : [],
+        name: styleData?.name || '',
+        price: styleData?.price,
+        serialNumber: styleData?.serialNumber,
+        styleCode: styleData?.styleCode || '',
+    };
+
+    if (stylesInSet && stylesInSet?.length) {
+        stylesInSet?.forEach((style) => {
+            if (style?.serialNumber) {
+                const updatedStylesInSet = [
+                    setData,
+                    ...(styleData?.stylesInSet?.filter(
+                        (a) => a?.serialNumber !== style?.serialNumber,
+                    ) || []),
+                ];
+                const styleDocRef = doc(db, 'styles', style?.serialNumber);
+                batch.update(styleDocRef, {
+                    stylesInSet: updatedStylesInSet,
+                });
+            }
+        });
+        batch
+            .commit()
+            .then(() => toast.success('Updated included sets'))
+            .catch((err) => toast.error('Error in Batch Updating Styles'));
+    }
+}
 
 export function addBuyerService(payload, user, handlers: Handlers) {
     handlers?.onStart?.();

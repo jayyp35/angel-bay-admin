@@ -14,6 +14,7 @@ import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { modifyStyleFormData } from '../../../../utils/add-styles';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../../utils/hooks';
+import { SyncStyleSets } from '../../../../services/services';
 
 function AddStyles() {
     const user = useAppSelector((state) => state.user.userData);
@@ -49,6 +50,7 @@ function AddStyles() {
             [CONSTANTS.IMAGES]: [],
             [CONSTANTS.MATERIALS]: [],
             [CONSTANTS.CATEGORIES]: [],
+            [CONSTANTS.STYLES_IN_SET]: [],
         });
     };
 
@@ -110,9 +112,10 @@ function AddStyles() {
         addData(updatedFormData);
     };
 
-    useEffect(() => {
-        console.log('formdata changes', formData);
-    }, [formData]);
+    // useEffect(() => {
+    //     console.log('formdata changes', formData);
+    // }, [formData]);
+
     const onReadyStocksAvailableClick = () => {
         setFormData((formData) => ({
             ...formData,
@@ -158,6 +161,9 @@ function AddStyles() {
         }
         try {
             await setDoc(doc(db, 'styles', docId), data);
+            SyncStyleSets({
+                styleData: data,
+            });
             !updatedData && setAddSuccess(true);
             setAdding(false);
         } catch (err) {

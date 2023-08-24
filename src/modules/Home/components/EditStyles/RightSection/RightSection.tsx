@@ -57,6 +57,7 @@ function RightSection({
                         className={styles.Select}
                         onChange={addStylesInSet}
                         isDisabled={addSuccess}
+                        selfSerialNumber={formData[CONSTANTS.SERIAL]}
                     />
                     <div className={styles.StyleImages}>
                         {formData[CONSTANTS.STYLES_IN_SET]?.map((style, i) => (

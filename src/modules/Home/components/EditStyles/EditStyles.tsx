@@ -13,6 +13,7 @@ import { CONSTANTS, SIZE } from '../../../../store/constants/style-constants';
 import { getStyleFormData, modifyStyleFormData } from '../../../../utils/add-styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../../utils/hooks';
+import { SyncStyleSets } from '../../../../services/services';
 
 function EditStyles({ styleToEdit }) {
     const user = useAppSelector((state) => state.user.userData);
@@ -50,7 +51,7 @@ function EditStyles({ styleToEdit }) {
             price: style?.price,
             styleCode: style?.styleCode || '',
             serialNumber: style?.serialNumber,
-            imageUrl: style?.images?.[0]?.imageUrl || '',
+            images: [style?.images?.[0]],
             label: style?.serialNumber || style?.styleCode,
             value: style?.serialNumber,
         }));
@@ -59,7 +60,6 @@ function EditStyles({ styleToEdit }) {
             [CONSTANTS.STYLES_IN_SET]: updatedPayload,
         }));
     };
-
     const changeFormData = (key: string, value: string) => {
         setFormData((formData) => ({
             ...formData,
@@ -141,6 +141,9 @@ function EditStyles({ styleToEdit }) {
 
         try {
             await setDoc(doc(db, 'styles', docId), data);
+            SyncStyleSets({
+                styleData: data,
+            });
             !updatedData && setAddSuccess(true);
             setAdding(false);
         } catch (err) {

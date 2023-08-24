@@ -12,6 +12,7 @@ interface SearcherProps {
     closeMenuOnSelect?: boolean;
     createAble?: boolean;
     isDisabled?: boolean;
+    selfSerialNumber?: string;
 }
 
 function StyleSearcher({
@@ -21,6 +22,7 @@ function StyleSearcher({
     closeMenuOnSelect = false,
     createAble = false,
     isDisabled = false,
+    selfSerialNumber = '',
 }: SearcherProps) {
     const [styleOptions, setStyleOptions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -29,6 +31,10 @@ function StyleSearcher({
     useEffect(() => {
         search(debouncedSearch);
     }, [debouncedSearch]);
+
+    useEffect(() => {
+        search(debouncedSearch);
+    }, [selfSerialNumber]);
 
     const search = async (search = '') => {
         getStyles(
@@ -39,11 +45,16 @@ function StyleSearcher({
             {
                 onSuccess: (data) => {
                     setStyleOptions(
-                        data?.map((item) => ({
-                            value: item.serialNumber,
-                            label: `${item.serialNumber} / ${item.styleCode || '-'}`,
-                            ...item,
-                        })),
+                        data
+                            ?.map((item) => ({
+                                value: item.serialNumber,
+                                label: `${item.serialNumber} / ${item.styleCode || '-'}`,
+                                ...item,
+                            }))
+                            ?.filter((item) => {
+                                if (selfSerialNumber) return item.serialNumber !== selfSerialNumber;
+                                else return true;
+                            }),
                     );
                 },
             },
