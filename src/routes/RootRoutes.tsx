@@ -11,6 +11,7 @@ import ViewStyles from '../modules/Home/components/ViewStyles/ViewStyles';
 import { doc, getDoc } from 'firebase/firestore';
 import Invoice from '../modules/Invoicing/Invoicing';
 import Lookbooks from '../modules/Lookbooks/Lookbooks';
+import LookbookViewer from '../modules/Lookbooks/LookbookViewer/LookbookViewer';
 
 /**
  * @Description
@@ -60,8 +61,8 @@ function RootRoutes() {
                     <Route path={'/app/view-styles'} element={<ViewStyles />} />
                     <Route path={'/app/create-invoice'} element={<Invoice />} />
                     <Route path={'/app/lookbooks'} element={<Lookbooks />} />
-                    <Route path={'/app/lookbooks/:bookid'} element={<></>} />
                 </Route>
+                <Route path={'/lookbook/:bookid'} element={<LookbookViewer />} />
             </Routes>
         </Suspense>
     );

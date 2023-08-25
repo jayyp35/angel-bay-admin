@@ -1,0 +1,38 @@
+.LookbookViewer{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+
+    .Left{
+
+        width: 350px;
+        background-color: rgba(0, 0, 0, 0.887);
+        height: 100%;
+        color: white;
+        padding: 40px 0;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .Right{
+        flex: 1 1 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.LookbookContainer{
+    width: 80%;
+    .IframeBody{
+        position: relative; width: 100%; height: 0; padding-top: 56.2500%;
+ padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;
+    }
+    .Iframe{
+        position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;
+    }
+}
