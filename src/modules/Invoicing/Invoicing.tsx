@@ -86,14 +86,14 @@ function Invoice(props) {
     };
 
     const initialiseBuyerData = (buyer) => {
-        if (buyer) {
-            setFormData({
-                [COMPANY_NAME]: buyer?.[COMPANY_NAME] || '',
-                [PERSON_OF_CONTACT]: buyer?.[PERSON_OF_CONTACT] || '',
-                [CONTACT_NUMBER]: buyer?.[CONTACT_NUMBER] || '',
-                [EMAIL]: buyer?.[EMAIL] || '',
-            });
-        }
+        // if (buyer) {
+        setFormData({
+            [COMPANY_NAME]: buyer?.[COMPANY_NAME] || '',
+            [PERSON_OF_CONTACT]: buyer?.[PERSON_OF_CONTACT] || '',
+            [CONTACT_NUMBER]: buyer?.[CONTACT_NUMBER] || '',
+            [EMAIL]: buyer?.[EMAIL] || '',
+        });
+        // }
         if (buyer?.[SHIPPING_DETAILS]) {
             setShippingDetails({
                 [ADDR_LINE1]: buyer?.[SHIPPING_DETAILS]?.[ADDR_LINE1] || '',
@@ -150,29 +150,6 @@ function Invoice(props) {
         );
     };
 
-    // const createOrder = () => {
-    //     addInvoiceService(formData, user, {
-    //         onStart: () => {
-    //             setCreating(true);
-    //         },
-    //         onSuccess: (docId: string) => {
-    //             // setOrderDetails({
-    //             //     docId: docId,
-    //             //     styles: [
-    //             //         {
-    //             //             [ORDER_CONSTANTS.STYLE_CODE]: '',
-    //             //             [ORDER_CONSTANTS.CUSTOMISATION]: '',
-    //             //         },
-    //             //     ],
-    //             // });
-    //             setShowDrawer(true);
-    //         },
-    //         finally: () => {
-    //             setCreating(false);
-    //         },
-    //     });
-    // };
-
     const handleCreateOrderClick = () => {
         if (formData[INVOICE_CONSTANTS.ID]) {
             setShowDrawer(true);
@@ -202,6 +179,7 @@ function Invoice(props) {
                         onClose={() => {
                             setShowDrawer(false);
                             fetchBuyers('');
+                            initialiseBuyerData(null);
                         }}>
                         <SideDrawer.Header>Order Details</SideDrawer.Header>
                         <OrderDetails

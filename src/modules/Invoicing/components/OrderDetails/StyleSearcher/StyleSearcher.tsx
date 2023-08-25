@@ -13,6 +13,7 @@ interface SearcherProps {
     createAble?: boolean;
     isDisabled?: boolean;
     selfSerialNumber?: string;
+    hideSelectedOptions?: boolean;
 }
 
 function StyleSearcher({
@@ -23,6 +24,7 @@ function StyleSearcher({
     createAble = false,
     isDisabled = false,
     selfSerialNumber = '',
+    hideSelectedOptions = true,
 }: SearcherProps) {
     const [styleOptions, setStyleOptions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -45,16 +47,15 @@ function StyleSearcher({
             {
                 onSuccess: (data) => {
                     setStyleOptions(
-                        data
-                            ?.map((item) => ({
-                                value: item.serialNumber,
-                                label: `${item.serialNumber} / ${item.styleCode || '-'}`,
-                                ...item,
-                            }))
-                            ?.filter((item) => {
-                                if (selfSerialNumber) return item.serialNumber !== selfSerialNumber;
-                                else return true;
-                            }),
+                        data?.map((item) => ({
+                            value: item.serialNumber,
+                            label: `${item.serialNumber} / ${item.styleCode || '-'}`,
+                            ...item,
+                        })),
+                        // ?.filter((item) => {
+                        //     if (selfSerialNumber) return item.serialNumber !== selfSerialNumber;
+                        //     else return true;
+                        // }),
                     );
                 },
             },
@@ -76,6 +77,7 @@ function StyleSearcher({
                     onChange={onChange}
                     closeMenuOnSelect={closeMenuOnSelect}
                     isDisabled={isDisabled}
+                    hideSelectedOptions={hideSelectedOptions}
                 />
             ) : (
                 <Select
@@ -90,6 +92,7 @@ function StyleSearcher({
                     onChange={onChange}
                     closeMenuOnSelect={closeMenuOnSelect}
                     isDisabled={isDisabled}
+                    hideSelectedOptions={hideSelectedOptions}
                 />
             )}
         </>

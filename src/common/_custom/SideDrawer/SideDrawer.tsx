@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideDrawerHeader from './components/SideDrawerHeader';
 import closeIcon from './close.svg';
 import styles from './SideDrawer.module.scss';
@@ -13,6 +13,16 @@ interface SideDrawerProps {
 
 function SideDrawer({ children, heading = 'Header', allowClose = true, onClose }: SideDrawerProps) {
     const [closing, setClosing] = useState(false);
+
+    useEffect(() => {
+        document.addEventListener('keydown', closeDrawerOnEsc);
+
+        return () => document.removeEventListener('keydown', closeDrawerOnEsc);
+    }, []);
+
+    function closeDrawerOnEsc(e) {
+        if (e.key === 'Escape') closeDrawer();
+    }
 
     const closeDrawer = () => {
         setClosing(true);

@@ -30,7 +30,7 @@ function OrderDetails({
         buyerId: '',
         styles: [
             {
-                selectedStyle: null,
+                selectedStyles: [],
                 [ORDER_CONSTANTS.CUSTOMISATION]: '',
                 [ORDER_CONSTANTS.COMMENTS]: '',
                 [ORDER_CONSTANTS.UPCHARGE]: '10',
@@ -50,14 +50,14 @@ function OrderDetails({
     });
 
     const onStyleSelect = (payload, index) => {
-        const styleToSelect = payload?.[payload?.length - 1];
+        // const styleToSelect = payload?.[payload?.length - 1];
         setOrderDetails((orderDetails) => ({
             ...orderDetails,
             styles: orderDetails.styles.map((style, i) => {
                 if (i === index)
                     return {
                         ...style,
-                        selectedStyle: styleToSelect,
+                        selectedStyles: payload,
                     };
                 else return style;
             }),
@@ -100,13 +100,8 @@ function OrderDetails({
     const addStyle = () => {
         setOrderDetails((orderDetails) => {
             const stylesLength = orderDetails?.styles?.length;
-            if (
-                stylesLength &&
-                !orderDetails?.styles?.[stylesLength - 1]?.selectedStyle?.[
-                    ORDER_CONSTANTS.STYLE_CODE
-                ]
-            ) {
-                toast.error(`Enter style code for Sno. ${stylesLength}`);
+            if (stylesLength && !orderDetails?.styles?.[stylesLength - 1]?.selectedStyles?.length) {
+                toast.error(`Please Select Styles for Sno. ${stylesLength} first`);
                 return orderDetails;
             } else {
                 return {
@@ -114,7 +109,7 @@ function OrderDetails({
                     styles: [
                         ...orderDetails.styles,
                         {
-                            selectedStyle: null,
+                            selectedStyles: [],
                             [ORDER_CONSTANTS.CUSTOMISATION]: '',
                             [ORDER_CONSTANTS.COMMENTS]: '',
                             [ORDER_CONSTANTS.UPCHARGE]: '',
@@ -193,13 +188,26 @@ function OrderDetails({
                                     {index + 1}.&nbsp;
                                     <div style={{ marginRight: '20px' }}>
                                         <StyleSearcher
-                                            selectedValues={[style.selectedStyle]}
+                                            selectedValues={style.selectedStyles}
                                             className={styles.Select}
                                             onChange={(payload) => onStyleSelect(payload, index)}
                                             closeMenuOnSelect={true}
                                         />
 
                                         <div className={styles.Inputs}>
+                                            <Input
+                                                value={style[ORDER_CONSTANTS.CUSTOMISATION]}
+                                                placeholder='Customisations (Will be included in invoice)'
+                                                onChange={(val) =>
+                                                    changeField(
+                                                        ORDER_CONSTANTS.CUSTOMISATION,
+                                                        val,
+                                                        index,
+                                                    )
+                                                }
+                                                style={{ marginTop: '0px', width: '100%' }}
+                                                size='tiny'
+                                            />
                                             <Input
                                                 value={style[ORDER_CONSTANTS.COMMENTS]}
                                                 placeholder='Comments'
@@ -210,20 +218,7 @@ function OrderDetails({
                                                         index,
                                                     )
                                                 }
-                                                style={{ marginTop: '0px', width: '100px' }}
-                                                size='tiny'
-                                            />
-                                            <Input
-                                                value={style[ORDER_CONSTANTS.CUSTOMISATION]}
-                                                placeholder='Customisations'
-                                                onChange={(val) =>
-                                                    changeField(
-                                                        ORDER_CONSTANTS.CUSTOMISATION,
-                                                        val,
-                                                        index,
-                                                    )
-                                                }
-                                                style={{ marginTop: '0px', width: '100px' }}
+                                                style={{ marginTop: '0px', width: '100%' }}
                                                 size='tiny'
                                             />
                                         </div>
@@ -278,7 +273,7 @@ function OrderDetails({
                                             />
                                         </div>
                                     </div>
-                                    {!!style.selectedStyle && (
+                                    {!!style.selectedStyles && (
                                         <div className={styles.StyleData}>
                                             <div className={styles.Data}>
                                                 {' '}
@@ -290,14 +285,28 @@ function OrderDetails({
                                                 <div
                                                     className={styles.Item}
                                                     style={{ marginTop: '0' }}>
-                                                    <div className={styles.Bold}>Price:</div>{' '}
-                                                    {style.selectedStyle?.price}/-
+                                                    {!!style.selectedStyles?.length && (
+                                                        <>
+                                                            {' '}
+                                                            <div className={styles.Bold}>
+                                                                Price:
+                                                            </div>{' '}
+                                                            {style.selectedStyles?.map(
+                                                                (style, i) => (
+                                                                    <span key={i}>
+                                                                        {i > 0 ? '+' : ''}{' '}
+                                                                        {style?.price}
+                                                                    </span>
+                                                                ),
+                                                            )}
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                             <div className={styles.Images}>
-                                                {style.selectedStyle?.images?.map((img, i) => (
+                                                {style.selectedStyles?.map((style, i) => (
                                                     <img
-                                                        src={img.imageUrl}
+                                                        src={style?.images?.[0]?.imageUrl}
                                                         alt=''
                                                         key={i}
                                                         height='60px'
