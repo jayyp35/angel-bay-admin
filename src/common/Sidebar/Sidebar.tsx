@@ -4,10 +4,11 @@ import styles from './Sidebar.module.scss';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 const pages = [
-    { id: 'dd-styles', name: 'Add Styles', link: '/home/add-styles' },
-    // { id: 'add-collection', name: 'Add Collection', link: '/home/add-collection' },
-    { id: 'view-styles', name: 'View Styles', link: '/home/view-styles' },
-    { id: 'create-invoice', name: 'Create Invoice', link: '/home/create-invoice' },
+    { id: 'dd-styles', name: 'Add Styles', link: '/app/add-styles' },
+    // { id: 'add-collection', name: 'Add Collection', link: '/app/add-collection' },
+    { id: 'view-styles', name: 'View Styles', link: '/app/view-styles' },
+    { id: 'create-invoice', name: 'Create Invoice', link: '/app/create-invoice' },
+    { id: 'lookbooks', name: 'Figma Lookbooks', link: '/app/lookbooks' },
 ];
 
 function Sidebar() {

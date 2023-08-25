@@ -85,7 +85,7 @@ function RightSection({
                     <div style={{ marginTop: '30px' }}>
                         <Button
                             text='Add Another Style'
-                            onClick={() => navigate('/home/add-styles')}
+                            onClick={() => navigate('/app/add-styles')}
                             disabled={adding}
                             style={{ marginTop: '10px' }}
                         />

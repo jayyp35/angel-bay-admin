@@ -10,6 +10,7 @@ import AddStyles from '../modules/Home/components/AddStyles/AddStyles';
 import ViewStyles from '../modules/Home/components/ViewStyles/ViewStyles';
 import { doc, getDoc } from 'firebase/firestore';
 import Invoice from '../modules/Invoicing/Invoicing';
+import Lookbooks from '../modules/Lookbooks/Lookbooks';
 
 /**
  * @Description
@@ -54,10 +55,12 @@ function RootRoutes() {
             <Routes>
                 <Route path='*' element={<div>404 Page not found</div>} />
                 <Route path={'/'} element={<Login />} />
-                <Route path={'/home'} element={<Home />}>
-                    <Route path={'/home/add-styles'} element={<AddStyles />} />
-                    <Route path={'/home/view-styles'} element={<ViewStyles />} />
-                    <Route path={'/home/create-invoice'} element={<Invoice />} />
+                <Route path={'/app'} element={<Home />}>
+                    <Route path={'/app/add-styles'} element={<AddStyles />} />
+                    <Route path={'/app/view-styles'} element={<ViewStyles />} />
+                    <Route path={'/app/create-invoice'} element={<Invoice />} />
+                    <Route path={'/app/lookbooks'} element={<Lookbooks />} />
+                    <Route path={'/app/lookbooks/:bookid'} element={<></>} />
                 </Route>
             </Routes>
         </Suspense>
