@@ -147,6 +147,14 @@ function OrderDetails({
         });
         return total;
     };
+
+    const generatePDF = () => {
+        if (!orderDetails?.styles?.length) return toast.error('No Styles Added');
+        if (!orderDetails?.styles?.[0]?.selectedStyles?.length)
+            return toast.error('No Styles Added');
+
+        setShowPDF(true);
+    };
     return (
         <div className={styles.OrderDetails}>
             <div className={styles.LeftSection}>
@@ -336,7 +344,7 @@ function OrderDetails({
                             <Button
                                 small
                                 text='Generate PDF'
-                                onClick={() => setShowPDF((val) => !val)}
+                                onClick={generatePDF}
                                 fit
                                 style={{ marginTop: '10px' }}
                             />
